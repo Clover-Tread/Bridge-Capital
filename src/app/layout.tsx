@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${montserrat.variable}`}>
       <body className={`font-sans flex flex-col min-h-screen`}>
-        <section className='hero-bg-image min-h-full md:min-h-screen w-full bg-cover bg-[center_top_50%]'>
+        <section className='hero-bg-image min-h-full md:min-h-screen w-full bg-cover bg-[center_top_40%] md:bg-[center_top_50%]'>
           <Navbar />
           <main className="flex-grow container mx-auto px-4 py-8">
             {children}

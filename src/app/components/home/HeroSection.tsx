@@ -4,7 +4,7 @@ const HeroSection = () => {
   return (
     <section
       className="relative w-full bg-cover bg-center text-center">
-      <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center py-20 md:py-32 lg:py-25 z-10">
+      <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center pt-0 py-20 md:py-32 lg:py-25 z-10">
         <h1 className="tracking-wide text-4xl sm:text-5xl md:text-7xl font-black text-(--color-primary) mb-4 leading-tight">
           BRIDGE CAPITAL
         </h1>
