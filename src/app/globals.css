@@ -1,26 +1,38 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Fuentes */
+  --font-sans: var(--font-montserrat), Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Colores */
+  --color-primary: #1d1d1b;
+  --color-dark-red: #79242f;
+  --color-dark-red-hover: #912c3d;
+  --color-dark-grey: #3f3f3d;
+  --color-grey: #53575a;
+  --color-dark-blue: #002a3a;
+  --color-white: #fcfcfc;
+  
+  /* Breakpoints */
+  --breakpoint-3xl: 1920px;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Layout */
+  --padding-horizontal: 8rem;
+  --padding-vertical: 1.5rem;
+
+  /* Font Sizes */
+  --font-size-navbar: 1.25rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* background-color: #f7fafc; */ /* Ejemplo */
+  /* color: #1a202c; */ /* Ejemplo */
+}
+
+/* 4. (Opcional) Si todavía necesitas usar un tailwind.config.js para plugins
+      o configuraciones muy específicas no cubiertas por @theme, lo enlazarías aquí: */
+/* @config "./tailwind.config.js"; */
+/* Por ahora, para la fuente, no necesitamos esto si lo hacemos con @theme. */
+.hero-bg-image { 
+  background-image: url('../../public/images/hero-image.jpg'); 
 }
