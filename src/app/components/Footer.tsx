@@ -90,7 +90,7 @@ const Footer = () => {
         </div>
 
         {/* Línea Separadora */}
-        <hr className="border-t border-gray-700 my-8 md:my-10" />
+        <hr className="border-t border-white my-8 md:my-10" />
 
         {/* Sección Inferior: Copyright y Redes Sociales */}
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-center md:text-left">

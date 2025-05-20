@@ -26,7 +26,7 @@ const Navbar = () => {
   }, []);
 
   
-  const navbarScrolledBgClasses = "bg-(--color-primary) shadow-xl";
+  const navbarScrolledBgClasses = "bg-(--color-primary)/80 shadow-xl";
   const navbarInitialBgClasses = "bg-transparent";
 
   // Clases para los enlaces de texto según el estado de scroll
