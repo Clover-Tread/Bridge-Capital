@@ -110,7 +110,7 @@ const Navbar = () => {
       {/* Menú Desplegable para Móvil (se posiciona relativo al <header> sticky) */}
       {isMobileMenuOpen && (
         // Este menú sí debería ocupar el ancho, o al menos un ancho considerable bajo el navbar flotante
-        <div className={`md:hidden mt-2 mx-4 rounded-lg shadow-xl ${hasScrolled ? 'bg-slate-800' : 'bg-white'}`}>
+        <div className={`md:hidden absolute top-full left-0 w-full rounded-lg shadow-xl ${hasScrolled ? 'bg-slate-800' : 'bg-white'}`}>
           <div className="flex flex-col space-y-1 px-2 py-3">
             {navLinks.map((link) => (
               <Link 
