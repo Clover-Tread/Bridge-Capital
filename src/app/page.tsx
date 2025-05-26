@@ -1,8 +1,8 @@
 // src/app/page.tsx
-import CTASection from './components/home/CTASection';
-import HeroSection from './components/home/HeroSection'; // Importaremos el componente Hero aquí
-import IntroTextSection from './components/home/IntroTextSection';
-import PrinciplesSection from './components/home/PrinciplesSection';
+import CTASection from '@/app/components/home/CTASection';
+import HeroSection from '@/app/components/home/HeroSection'; // Importaremos el componente Hero aquí
+import IntroTextSection from '@/app/components/home/IntroTextSection';
+import PrinciplesSection from '@/app/components/home/PrinciplesSection';
 
 export default function HomePage() {
   return (

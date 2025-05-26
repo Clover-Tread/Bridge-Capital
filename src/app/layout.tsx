@@ -1,9 +1,9 @@
 // src/app/layout.tsx
 import type { Metadata } from 'next';
-import { Montserrat } from 'next/font/google'; // Importa Montserrat
+import { Montserrat } from 'next/font/google';
 import './globals.css';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 // Configura Montserrat
 const montserrat = Montserrat({
