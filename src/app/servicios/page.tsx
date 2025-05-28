@@ -1,6 +1,8 @@
 // src/app/servicios/page.tsx
 import React from 'react';
-import ServicesIntroSection from '@/app/components/servicios/ServicesIntroSection'; // Crearemos este componente a continuación
+import ServicesIntroSection from '@/app/servicios/ServicesIntroSection'; // Crearemos este componente a continuación
+import InvestmentAdvisorySection from './InvestmentAdvisorySection';
+import CTASection from './CTASection';
 
 export const metadata = { // Metadata específica para esta página
   title: 'Servicios - Bridge Capital',
@@ -12,7 +14,8 @@ export default function ServiciosPage() {
   return (
     <>
       <ServicesIntroSection />
-      {/* Aquí añadiremos más secciones de la página "Servicios" más adelante */}
+      <InvestmentAdvisorySection />
+      <CTASection />
     </>
   );
 }

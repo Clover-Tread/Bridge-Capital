@@ -9,12 +9,12 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = [
-    { href: '/aviso-privacidad', label: 'Aviso de Privacidad' },
-    { href: '/politica-privacidad', label: 'Política de Privacidad' },
-    { href: '/politica-cookies', label: 'Política de Uso de Cookies' },
-    { href: '/guia-servicios-inversion', label: 'Guía de Servicios de Inversión' },
-    { href: '/marco-general-actuacion', label: 'Marco General de Actuación' },
-    { href: '/preguntas-frecuentes', label: 'Preguntas Frecuentes' },
+    { href: 'https://www.bridgecapital.mx/pdf/aviso.pdf', label: 'Aviso de Privacidad' },
+    { href: 'https://www.bridgecapital.mx/pdf/politicaprivacidad.pdf', label: 'Política de Privacidad' },
+    { href: 'https://www.bridgecapital.mx/pdf/politicacookies.pdf', label: 'Política de Uso de Cookies' },
+    { href: 'https://www.bridgecapital.mx/pdf/guia.pdf', label: 'Guía de Servicios de Inversión' },
+    { href: 'https://www.bridgecapital.mx/pdf/guia.pdf', label: 'Marco General de Actuación' },
+    { href: '/contacto', label: 'Preguntas Frecuentes' },
   ];
 
   const socialLinks = [
@@ -67,6 +67,8 @@ const Footer = () => {
                 <div key={link.label} className="w-full flex justify-center sm:justify-start">
                   <Link
                     href={link.href}
+                    target='_blank'
+                    rel="noopener noreferrer"
                     className={`
                       relative text-sm inline-flex items-center
                       ${footerHoverTextColor}

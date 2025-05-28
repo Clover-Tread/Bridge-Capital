@@ -1,5 +1,7 @@
 import React from 'react';
-import AboutHeroSection from '@/app/components/nosotros/AboutHeroSection';
+import AboutHeroSection from '@/app/nosotros/AboutHeroSection';
+import StatsSection from './StatsSection';
+import CoreValuesSection from './CoreValuesSection';
 
 export const metadata = {
   title: 'Nosotros - Bridge Capital',
@@ -10,8 +12,8 @@ export default function NosotrosPage() {
   return (
     <>
       <AboutHeroSection />
-      {/* <StatsSection /> */}
-      {/* <CoreValuesSection /> */}
+      <StatsSection />
+      <CoreValuesSection />
       {/* Más secciones de la página "Nosotros" irán aquí */}
     </>
   );
