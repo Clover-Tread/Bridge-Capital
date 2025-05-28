@@ -4,6 +4,7 @@ import { Montserrat } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/app/components/Navbar';
 import Footer from '@/app/components/Footer';
+import CookieConsent from '@/app/components/CookieConsent';
 
 // Configura Montserrat
 const montserrat = Montserrat({
@@ -31,6 +32,12 @@ export default function RootLayout({
             {children}
           </main>
         <Footer />
+        <CookieConsent 
+          // variant="default" // o "small"
+          // demo={false} // Ponlo en true para probarlo incluso si ya aceptaste
+          // onAcceptCallback={() => console.log("Cookies aceptadas!")}
+          // onDeclineCallback={() => console.log("Cookies declinadas!")}
+        />
       </body>
     </html>
   );
