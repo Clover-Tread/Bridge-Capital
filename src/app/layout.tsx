@@ -33,8 +33,8 @@ export default function RootLayout({
           </main>
         <Footer />
         <CookieConsent 
-          // variant="default" // o "small"
-          // demo={false} // Ponlo en true para probarlo incluso si ya aceptaste
+          variant="small" // o "default"
+          demo={true} // Ponlo en true para probarlo incluso si ya aceptaste
           // onAcceptCallback={() => console.log("Cookies aceptadas!")}
           // onDeclineCallback={() => console.log("Cookies declinadas!")}
         />
