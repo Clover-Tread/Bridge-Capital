@@ -25,11 +25,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// Clases compartidas
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable"; // Importar autoTable directamente
+
+// Clases compartidas y estilos
 const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
-// Estilo base para los inputs (solo borde inferior)
 const inputBottomBorderStyle = `
   block w-full appearance-none rounded-none 
   border-x-0 border-t-0 border-b-2 border-gray-300 
@@ -38,17 +40,38 @@ const inputBottomBorderStyle = `
   dark:border-gray-600 dark:text-white dark:focus:border-b-[var(--color-primary)]
 `;
 
+const selectTriggerStyle = `
+  w-full flex items-center justify-between {/* Para alinear SelectValue y la flecha */}
+  rounded-none border-x-0 border-t-0 border-b-2 border-gray-300 bg-transparent 
+  focus:ring-0 focus:ring-offset-0 focus:border-b-[var(--color-primary)] 
+  h-auto py-2.5 pl-0.5 pr-8 text-sm text-left {/* pl para texto, pr-8 para espacio de flecha */}
+  [&>svg]:hidden {/* Oculta flecha por defecto de ShadCN si está presente */}
+  relative {/* Para posicionar la flecha personalizada */}
+`;
+
+// Opciones para el rendimiento anual
+const annualReturnOptions = [
+  "4.00",
+  "8.00",
+  "12.00",
+  "16.00",
+  "25.00",
+] as const;
+
 // Esquema de validación Zod
 const calculatorSchema = z.object({
-  initialCapital: z
-    .string()
-    .refine((value) => parseFloat(value.replace(/[^0-9.]/g, "")) >= 50000, {
+  initialCapital: z.string().refine(
+    (value) => {
+      const num = parseFloat(value.replace(/[^0-9.]/g, ""));
+      return !isNaN(num) && num >= 50000;
+    },
+    {
       message: "El capital inicial debe ser de al menos $50,000.",
-    }),
-  annualReturn: z.coerce
-    .number()
-    .min(0, "El rendimiento debe ser positivo.")
-    .max(100, "Rendimiento inválido."),
+    }
+  ),
+  annualReturn: z.enum(annualReturnOptions, {
+    required_error: "Debes seleccionar un rendimiento estimado.",
+  }),
   investmentTerm: z.enum(["5", "10", "20"], {
     required_error: "Debes seleccionar un plazo.",
   }),
@@ -57,14 +80,12 @@ const calculatorSchema = z.object({
     .optional()
     .refine(
       (value) => {
-        if (
-          !value ||
-          value.trim() === "" ||
-          parseFloat(value.replace(/[^0-9.]/g, "")) === 0
-        ) {
-          return true; // Es opcional o cero, lo cual está bien
+        if (!value || value.trim() === "") {
+          return true;
         }
-        return parseFloat(value.replace(/[^0-9.]/g, "")) >= 10000;
+        const num = parseFloat(value.replace(/[^0-9.]/g, ""));
+        if (isNaN(num) || num === 0) return true;
+        return num >= 10000;
       },
       {
         message: "La aportación anual debe ser $0 o al menos $10,000.",
@@ -85,20 +106,20 @@ const InvestmentCalculator = () => {
   const [results, setResults] = useState<CalculationResults | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   const [selectedTermForDescription, setSelectedTermForDescription] =
-    useState<string>("10"); // Para FormDescription
+    useState<string>("10");
 
   const form = useForm<CalculatorFormValues>({
     resolver: zodResolver(calculatorSchema),
     defaultValues: {
-      initialCapital: "50,000", // Almacenamos como string formateado por defecto
-      annualReturn: 7,
+      initialCapital: "50,000",
+      annualReturn: "8.00",
       investmentTerm: "10",
-      annualContribution: "10,000", // Almacenamos como string formateado
+      annualContribution: "10,000",
     },
-    mode: "onBlur", // Validar onBlur
+    mode: "onBlur",
   });
 
-  const { watch, setValue } = form;
+  const { watch, setValue, getValues } = form;
   const investmentTermWatched = watch("investmentTerm");
 
   useEffect(() => {
@@ -107,52 +128,59 @@ const InvestmentCalculator = () => {
     }
   }, [investmentTermWatched]);
 
-  // Helper para formatear a moneda
   const formatCurrency = (
     value: number | string | undefined,
     showSymbol = true
   ): string => {
-    if (value === undefined || value === null || value === "") return "";
+    if (
+      value === undefined ||
+      value === null ||
+      (typeof value === "string" && value.trim() === "")
+    )
+      return showSymbol ? "$0" : "0";
     const numValue =
       typeof value === "string"
         ? parseFloat(value.replace(/[^0-9.]/g, ""))
         : value;
-    if (isNaN(numValue)) return "";
+    if (isNaN(numValue)) return showSymbol ? "$0" : "0";
     return new Intl.NumberFormat("es-MX", {
       style: showSymbol ? "currency" : "decimal",
       currency: "MXN",
-      minimumFractionDigits: 0, // O 2 si quieres centavos
+      minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(numValue);
   };
 
-  // Helper para parsear de moneda a número
   const parseCurrency = (value: string | undefined): number => {
-    if (!value) return 0;
+    if (!value || typeof value !== "string") return 0;
     return parseFloat(value.replace(/[^0-9.]/g, "")) || 0;
   };
 
   const handleCurrencyBlur = (
     fieldName: "initialCapital" | "annualContribution"
   ) => {
-    const currentValue = form.getValues(fieldName);
+    const currentValue = getValues(fieldName);
     if (currentValue !== undefined) {
       const numericValue = parseCurrency(currentValue);
-      setValue(fieldName, formatCurrency(numericValue, false), {
-        shouldValidate: true,
-      }); // Formatear sin $ para re-edición, valida al salir
+      setValue(
+        fieldName,
+        numericValue > 0 || currentValue === "0"
+          ? formatCurrency(numericValue, false)
+          : "",
+        { shouldValidate: true }
+      );
     }
   };
 
   const handleCurrencyFocus = (
     fieldName: "initialCapital" | "annualContribution"
   ) => {
-    const currentValue = form.getValues(fieldName);
+    const currentValue = getValues(fieldName);
     if (currentValue !== undefined) {
       const numericValue = parseCurrency(currentValue);
       setValue(fieldName, numericValue > 0 ? numericValue.toString() : "", {
         shouldValidate: false,
-      }); // Mostrar número para editar
+      });
     }
   };
 
@@ -161,41 +189,27 @@ const InvestmentCalculator = () => {
     setResults(null);
 
     const P = parseCurrency(data.initialCapital);
-    const r = data.annualReturn / 100;
+    const r = parseFloat(data.annualReturn) / 100;
     const n = parseInt(data.investmentTerm);
     const C = data.annualContribution
       ? parseCurrency(data.annualContribution)
       : 0;
 
     let currentValue = P;
-    let totalContributionsMade = P; // Incluye el capital inicial como primera aportación
+    let totalContributionsMade = P;
     const yearlyBreakdown: { year: number; value: number }[] = [];
 
-    // Ajuste para la primera aportación C si P > 0
-    // Si hay P, la primera C se suma al inicio del año 2 (o fin del año 1)
-    // Si P = 0, la primera C se suma al inicio del año 1
-
-    // Si se desea sumar C en el año 1 incluso si P > 0:
-    // if (P > 0 && C > 0 && n >= 1) {
-    //   currentValue += C; // Asumimos que P y la primera C se invierten juntas al inicio
-    //   totalContributionsMade += C;
-    // }
-
     for (let year = 1; year <= n; year++) {
-      // Aportación anual (C) se suma al inicio de cada año *después* del primer año si ya hubo P,
-      // o en el primer año si P era 0.
       if (year > 1) {
         currentValue += C;
         totalContributionsMade += C;
       } else if (year === 1 && P === 0 && C > 0) {
-        // Si no hay capital inicial, la primera C cuenta en el año 1
         currentValue += C;
         totalContributionsMade += C;
       }
-
       currentValue = currentValue * (1 + r);
 
-      if (year === 5 || year === 10 || year === 20 || year === n) {
+      if ([5, 10, 15, 20].includes(year) || year === n) {
         if (
           yearlyBreakdown.findIndex((item) => item.year === year) === -1 &&
           year <= n
@@ -212,39 +226,159 @@ const InvestmentCalculator = () => {
       (finalValue - totalContributionsMade).toFixed(2)
     );
 
-    const finalBreakdown = yearlyBreakdown
-      .filter((item) => item.year <= n)
+    const uniqueYears = new Set<number>();
+    const finalBreakdownResult = yearlyBreakdown
+      .filter((item) => {
+        if (uniqueYears.has(item.year)) return false;
+        uniqueYears.add(item.year);
+        return true;
+      })
       .sort((a, b) => a.year - b.year);
 
-    if (!finalBreakdown.find((item) => item.year === n) && n > 0) {
-      // const lastEntryValue = finalBreakdown.length > 0 ? finalBreakdown[finalBreakdown.length -1].value : P * Math.pow(1+r, n); // Fallback
-      // Para asegurar que el valor final para el año 'n' sea el calculado y no uno intermedio
-      finalBreakdown.push({ year: n, value: finalValue });
-      // Limpiar duplicados y re-ordenar por si n era 5, 10 o 20
-      const uniqueYears = new Set<number>();
-      const uniqueBreakdown = finalBreakdown
-        .filter((item) => {
-          if (uniqueYears.has(item.year)) return false;
-          uniqueYears.add(item.year);
-          return true;
-        })
-        .sort((a, b) => a.year - b.year);
-      setResults({
-        totalValue: finalValue,
-        totalContributions: totalContributionsMade,
-        totalInterest: totalInterest,
-        breakdown: uniqueBreakdown,
-      });
-    } else {
-      setResults({
-        totalValue: finalValue,
-        totalContributions: totalContributionsMade,
-        totalInterest: totalInterest,
-        breakdown: finalBreakdown,
-      });
+    if (
+      !finalBreakdownResult.find((item) => item.year === n) &&
+      n > 0 &&
+      ![5, 10, 15, 20].includes(n)
+    ) {
+      finalBreakdownResult.push({ year: n, value: finalValue });
+      finalBreakdownResult.sort((a, b) => a.year - b.year);
     }
-    setIsCalculating(false);
+
+    setTimeout(() => {
+      setResults({
+        totalValue: finalValue,
+        totalContributions: totalContributionsMade,
+        totalInterest: totalInterest,
+        breakdown: finalBreakdownResult,
+      });
+      setIsCalculating(false);
+    }, 500);
   }
+
+  const handleGeneratePDF = () => {
+    if (!results) return;
+
+    const doc = new jsPDF(); // No necesita casteo si autoTable se importa como función
+    const currentFormValues = getValues();
+
+    doc.setFontSize(20);
+    doc.setTextColor(0, 42, 58);
+    doc.text("Estimación de Inversión", 105, 22, { align: "center" });
+    doc.setFontSize(12);
+    doc.setTextColor(100);
+    doc.text("Bridge Capital", 105, 30, { align: "center" });
+
+    let startY = 48;
+
+    doc.setFontSize(12);
+    doc.setTextColor(0, 42, 58);
+    doc.text("Parámetros de la Simulación:", 14, startY);
+    startY += 8;
+    doc.setFontSize(10);
+    doc.setTextColor(50);
+    doc.text(
+      `Capital Inicial: ${formatCurrency(parseCurrency(currentFormValues.initialCapital), true)}`,
+      14,
+      startY
+    );
+    startY += 7;
+    doc.text(
+      `Aportación Anual Adicional: ${formatCurrency(parseCurrency(currentFormValues.annualContribution || "0"), true)}`,
+      14,
+      startY
+    );
+    startY += 7;
+    doc.text(
+      `Plazo de Inversión: ${currentFormValues.investmentTerm} años`,
+      14,
+      startY
+    );
+    startY += 7;
+    doc.text(
+      `Rendimiento Anual Estimado: ${currentFormValues.annualReturn}%`,
+      14,
+      startY
+    );
+    startY += 14;
+
+    doc.setFontSize(12);
+    doc.setTextColor(0, 42, 58);
+    doc.text(
+      `Resultados Estimados para ${currentFormValues.investmentTerm} años:`,
+      14,
+      startY
+    );
+    startY += 8;
+    doc.setFontSize(10);
+    doc.setTextColor(50);
+    doc.text(
+      `Total de Aportaciones: ${formatCurrency(results.totalContributions, true)}`,
+      14,
+      startY
+    );
+    startY += 7;
+    doc.text(
+      `Intereses Estimados Ganados: ${formatCurrency(results.totalInterest, true)}`,
+      14,
+      startY
+    );
+    startY += 7;
+    doc.setFontSize(11);
+    doc.setFont("", "bold");
+    doc.text(
+      `Valor Estimado Total: ${formatCurrency(results.totalValue, true)}`,
+      14,
+      startY
+    );
+    doc.setFont("", "normal");
+    startY += 14;
+
+    doc.setFontSize(12);
+    doc.setTextColor(0, 42, 58);
+    doc.text("Desglose Anual del Valor Estimado:", 14, startY);
+
+    const tableColumns = ["Año", "Valor Estimado al Final del Año"];
+    const tableRows = results.breakdown.map((item) => [
+      item.year.toString(),
+      formatCurrency(item.value, true),
+    ]);
+
+    // Llama a autoTable como una función importada
+    autoTable(doc, {
+      head: [tableColumns],
+      body: tableRows,
+      startY: startY + 7,
+      theme: "grid",
+      headStyles: { fillColor: [0, 42, 58], textColor: [255, 255, 255] },
+      styles: { fontSize: 9, cellPadding: 2.5, halign: "center" },
+      columnStyles: {
+        0: { halign: "center", cellWidth: 30 },
+        1: { halign: "right" },
+      },
+      didDrawPage: function (data) {
+        const pageCount = doc.getNumberOfPages();
+        const currentPage = data.pageNumber;
+        doc.setPage(currentPage);
+        doc.setFontSize(8);
+        doc.setTextColor(150);
+        doc.text(
+          "Esta es una simulación y los rendimientos reales pueden variar. No constituye una garantía de retorno.",
+          105,
+          doc.internal.pageSize.height - 15,
+          { align: "center" }
+        );
+        doc.text(
+          `Página ${currentPage} de ${pageCount}`,
+          doc.internal.pageSize.width - 30,
+          doc.internal.pageSize.height - 10
+        );
+      },
+    });
+
+    doc.save(
+      `Estimacion_Inversion_BridgeCapital_${currentFormValues.investmentTerm}anos.pdf`
+    );
+  };
 
   return (
     <section className="py-12 md:py-16 bg-white w-full">
@@ -256,8 +390,6 @@ const InvestmentCalculator = () => {
             className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-6 items-start">
             {/* Columna de Inputs */}
             <div className="space-y-8 bg-slate-50 p-6 md:p-8 rounded-lg shadow">
-              {" "}
-              {/* Aumentado space-y */}
               <FormField
                 control={form.control}
                 name="initialCapital"
@@ -266,7 +398,7 @@ const InvestmentCalculator = () => {
                     <FormLabel>Capital Inicial</FormLabel>
                     <FormControl>
                       <Input
-                        type="text" // Cambiado a text para formato
+                        type="text"
                         placeholder="Ej: $50,000"
                         {...field}
                         className={inputBottomBorderStyle}
@@ -276,10 +408,8 @@ const InvestmentCalculator = () => {
                           handleCurrencyBlur("initialCapital");
                         }}
                         onChange={(e) => {
-                          // Permitir solo números y un punto decimal
                           const value = e.target.value;
                           const sanitizedValue = value.replace(/[^0-9.]/g, "");
-                          // Prevenir múltiples puntos decimales
                           if ((sanitizedValue.match(/\./g) || []).length <= 1) {
                             field.onChange(sanitizedValue);
                           }
@@ -293,20 +423,32 @@ const InvestmentCalculator = () => {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="annualReturn"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Rendimiento Anual Estimado (%)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Ej: 7"
-                        {...field}
-                        className={inputBottomBorderStyle}
-                      />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className={selectTriggerStyle}>
+                          <SelectValue placeholder="Selecciona un rendimiento" />
+                          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-gray-500">
+                            ▼
+                          </span>
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {annualReturnOptions.map((option) => (
+                          <SelectItem key={option} value={option}>
+                            {option}%
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormDescription>
                       Tasa esperada, los rendimientos reales pueden variar.
                     </FormDescription>
@@ -314,6 +456,7 @@ const InvestmentCalculator = () => {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="investmentTerm"
@@ -327,14 +470,11 @@ const InvestmentCalculator = () => {
                       }}
                       defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger
-                          className={`rounded-none border-x-0 border-t-0 border-b-2 border-gray-300 focus:ring-0 focus:ring-offset-0 focus:border-b-[var(--color-primary)] [&>svg]:hidden`}>
-                          {/* Ocultamos el icono de flecha por defecto con [&>svg]:hidden y añadimos uno personalizado */}
+                        <SelectTrigger className={selectTriggerStyle}>
                           <SelectValue placeholder="Selecciona un plazo" />
-                          <span className="absolute right-0 top-1/2 -translate-y-1/2 pr-2 pointer-events-none">
+                          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-gray-500">
                             ▼
-                          </span>{" "}
-                          {/* Flecha personalizada */}
+                          </span>
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -344,7 +484,9 @@ const InvestmentCalculator = () => {
                       </SelectContent>
                     </Select>
                     <FormDescription>
-                      Resultados calculados para {selectedTermForDescription}{" "}
+                      Resultados calculados para{" "}
+                      {selectedTermForDescription ||
+                        getValues("investmentTerm")}{" "}
                       años.
                     </FormDescription>
                     <FormMessage />
@@ -359,7 +501,7 @@ const InvestmentCalculator = () => {
                     <FormLabel>Aportación Anual Adicional (Opcional)</FormLabel>
                     <FormControl>
                       <Input
-                        type="text" // Cambiado a text para formato
+                        type="text"
                         placeholder="Ej: $10,000"
                         {...field}
                         className={inputBottomBorderStyle}
@@ -398,14 +540,14 @@ const InvestmentCalculator = () => {
             {/* Columna de Resultados */}
             {results && (
               <div className="space-y-6 bg-sky-50 p-6 md:p-8 rounded-lg shadow">
-                <h3 className="text-2xl font-semibold text-slate-800 mb-4">
+                <h3 className="text-2xl font-semibold text-slate-800 mb-2">
                   Resultados Estimados para{" "}
                   {results.breakdown.find(
-                    (b) => b.year === parseInt(form.getValues("investmentTerm"))
-                  )?.year || form.getValues("investmentTerm")}{" "}
+                    (b) => b.year === parseInt(getValues("investmentTerm"))
+                  )?.year || getValues("investmentTerm")}{" "}
                   años:
                 </h3>
-                <div className="space-y-3 text-lg">
+                <div className="space-y-3 text-lg mb-6">
                   <p>
                     <strong>Valor Estimado Total:</strong>{" "}
                     {formatCurrency(results.totalValue, true)}
@@ -420,8 +562,15 @@ const InvestmentCalculator = () => {
                   </p>
                 </div>
 
+                <Button
+                  onClick={handleGeneratePDF}
+                  variant="outline"
+                  className="w-full border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10">
+                  Descargar Estimación en PDF
+                </Button>
+
                 {results.breakdown.length > 0 && (
-                  <div className="mt-6 pt-4 border-t">
+                  <div className="mt-6 pt-6 border-t">
                     <h4 className="text-xl font-semibold text-slate-700 mb-3">
                       Desglose del Valor Estimado:
                     </h4>
