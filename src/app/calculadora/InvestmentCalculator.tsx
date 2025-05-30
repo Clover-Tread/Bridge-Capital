@@ -1,6 +1,4 @@
-// src/components/calculadora/InvestmentCalculator.tsx
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -26,30 +24,15 @@ import {
 } from "@/components/ui/select";
 
 import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable"; // Importar autoTable directamente
+import autoTable from "jspdf-autotable";
 
 // Clases compartidas y estilos
 const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
-const inputBottomBorderStyle = `
-  block w-full appearance-none rounded-none 
-  border-x-0 border-t-0 border-b-2 border-gray-300 
-  bg-transparent px-0.5 py-2.5 text-sm text-slate-900 
-  focus:outline-none focus:ring-0 focus:border-b-[var(--color-primary)]
-  dark:border-gray-600 dark:text-white dark:focus:border-b-[var(--color-primary)]
-`;
-
-const selectTriggerStyle = `
-  w-full flex items-center justify-between {/* Para alinear SelectValue y la flecha */}
-  rounded-none border-x-0 border-t-0 border-b-2 border-gray-300 bg-transparent 
-  focus:ring-0 focus:ring-offset-0 focus:border-b-[var(--color-primary)] 
-  h-auto py-2.5 pl-0.5 pr-8 text-sm text-left {/* pl para texto, pr-8 para espacio de flecha */}
-  [&>svg]:hidden {/* Oculta flecha por defecto de ShadCN si está presente */}
-  relative {/* Para posicionar la flecha personalizada */}
-`;
-
-// Opciones para el rendimiento anual
+// Estilos específicos para los inputs y select
+const inputBottomBorderStyle = ` block w-full appearance-none rounded-none border-x-0 border-t-0 border-b-2 border-gray-300 bg-transparent px-0.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-0 focus:border-b-[var(--color-primary)] dark:border-gray-600 dark:text-white dark:focus:border-b-[var(--color-primary)] `;
+const selectTriggerStyle = ` w-full flex items-center justify-between rounded-none border-x-0 border-t-0 border-b-2 border-gray-300 bg-transparent focus:ring-0 focus:ring-offset-0 focus:border-b-[var(--color-primary)] h-auto py-2.5 pl-0.5 pr-8 text-sm text-left [&>svg]:hidden relative `;
 const annualReturnOptions = [
   "4.00",
   "8.00",
@@ -57,17 +40,13 @@ const annualReturnOptions = [
   "16.00",
   "25.00",
 ] as const;
-
-// Esquema de validación Zod
 const calculatorSchema = z.object({
   initialCapital: z.string().refine(
     (value) => {
       const num = parseFloat(value.replace(/[^0-9.]/g, ""));
       return !isNaN(num) && num >= 50000;
     },
-    {
-      message: "El capital inicial debe ser de al menos $50,000.",
-    }
+    { message: "El capital inicial debe ser de al menos $50,000." }
   ),
   annualReturn: z.enum(annualReturnOptions, {
     required_error: "Debes seleccionar un rendimiento estimado.",
@@ -87,14 +66,10 @@ const calculatorSchema = z.object({
         if (isNaN(num) || num === 0) return true;
         return num >= 10000;
       },
-      {
-        message: "La aportación anual debe ser $0 o al menos $10,000.",
-      }
+      { message: "La aportación anual debe ser $0 o al menos $10,000." }
     ),
 });
-
 type CalculatorFormValues = z.infer<typeof calculatorSchema>;
-
 interface CalculationResults {
   totalValue: number;
   totalContributions: number;
@@ -150,12 +125,10 @@ const InvestmentCalculator = () => {
       maximumFractionDigits: 0,
     }).format(numValue);
   };
-
   const parseCurrency = (value: string | undefined): number => {
     if (!value || typeof value !== "string") return 0;
     return parseFloat(value.replace(/[^0-9.]/g, "")) || 0;
   };
-
   const handleCurrencyBlur = (
     fieldName: "initialCapital" | "annualContribution"
   ) => {
@@ -171,7 +144,6 @@ const InvestmentCalculator = () => {
       );
     }
   };
-
   const handleCurrencyFocus = (
     fieldName: "initialCapital" | "annualContribution"
   ) => {
@@ -183,22 +155,18 @@ const InvestmentCalculator = () => {
       });
     }
   };
-
   function onSubmit(data: CalculatorFormValues) {
     setIsCalculating(true);
     setResults(null);
-
     const P = parseCurrency(data.initialCapital);
     const r = parseFloat(data.annualReturn) / 100;
     const n = parseInt(data.investmentTerm);
     const C = data.annualContribution
       ? parseCurrency(data.annualContribution)
       : 0;
-
     let currentValue = P;
     let totalContributionsMade = P;
     const yearlyBreakdown: { year: number; value: number }[] = [];
-
     for (let year = 1; year <= n; year++) {
       if (year > 1) {
         currentValue += C;
@@ -208,7 +176,6 @@ const InvestmentCalculator = () => {
         totalContributionsMade += C;
       }
       currentValue = currentValue * (1 + r);
-
       if ([5, 10, 15, 20].includes(year) || year === n) {
         if (
           yearlyBreakdown.findIndex((item) => item.year === year) === -1 &&
@@ -225,7 +192,6 @@ const InvestmentCalculator = () => {
     const totalInterest = parseFloat(
       (finalValue - totalContributionsMade).toFixed(2)
     );
-
     const uniqueYears = new Set<number>();
     const finalBreakdownResult = yearlyBreakdown
       .filter((item) => {
@@ -234,7 +200,6 @@ const InvestmentCalculator = () => {
         return true;
       })
       .sort((a, b) => a.year - b.year);
-
     if (
       !finalBreakdownResult.find((item) => item.year === n) &&
       n > 0 &&
@@ -243,7 +208,6 @@ const InvestmentCalculator = () => {
       finalBreakdownResult.push({ year: n, value: finalValue });
       finalBreakdownResult.sort((a, b) => a.year - b.year);
     }
-
     setTimeout(() => {
       setResults({
         totalValue: finalValue,
@@ -254,22 +218,17 @@ const InvestmentCalculator = () => {
       setIsCalculating(false);
     }, 500);
   }
-
   const handleGeneratePDF = () => {
     if (!results) return;
-
-    const doc = new jsPDF(); // No necesita casteo si autoTable se importa como función
+    const doc = new jsPDF();
     const currentFormValues = getValues();
-
     doc.setFontSize(20);
     doc.setTextColor(0, 42, 58);
     doc.text("Estimación de Inversión", 105, 22, { align: "center" });
     doc.setFontSize(12);
     doc.setTextColor(100);
     doc.text("Bridge Capital", 105, 30, { align: "center" });
-
     let startY = 48;
-
     doc.setFontSize(12);
     doc.setTextColor(0, 42, 58);
     doc.text("Parámetros de la Simulación:", 14, startY);
@@ -300,7 +259,6 @@ const InvestmentCalculator = () => {
       startY
     );
     startY += 14;
-
     doc.setFontSize(12);
     doc.setTextColor(0, 42, 58);
     doc.text(
@@ -332,18 +290,14 @@ const InvestmentCalculator = () => {
     );
     doc.setFont("", "normal");
     startY += 14;
-
     doc.setFontSize(12);
     doc.setTextColor(0, 42, 58);
     doc.text("Desglose Anual del Valor Estimado:", 14, startY);
-
     const tableColumns = ["Año", "Valor Estimado al Final del Año"];
     const tableRows = results.breakdown.map((item) => [
       item.year.toString(),
       formatCurrency(item.value, true),
     ]);
-
-    // Llama a autoTable como una función importada
     autoTable(doc, {
       head: [tableColumns],
       body: tableRows,
@@ -374,7 +328,6 @@ const InvestmentCalculator = () => {
         );
       },
     });
-
     doc.save(
       `Estimacion_Inversion_BridgeCapital_${currentFormValues.investmentTerm}anos.pdf`
     );
@@ -384,12 +337,21 @@ const InvestmentCalculator = () => {
     <section className="py-12 md:py-16 bg-white w-full">
       <div
         className={`mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES}`}>
+        {/* Texto Descriptivo */}
+        <div className="text-center mb-10 md:mb-12">
+          <p className="text-lg md:text-2xl text-(--color-primary) max-w-4xl mx-auto">
+            Aquí podrás calcular los rendimientos aproximados de tus inversiones
+            a lo largo de los años, tú decides el plazo y el monto a invertir.
+          </p>
+        </div>
+
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-6 items-start">
             {/* Columna de Inputs */}
             <div className="space-y-8 bg-slate-50 p-6 md:p-8 rounded-lg shadow">
+              {/* FormField para initialCapital */}
               <FormField
                 control={form.control}
                 name="initialCapital"
@@ -424,6 +386,7 @@ const InvestmentCalculator = () => {
                 )}
               />
 
+              {/* FormField para annualReturn */}
               <FormField
                 control={form.control}
                 name="annualReturn"
@@ -457,6 +420,7 @@ const InvestmentCalculator = () => {
                 )}
               />
 
+              {/* FormField para investmentTerm */}
               <FormField
                 control={form.control}
                 name="investmentTerm"
@@ -493,6 +457,8 @@ const InvestmentCalculator = () => {
                   </FormItem>
                 )}
               />
+
+              {/* FormField para annualContribution */}
               <FormField
                 control={form.control}
                 name="annualContribution"
