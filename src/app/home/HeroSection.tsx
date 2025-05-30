@@ -90,7 +90,7 @@ const HeroSection = () => {
           alt="Fondo Hero Section Bridge Capital"
           layout="fill"
           objectFit="cover"
-          quality={100}
+          quality={80}
           priority
         />
       </div>

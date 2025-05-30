@@ -132,7 +132,7 @@ const ServicesIntroSection = () => {
           alt="Fondo de la sección de Servicios de Bridge Capital"
           layout="fill"
           objectFit="cover"
-          quality={100}
+          quality={80}
           priority
         />
       </div>

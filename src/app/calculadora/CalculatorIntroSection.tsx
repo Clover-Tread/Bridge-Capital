@@ -104,7 +104,7 @@ const CalculatorIntroSection = () => {
           alt="Calculadora de Inversiones - Fondo Bridge Capital"
           layout="fill"
           objectFit="cover"
-          quality={75}
+          quality={80}
           priority
         />
       </div>

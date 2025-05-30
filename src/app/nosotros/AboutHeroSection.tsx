@@ -139,6 +139,7 @@ const AboutHeroSection = () => {
                 layout="fill"
                 objectFit="cover"
                 className="transform transition-transform duration-500 hover:scale-105"
+                quality={80}
               />
             </div>
           </div>

@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-// Clases compartidas (asumiendo que están definidas o las defines aquí)
+// Clases compartidas
 const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
@@ -133,9 +133,7 @@ const ContactFormSection = () => {
             <FormField
               control={form.control}
               name="name"
-              render={(
-                { field } // Eliminado fieldState si error no se usa aquí directamente para la clase del label
-              ) => (
+              render={({ field }) => (
                 <FormItem className="relative pt-2">
                   <FormControl>
                     <Input

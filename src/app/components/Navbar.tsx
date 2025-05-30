@@ -1,13 +1,11 @@
-// src/components/Navbar.tsx
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react"; // useRef importado
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 
 import { gsap } from "gsap";
-// No es necesario ScrollTrigger para el menú móvil si no se anima con el scroll.
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -58,7 +56,7 @@ const Navbar = () => {
       gsap.to(menuContent, {
         opacity: 0,
         y: -20,
-        duration: 0.2, // Más rápido para el contenido
+        duration: 0.2,
         ease: "power2.in",
         onComplete: () => {
           // Luego animar la salida del contenedor principal

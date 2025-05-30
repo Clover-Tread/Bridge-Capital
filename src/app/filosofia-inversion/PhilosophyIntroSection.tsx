@@ -106,7 +106,7 @@ const PhilosophyIntroSection = () => {
           alt="Filosofía de Inversión Bridge Capital"
           layout="fill"
           objectFit="cover"
-          quality={75}
+          quality={80}
           priority
         />
       </div>

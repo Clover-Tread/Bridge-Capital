@@ -1,12 +1,10 @@
-// src/components/home/IntroTextSection.tsx
 import Image from "next/image";
 
 const IntroTextSection = () => {
   return (
-    // pt-12 o pt-16 podría ser suficiente si HeroSection ya no deja un gran padding-bottom
     <section id="intro" className="bg-[#ebebeb] pt-12 md:pt-16 pb-20 md:pb-28">
       <div className="container mx-auto px-4">
-        {/* ... el resto de tu código ... */}
+        {/* Contenedor principal */}
         <div className="max-w-4xl mx-auto md:max-w-[50rem]">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-[800] text-gray-900 mb-8 text-center">
             Navegando el Presente, Asegurando tu Mañana.
@@ -49,7 +47,7 @@ const IntroTextSection = () => {
           <div className="mt-12 flex justify-center items-center space-x-10 md:space-x-16">
             <div className="relative h-16 w-32">
               <Image
-                src="/cnbv.svg" // Asegúrate que estas imágenes estén en public/ o public/images/
+                src="/cnbv.svg"
                 alt="Logo CNBV"
                 layout="fill"
                 objectFit="contain"
@@ -57,7 +55,7 @@ const IntroTextSection = () => {
             </div>
             <div className="relative h-16 w-32">
               <Image
-                src="/amib.svg" // Asegúrate que estas imágenes estén en public/ o public/images/
+                src="/amib.svg"
                 alt="Logo AMIB"
                 layout="fill"
                 objectFit="contain"

@@ -1,4 +1,3 @@
-// src/app/page.tsx
 import CTASection from "@/app/home/CTASection";
 import HeroSection from "@/app/home/HeroSection"; // Importaremos el componente Hero aquí
 import IntroTextSection from "@/app/home/IntroTextSection";
@@ -11,7 +10,6 @@ export default function HomePage() {
       <IntroTextSection />
       <PrinciplesSection />
       <CTASection />
-      {/* Aquí puedes agregar más secciones o componentes */}
     </>
   );
 }
