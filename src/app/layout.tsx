@@ -16,6 +16,26 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "Bridge Capital",
   description: "Tu socio independiente para alcanzar metas financieras.",
+  icons: {
+    icon: [
+      // Para favicons estándar
+      { url: "./app/favicon-black.png", type: "image/png" },
+      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+    ],
+    apple: [
+      // Para Apple touch icon
+      { url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" },
+    ],
+    // other: [ // Para otros tipos de iconos si los tienes
+    //   {
+    //     rel: 'android-chrome-192x192',
+    //     url: '/android-chrome-192x192.png',
+    //     type: 'image/png',
+    //     sizes: '192x192',
+    //   },
+    // ],
+  },
 };
 
 export default function RootLayout({

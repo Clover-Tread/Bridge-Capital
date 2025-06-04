@@ -89,10 +89,13 @@ const ContactFormSection = () => {
 
   const inputBaseClasses = `
     peer block w-full appearance-none rounded-none 
-    border-x-0 border-t-0 border-b-2 border-gray-300 
-    bg-transparent px-0.5 py-2.5 text-sm text-slate-900 
-    focus:outline-none focus:ring-0 ${focusColorClass} 
-    dark:border-gray-600 dark:text-white dark:focus:border-b-[var(--color-primary)]
+    border-x-0 border-t-0 border-b-1 border-(--color-primary)
+    bg-transparent px-0.5 py-2.5 text-sm text-(--color-primary) 
+    transition-colors duration-200 ease-in-out
+    focus:outline-none focus:ring-0 focus:shadow-none
+    focus:border-x-transparent focus:border-t-transparent
+    ${focusColorClass}
+    focus:border-b-[4px] {/* Opcional: Engrosa el borde inferior a 3px al hacer foco */}
   `;
 
   const getLabelClasses = (fieldName: keyof FormValues, isTextarea = false) => {
@@ -108,7 +111,7 @@ const ContactFormSection = () => {
 
     return `
       absolute left-0.5 ${topClass} transform cursor-text 
-      text-base text-gray-500 dark:text-gray-400 
+      text-base text-(--color-primary) dark:text-gray-400 
       transition-all duration-300 origin-[0]
       ${
         shouldFloat ? `scale-75 px-0 ${labelFocusColorClass}` : "scale-100 px-0"
@@ -121,7 +124,7 @@ const ContactFormSection = () => {
       <div
         className={`mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES}`}>
         <div className="text-center mb-10 md:mb-12">
-          <h3 className="text-2xl md:text-3xl font-semibold text-slate-700">
+          <h3 className="text-2xl md:text-4xl font-[800] text-(--color-primary)">
             Iniciemos una Conversación Estratégica.
           </h3>
         </div>

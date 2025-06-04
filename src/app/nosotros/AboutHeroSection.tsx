@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
-const CONTENT_PADDING_TOP_CLASS = "pt-10 md:pt-12";
+const CONTENT_PADDING_TOP_CLASS = "pt-10 md:pt-15";
 
 const AboutHeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -110,7 +110,7 @@ const AboutHeroSection = () => {
             <div>
               <h1
                 ref={titleRef}
-                className="text-3xl md:text-4xl lg:text-5xl font-[900] text-[var(--color-primary)] mb-6 leading-tight opacity-0">
+                className="text-3xl md:text-4xl lg:text-[2.8rem] font-[900] text-[var(--color-primary)] mb-6 leading-tight opacity-0">
                 Socios estratégicos para tu patrimonio: seguro y en constante
                 crecimiento.
               </h1>

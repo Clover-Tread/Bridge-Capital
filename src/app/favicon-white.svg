@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><style>
+    #light-icon {
+      display: inline;
+    }
+    #dark-icon {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #light-icon {
+        display: none;
+      }
+      #dark-icon {
+        display: inline;
+      }
+    }
+  </style><g id="light-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g><g transform="matrix(26.31578947368421,0,0,26.31578947368421,236.84210526315792,5.684341886080802e-14)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="38" viewBox="0 0 20 38"><image width="20" height="38" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAmCAYAAADEO7urAAAACXBIWXMAAAsSAAALEgHS3X78AAAAq0lEQVRIie3W0QnDIBSF4T/BMeSSURylm7TdJJvUbpARgjhAN7APmj4ViVEILZ4XQeETvcJ1CCFQGxFtAAPMY7UWY4ArMLUCPzkXFNFGRAcRfWsC7okS0RNwAaxz3taCIzARK2RqsQ38mnRfxZuozNojjUMJ+GfvsIMd7GAHO7g/uZ5SkhmwwNIEdM6vwArxyC/guU3URjnnFxo1eTi7KOnvk238v/0O70fANz8pIQ9lJJNCAAAAAElFTkSuQmCC"></image></svg></g></g></svg></g><g id="dark-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g><g transform="matrix(26.31578947368421,0,0,26.31578947368421,236.84210526315792,5.684341886080802e-14)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="38" viewBox="0 0 20 38"><image width="20" height="38" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAmCAYAAADEO7urAAAACXBIWXMAAAsSAAALEgHS3X78AAAAzElEQVRIie2WsQ3CMBBFH1EGuA3IACmzD20GYAAPQJkBGCAFG7ACI4QNfkFBF4oYRJFECbYQSH6S5bN0evLdFfam73tCkdQCFdBkwbaBCtgCZSzhi3xNsqQCKACZ2WUsZ+0NHXAGTlMJ0UvOJO0ldX5SweRAyTChKIwOxTff+aMzs26pcKqHBbDzq1gqmxN+TBImYRImYRL+i3DVz2GGhuH1bKMIzezwjDPgDtz8HkxuZjVQx5DBDwzFAUdAUYT+S9LN5XytZAHXt3gxD4cLLJPhxH+uAAAAAElFTkSuQmCC"></image></svg></g></g></svg></g></svg>

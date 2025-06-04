@@ -4,7 +4,7 @@ import Image from "next/image";
 const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
-const CONTENT_PADDING_TOP_CLASS = "pt-32";
+const CONTENT_PADDING_TOP_CLASS = "pt-32 md:pt-0";
 
 const ContactHeaderSection = () => {
   const backgroundImageFilename = "sala-junta.jpg";
