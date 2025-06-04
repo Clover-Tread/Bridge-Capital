@@ -125,17 +125,17 @@ const PhilosophyIntroSection = () => {
           z-10 flex flex-col justify-center items-center flex-grow 
           w-full 
           ${CONTENT_PADDING_TOP_CLASS}
-          pb-12 md:pb-16 lg:pb-20
+          pb-50 md:pb-16 lg:pb-20
         `}>
         <h1 className="text-3xl sm:text-4xl md:text-7xl font-black text-[var(--color-primary)] leading-tight">
           <span ref={titleMainRef} className="inline-block opacity-0">
             {" "}
             {/* Envolver el texto principal */}
             LO QUE HACEMOS
-            <br className="hidden md:block" />
+            <br className="hidden sm:block" />
             ES FÁCIL DE ENTENDER.
           </span>
-          <br className="hidden md:block" />
+          <br className="hidden sm:block" />
           <span
             ref={titleSubRef}
             className="block text-2xl sm:text-3xl md:text-4xl font-semibold mt-1 md:mt-2 opacity-0">

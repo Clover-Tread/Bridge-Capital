@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
-const CONTENT_PADDING_TOP_CLASS = "pt-10 md:pt-15";
+const CONTENT_PADDING_TOP_CLASS = "pt-10 md:pt-0";
 
 const AboutHeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -95,14 +95,14 @@ const AboutHeroSection = () => {
   return (
     <section
       ref={sectionRef}
-      className={`relative w-full bg-white ${CONTENT_PADDING_TOP_CLASS} py-12 md:py-20`}>
+      className={`relative w-full bg-[#ffffff] ${CONTENT_PADDING_TOP_CLASS} py-12 md:py-20`}>
       <div
         className={`
           mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES}
           ${CONTENT_PADDING_TOP_CLASS} 
           pb-100 md:pb-16 lg:pb-20
         `}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center pt-[5rem]">
           {/* Columna de Texto */}
           <div
             ref={textColumnRef}

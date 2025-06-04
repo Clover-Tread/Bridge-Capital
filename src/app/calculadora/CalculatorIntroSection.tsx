@@ -127,7 +127,8 @@ const CalculatorIntroSection = () => {
           w-full 
           ${CONTENT_PADDING_TOP_CLASS} 
           pb-12 md:pb-16
-          text-left 
+          text-center
+          md:text-left 
         `}>
         <h1 className="text-[var(--color-primary)]">
           <span
