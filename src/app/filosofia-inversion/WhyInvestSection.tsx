@@ -1,6 +1,6 @@
 // src/components/filosofia/WhyInvestSection.tsx
 import React from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { Card, CardContent } from '@/components/ui/card'; // Usaremos Card y CardContent
 
 // Clases compartidas para la alineación del ancho con el Navbar

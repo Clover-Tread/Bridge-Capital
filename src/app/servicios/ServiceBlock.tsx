@@ -1,6 +1,6 @@
 // src/components/servicios/ServiceBlock.tsx
 import React from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { Card, CardContent } from "@/components/ui/card"; // CardContent se mantiene si ShadCN lo recomienda para estructura interna, pero con p-0
 
 interface ServiceBlockProps {

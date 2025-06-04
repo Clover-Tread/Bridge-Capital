@@ -1,6 +1,6 @@
 // src/components/filosofia/InvestmentPillarsSection.tsx
 import React from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 // Reemplaza estos con tus componentes de icono SVG o mantenlos si te sirven
 import { LucideIcon, Briefcase, Users, BarChart3, Target } from 'lucide-react';
 

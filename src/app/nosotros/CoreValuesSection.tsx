@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import {
   Dialog,
   DialogContent,

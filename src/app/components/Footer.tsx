@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 import LinkedInIcon from '@/app/components/icons/linkedin.svg';
 import FacebookIcon from '@/app/components/icons/facebook.svg';

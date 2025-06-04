@@ -35,7 +35,6 @@ export default function InvestmentAdvisorySection() {
           en qué invertirlo.
         </p>
       </ServiceBlock>
-
       {/* Asesoría de Inversiones */}
       <ServiceBlock
         title="Asesoría de Inversiones"
@@ -62,7 +61,6 @@ export default function InvestmentAdvisorySection() {
           </li>
         </ul>
       </ServiceBlock>
-
       {/* Consultoría Financiera */}
       <ServiceBlock
         title="Consultoría Financiera"

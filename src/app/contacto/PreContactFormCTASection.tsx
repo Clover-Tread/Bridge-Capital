@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 // Clases compartidas
 const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
