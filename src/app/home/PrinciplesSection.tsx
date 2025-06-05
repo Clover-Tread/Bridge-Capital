@@ -48,7 +48,7 @@ const PrinciplesSection = () => {
         <Image
           src="/pilares.jpg"
           alt="4 columnas representando los 4 pilares"
-          fill
+          layout="fill"
           className="object-cover"
         />
       </div>

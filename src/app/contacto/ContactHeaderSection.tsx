@@ -33,7 +33,7 @@ const ContactHeaderSection = () => {
           ${CONTENT_PADDING_TOP_CLASS} 
           pb-12 md:pb-16 lg:pb-20 
         `}>
-        <h1 className="text-3xl sm:text-4xl md:text-7xl font-[900] text-[#efefef] leading-tight shadow-sm">
+        <h1 className="text-3xl sm:text-4xl md:text-7xl font-[900] text-[#efefef] leading-tight">
           {/* Texto blanco para contrastar con la imagen con blur y posible overlay */}
           Suma Nuestra Experiencia a Tu Estrategia Financiera.
         </h1>

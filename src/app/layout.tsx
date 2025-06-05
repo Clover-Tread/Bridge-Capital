@@ -5,10 +5,9 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import CookieConsent from "@/app/components/CookieConsent";
 
-// Configura Montserrat
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
   variable: "--font-montserrat",
 });
@@ -18,24 +17,48 @@ export const metadata: Metadata = {
   description: "Tu socio independiente para alcanzar metas financieras.",
   icons: {
     icon: [
-      // Para favicons estándar
-      { url: "./app/favicon-black.png", type: "image/png" },
-      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
-      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      // Cuando el navegador está en tema "light", mostramos el favicon oscuro:
+      {
+        url: "/favicon/dark/favicon-32x32.png",
+        type: "image/png",
+        sizes: "32x32",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/favicon/dark/favicon-16x16.png",
+        type: "image/png",
+        sizes: "16x16",
+        media: "(prefers-color-scheme: dark)",
+      },
+      // Cuando el navegador está en tema "dark", mostramos el favicon claro:
+      {
+        url: "/favicon/light/favicon-32x32.png",
+        type: "image/png",
+        sizes: "32x32",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/favicon/light/favicon-16x16.png",
+        type: "image/png",
+        sizes: "16x16",
+        media: "(prefers-color-scheme: light)",
+      },
+      // Fallback genérico (si no hay preferencia de color o no soporta la consulta):
+      {
+        url: "/favicon/light/favicon-32x32.png",
+        type: "image/png",
+      },
     ],
     apple: [
-      // Para Apple touch icon
-      { url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" },
+      // El Apple Touch Icon suele ser estático, pero si deseas invertido también lo puedes hacer:
+      {
+        url: "/favicon/light/apple-touch-icon-152x152.png",
+        type: "image/png",
+        sizes: "180x180",
+      },
     ],
-    // other: [ // Para otros tipos de iconos si los tienes
-    //   {
-    //     rel: 'android-chrome-192x192',
-    //     url: '/android-chrome-192x192.png',
-    //     type: 'image/png',
-    //     sizes: '192x192',
-    //   },
-    // ],
   },
+  // manifest: '/site.webmanifest', // Si tienes un manifest
 };
 
 export default function RootLayout({
@@ -44,8 +67,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${montserrat.variable}`}>
-      <body className={`font-sans flex flex-col min-h-screen`}>
+    <html lang="es" className={`${montserrat.variable} h-full`}>
+      <body className={`font-sans flex flex-col min-h-screen antialiased`}>
         <Navbar />
         <main className="flex-grow w-full">{children}</main>
         <Footer />
