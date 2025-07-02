@@ -4,87 +4,77 @@ import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 const CustomCursor = () => {
-  const cursorRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(
+    null
+  ) as React.RefObject<HTMLDivElement>;
+  const blendRef = useRef<HTMLDivElement>(
+    null
+  ) as React.RefObject<HTMLDivElement>;
 
   useEffect(() => {
     if (window.matchMedia("(max-width: 768px)").matches) {
       if (cursorRef.current) cursorRef.current.style.display = "none";
+      if (blendRef.current) blendRef.current.style.display = "none";
       return;
     }
 
-    const xTo = gsap.quickTo(cursorRef.current, "x", {
-      duration: 0.7,
-      ease: "power3",
-    });
-    const yTo = gsap.quickTo(cursorRef.current, "y", {
-      duration: 0.7,
-      ease: "power3",
-    });
+    const moveTo = (ref: React.RefObject<HTMLDivElement>, axis: "x" | "y") =>
+      gsap.quickTo(ref.current, axis, {
+        duration: 0.4,
+        ease: "power3",
+      });
+
+    const xTo = moveTo(cursorRef, "x");
+    const yTo = moveTo(cursorRef, "y");
+    const xBlendTo = moveTo(blendRef, "x");
+    const yBlendTo = moveTo(blendRef, "y");
 
     const moveCursor = (e: MouseEvent) => {
       xTo(e.clientX);
       yTo(e.clientY);
+      xBlendTo(e.clientX);
+      yBlendTo(e.clientY);
     };
 
-    // Selector que incluye todos los elementos que activarán algún efecto.
     const hoverSelector =
-      'a, button, input, textarea, [role="button"], p, h1, h2, h3, h4, h5, h6, li, blockquote, span';
+      'a, button, input, textarea, [role="button"], label, select';
 
     const handleMouseEnter = (e: Event) => {
-      const target = e.currentTarget as HTMLElement;
-      let color = "white"; // Color por defecto si no se encuentra nada
-
-      // 1. Prioridad: Usar el atributo data-cursor-color si existe (para casos especiales).
-      if (target.dataset.cursorColor) {
-        color = target.dataset.cursorColor;
-      }
-      // 2. Si no, leer automáticamente el color del texto del elemento.
-      else {
-        color = window.getComputedStyle(target).color;
-      }
-
-      // Animamos el cambio de color de fondo del cursor con GSAP.
-      //   gsap.to(cursorRef.current, {
-      //     backgroundColor: color,
-      //     duration: 0.2,
-      //     ease: "power3.inOut",
-      //   });
-
-      // 3. Revisamos si el elemento es INTERACTIVO (link, botón) para hacerlo más grande.
-      if (target.closest('a, button, input, textarea, [role="button"]')) {
+      const target = (e.target as HTMLElement).closest(hoverSelector);
+      if (target) {
         cursorRef.current?.classList.add("interactive-hover");
+        blendRef.current?.classList.add("interactive-hover");
       }
     };
 
     const handleMouseLeave = () => {
-      // Revertimos el color de fondo a blanco.
-      //   gsap.to(cursorRef.current, {
-      //     backgroundColor: "white",
-      //     duration: 0.2,
-      //     ease: "power3.inOut",
-      //   });
-      // Quitamos la clase que lo hace grande.
       cursorRef.current?.classList.remove("interactive-hover");
+      blendRef.current?.classList.remove("interactive-hover");
     };
 
     window.addEventListener("mousemove", moveCursor);
-    const targetElements = document.querySelectorAll(hoverSelector);
 
-    targetElements.forEach((el) => {
+    const targets = document.querySelectorAll(hoverSelector);
+    targets.forEach((el) => {
       el.addEventListener("mouseenter", handleMouseEnter as EventListener);
       el.addEventListener("mouseleave", handleMouseLeave);
     });
 
     return () => {
       window.removeEventListener("mousemove", moveCursor);
-      targetElements.forEach((el) => {
+      targets.forEach((el) => {
         el.removeEventListener("mouseenter", handleMouseEnter as EventListener);
         el.removeEventListener("mouseleave", handleMouseLeave);
       });
     };
   }, []);
 
-  return <div ref={cursorRef} className="custom-cursor"></div>;
+  return (
+    <>
+      <div ref={blendRef} className="custom-cursor-blend" />
+      <div ref={cursorRef} className="custom-cursor-core" />
+    </>
+  );
 };
 
 export default CustomCursor;

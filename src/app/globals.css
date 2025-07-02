@@ -39,28 +39,38 @@ body, a, button {
 }
 
 /* Cursor customizado */
-.custom-cursor {
+.custom-cursor-blend {
   position: fixed;
   top: 0;
   left: 0;
-  width: 20px; /* Tamaño por defecto */
+  width: 20px;
   height: 20px;
   border-radius: 50%;
-  
-  background-color: white;           /* ← make it white */
+  background: white;
   mix-blend-mode: difference;
-  
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+}
+
+/* Inner solid layer: always visible dot */
+.custom-cursor-core {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  background-color: #1d1d1b;
+  border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
-  
-  /* Transición suave para el cambio de tamaño */
-  transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
 }
 
-.custom-cursor.interactive-hover {
+.custom-cursor-blend.interactive-hover {
   width: 40px;
-  height: 40px; 
+  height: 40px;
 }
 
 @theme inline {

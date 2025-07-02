@@ -37,16 +37,28 @@ const Footer = () => {
       label: "Guía de Servicios de Inversión",
     },
     {
-      href: "https://www.bridgecapital.mx/pdf/guia.pdf",
+      href: "https://bridgecapital.mx/pdf/marcogeneral.pdf",
       label: "Marco General de Actuación",
     },
     { href: "/contacto", label: "Preguntas Frecuentes" },
   ];
 
   const socialLinks = [
-    { href: "#", label: "LinkedIn", IconComponent: LinkedInIcon },
-    { href: "#", label: "Facebook", IconComponent: FacebookIcon },
-    { href: "#", label: "Instagram", IconComponent: InstagramIcon },
+    {
+      href: "https://mx.linkedin.com/company/bridgecapital-asesoresindependientes",
+      label: "LinkedIn",
+      IconComponent: LinkedInIcon,
+    },
+    {
+      href: "https://www.facebook.com/share/14HAhQWjSHW/?mibextid=wwXIfr",
+      label: "Facebook",
+      IconComponent: FacebookIcon,
+    },
+    {
+      href: "https://www.instagram.com/bridgecapital_mx?igsh=MTdvbm82NDJjb3dwNg==",
+      label: "Instagram",
+      IconComponent: InstagramIcon,
+    },
   ];
 
   // --- Clase para el efecto de hover con subrayado animado ---
