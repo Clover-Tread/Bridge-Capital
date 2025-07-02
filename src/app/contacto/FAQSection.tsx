@@ -29,7 +29,7 @@ const faqData = [
     id: "faq-3",
     question: "¿Cuánto es el monto mínimo para invertir?",
     answer:
-      "El monto mínimo para comenzar a invertir es desde $5,000,000.00 de pesos.",
+      "El monto mínimo para comenzar a invertir es desde $3,000,000.00 de pesos.",
   },
   {
     id: "faq-4",
@@ -63,15 +63,13 @@ const FAQSection = () => {
       <div
         className={`mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES}`}>
         <div className="text-center mb-10 md:mb-12">
-          <h3 className="text-3xl md:text-4xl text-(--color-primary))">
-            <span className="text-3xl md:text-6xl font-[800] mb-4">
-              ¿Tienes dudas?
-            </span>{" "}
-            <br />
-            <span className="text-3xl font-[500]">
-              Revisa nuestras preguntas frecuentes
-            </span>
-          </h3>
+          <h2 className="text-3xl md:text-5xl font-[800] text-gray-800 leading-tight">
+            O Resuelve tus Dudas de Inmediato
+          </h2>
+          <p className="text-lg text-gray-600 mt-4">
+            Consulta nuestras preguntas frecuentes para obtener más información
+            sobre nuestros servicios.
+          </p>
         </div>
 
         <Accordion
@@ -80,11 +78,12 @@ const FAQSection = () => {
           className="w-full max-w-3xl mx-auto">
           {faqData.map((item) => (
             <AccordionItem value={item.id} key={item.id}>
-              <AccordionTrigger className="text-left text-lg hover:no-underline font-[600] text-(--color-primary) hover:text-[var(--color-dark-grey)]">
+              {/* --- CÓDIGO CORREGIDO AQUÍ --- */}
+              <AccordionTrigger className="text-left text-lg hover:no-underline font-[600] text-[var(--color-primary-blue)] hover:text-[var(--color-secondary-dark-gray)]">
                 {item.question}
               </AccordionTrigger>
-              <AccordionContent className="text-(--color-primary) text-base leading-relaxed pt-2 pb-4">
-                {/* Para renderizar saltos de línea en la respuesta */}
+              {/* --- Y AQUÍ --- */}
+              <AccordionContent className="text-[var(--color-secondary-dark-gray)] text-base leading-relaxed pt-2 pb-4">
                 {item.answer.split("\n").map((paragraph, index) => (
                   <p key={index} className={index > 0 ? "mt-3" : ""}>
                     {paragraph}

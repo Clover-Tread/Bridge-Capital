@@ -24,13 +24,11 @@ const IntroTextSection = () => {
             <p>
               Operamos en estricto apego al marco legal, lo que nos ha llevado a
               obtener la certificación{" "}
-              <strong>
-                AMIB (30152-001 (15445) 03/07/2021) y la regulación de la CNBV
-                (601-II-341355/2019)
-              </strong>
-              , lo que nos permite gestionar tus inversiones con la máxima
-              seguridad y transparencia. No solo invertimos tu dinero,
-              protegemos tu patrimonio.
+              <strong>CNBV (30152-001 (15445) 03/07/2021)</strong>, así mismo,
+              todos nuestros Asesores se encuentran certificados por la AMIB, lo
+              que nos permite gestionar tus inversiones con la máxima seguridad
+              y transparencia. No solo invertimos tu dinero, protegemos tu
+              patrimonio.
             </p>
             <p>
               <strong>A nuestros valiosos clientes:</strong> Siéntanse
@@ -40,7 +38,7 @@ const IntroTextSection = () => {
               invitamos a unirse a una firma donde la seguridad no es una
               promesa, es un hecho. En Bridge Capital tu capital está destinado
               a crecer.{" "}
-              <strong>Invierte con nosotros, invierta en tu futuro</strong>.
+              <strong>Invierte con nosotros, invierte en tu futuro</strong>.
             </p>
           </div>
           {/* Logos */}

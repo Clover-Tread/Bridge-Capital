@@ -125,10 +125,10 @@ const Navbar = () => {
                 key={link.label}
                 href={link.href}
                 className={`
-                  relative font-normal text-sm md:text-base
+                  relative font-[600] text-sm md:text-base
                   ${isActive ? (hasScrolled ? linkScrolledTextColor : "text-[var(--color-primary)]") : hasScrolled ? linkScrolledTextColor : linkBaseTextColor}
                   ${isActive ? "" : hasScrolled ? linkHoverScrolledTextColor : linkHoverInitialTextColor}
-                  ${isActive ? "font-[500]" : "hover:foont-[500]"}
+                  ${isActive ? "font-[600]" : "hover:font-[600]"}
                   px-2 py-1 transition-all duration-300 ease-in-out
                   after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] 
                   ${isActive ? (hasScrolled ? afterBgScrolledColor : afterBgInitialColor) : hasScrolled ? afterBgScrolledColor : afterBgInitialColor}
@@ -148,7 +148,7 @@ const Navbar = () => {
             href="/contacto"
             className={`
               ${pathname === "/contacto" ? (hasScrolled ? "bg-[var(--color-white)] text-[var(--color-primary)] ring-2 ring-inset ring-[var(--color-primary)]" : "bg-[var(--color-dark-red)] text-white ring-2 ring-inset ring-[var(--color-dark-red-hover)]") : hasScrolled ? `bg-[var(--color-white)] hover:bg-opacity-80 text-[var(--color-primary)]` : `bg-[var(--color-primary)] hover:bg-opacity-80 text-white`} 
-              px-5 py-2 rounded-lg text-xs md:text-sm font-medium transition-all duration-300 ease-in-out
+              px-5 py-2 rounded-lg text-xs md:text-sm font-[600] transition-all duration-300 ease-in-out
             `}>
             Contacto
           </Link>
@@ -207,7 +207,7 @@ const Navbar = () => {
               <Link
                 key={link.label}
                 href={link.href}
-                className={`block px-3 py-2.5 rounded-md text-base font-medium 
+                className={`block px-3 py-2.5 rounded-md text-base font-[600] 
                             ${hasScrolled ? (isActive ? "text-white font-semibold underline underline-offset-8" : `text-white hover:bg-[var(--color-dark-red)]/80`) : isActive ? "text-[var(--color-primary)] font-semibold" : `text-gray-700 hover:bg-gray-100`}`}
                 onClick={() => setIsMobileMenuOpen(false)}>
                 {link.label}

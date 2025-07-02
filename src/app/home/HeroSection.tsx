@@ -115,7 +115,7 @@ const HeroSection = () => {
           <p
             ref={subtitleRef}
             className="text-xl sm:text-xl md:text-xl text-[var(--color-primary)] mb-8 max-w-2xl mx-auto opacity-0">
-            Tu socio independiente para alcanzar metas financieras
+            Tu asesor independiente para alcanzar metas financieras
           </p>
           <div ref={buttonContainerRef} className="opacity-0">
             {" "}

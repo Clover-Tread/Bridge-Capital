@@ -1,25 +1,24 @@
-import React from 'react';
-import FAQSection from './FAQSection';
-import ContactHeaderSection from './ContactHeaderSection';
-import PreContactFormCTASection from './PreContactFormCTASection';
-// import { Contact } from 'lucide-react';
-import ContactFormSection from './ContactFormSection';
+// app/contacto/page.tsx
 
-
-export const metadata = {
-  title: 'Contacto y Preguntas Frecuentes - Bridge Capital',
-  description: 'Resuelve tus dudas con nuestras preguntas frecuentes o contáctanos directamente.',
-};
+import React from "react";
+import ContactHeaderSection from "./ContactHeaderSection";
+// Importa la sección visible que contiene el botón
+import PreContactCTASection from "./PreContactCTASection";
+// Importa el componente que provee la lógica del modal
+import { ContactModal } from "./ContactModal";
+import FAQSection from "./FAQSection";
 
 export default function ContactoPage() {
-  console.log("Renderizando /contacto page");
   return (
     <>
-      {/* Podríamos añadir un título general para la página aquí si es necesario */}
-      <ContactHeaderSection />
-      <FAQSection />
-      <PreContactFormCTASection />
-      <ContactFormSection />
+      <main>
+        <ContactHeaderSection />
+        <ContactModal>
+          <PreContactCTASection />
+        </ContactModal>
+
+        <FAQSection />
+      </main>
     </>
   );
 }

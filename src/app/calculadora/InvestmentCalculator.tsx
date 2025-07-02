@@ -45,9 +45,9 @@ const calculatorSchema = z.object({
   initialCapital: z.string().refine(
     (value) => {
       const num = parseFloat(value.replace(/[^0-9.]/g, ""));
-      return !isNaN(num) && num >= 50000;
+      return !isNaN(num) && num >= 3000000;
     },
-    { message: "El capital inicial debe ser de al menos $50,000." }
+    { message: "El capital inicial debe ser de al menos $3,000,000." }
   ),
   annualReturn: z.enum(annualReturnOptions, {
     required_error: "Debes seleccionar un rendimiento estimado.",
@@ -87,7 +87,7 @@ const InvestmentCalculator = () => {
   const form = useForm<CalculatorFormValues>({
     resolver: zodResolver(calculatorSchema),
     defaultValues: {
-      initialCapital: "50,000",
+      initialCapital: "3,000,000",
       annualReturn: "8.00",
       investmentTerm: "10",
       annualContribution: "10,000",
@@ -362,7 +362,7 @@ const InvestmentCalculator = () => {
                     <FormControl>
                       <Input
                         type="text"
-                        placeholder="Ej: $50,000"
+                        placeholder="Ej: $3,000,000"
                         {...field}
                         className={inputBottomBorderStyle}
                         onFocus={() => handleCurrencyFocus("initialCapital")}
@@ -380,7 +380,7 @@ const InvestmentCalculator = () => {
                       />
                     </FormControl>
                     <FormDescription>
-                      Monto inicial de tu inversión. Mínimo $50,000.
+                      Monto inicial de tu inversión. Mínimo $3,000,000.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
