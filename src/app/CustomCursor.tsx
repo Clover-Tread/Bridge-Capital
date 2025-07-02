@@ -13,11 +13,11 @@ const CustomCursor = () => {
     }
 
     const xTo = gsap.quickTo(blendRef.current, "x", {
-      duration: 0.7,
+      duration: 0.1,
       ease: "power3",
     });
     const yTo = gsap.quickTo(blendRef.current, "y", {
-      duration: 0.7,
+      duration: 0.1,
       ease: "power3",
     });
 
