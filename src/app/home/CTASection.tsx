@@ -15,7 +15,7 @@ const CTASection = () => {
             <Link href="/contacto">
               <Button
                 size="lg"
-                className="bg-[#8B3A3A] hover:bg-[#7a3232] text-white px-15 py-6 text-lg cursor-pointer">
+                className="bg-[#8B3A3A] hover:bg-[#7a3232] text-white px-15 py-6 text-lg ">
                 Contáctanos
               </Button>
             </Link>
@@ -24,7 +24,7 @@ const CTASection = () => {
             <Link href="/servicios">
               <Button
                 variant="link"
-                className="text-(--color-primary) underline underline-offset-4 hover:text-(--color-dark-red) text-lg cursor-pointer">
+                className="text-(--color-primary) underline underline-offset-4 hover:text-(--color-dark-red) text-lg ">
                 Conoce nuestros Servicios
               </Button>
             </Link>

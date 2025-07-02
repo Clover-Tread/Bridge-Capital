@@ -109,7 +109,7 @@ const ValueCard: React.FC<ValueCardProps> = ({
   const cardInnerContent = (
     <div
       ref={cardRef}
-      className={`relative w-full ${cardHeightClass} rounded-xl overflow-hidden shadow-2xl group cursor-pointer hover:shadow-slate-400/50 transition-shadow duration-300 ${className}`}>
+      className={`relative w-full ${cardHeightClass} rounded-xl overflow-hidden shadow-2xl group  hover:shadow-slate-400/50 transition-shadow duration-300 ${className}`}>
       {imageUrl && (
         <Image
           src={imageUrl}

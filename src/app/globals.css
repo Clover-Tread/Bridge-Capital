@@ -29,14 +29,38 @@
   --font-size-navbar: 1.25rem;
 }
 
-body {
-  /* background-color: #f7fafc; */ /* Ejemplo */
-  /* color: #1a202c; */ /* Ejemplo */
+body, a, button {
+  cursor: none;
 }
 
 .hero-bg-image { 
   background-image: url('../../public/images/hero-image.jpg');
   background-size: cover;
+}
+
+/* Cursor customizado */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px; /* Tamaño por defecto */
+  height: 20px;
+  border-radius: 50%;
+  
+  background-color: white;           /* ← make it white */
+  mix-blend-mode: difference;
+  
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  
+  /* Transición suave para el cambio de tamaño */
+  transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
+}
+
+.custom-cursor.interactive-hover {
+  width: 40px;
+  height: 40px; 
 }
 
 @theme inline {

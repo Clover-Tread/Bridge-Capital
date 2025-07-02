@@ -60,12 +60,12 @@ export default function CookieConsent({ variant = "default", demo = false, onAcc
                                 <br />
                                 <span className="text-xs">Al hacer clic en "<span className="font-medium opacity-80">Aceptar</span>", aceptas el uso de cookies.</span>
                                 <br />
-                                <Link href="https://www.bridgecapital.mx/pdf/politicacookies.pdf" target="_blank" className="text-xs underline cursor-pointer">Más información.</Link>
+                                <Link href="https://www.bridgecapital.mx/pdf/politicacookies.pdf" target="_blank" className="text-xs underline ">Más información.</Link>
                             </p>
                         </div>
                         <div className="flex flex-col gap-2 p-4 py-5 border-t border-border dark:bg-background/20">
-                            <Button onClick={accept} className="w-full cursor-pointer">Aceptar</Button>
-                            <Button onClick={decline} className="w-full cursor-pointer" variant="secondary">Declinar</Button>
+                            <Button onClick={accept} className="w-full ">Aceptar</Button>
+                            <Button onClick={decline} className="w-full " variant="secondary">Declinar</Button>
                         </div>
                     </div>
                 </div>
@@ -79,12 +79,12 @@ export default function CookieConsent({ variant = "default", demo = false, onAcc
                     </div>
                     <div className="p-3 -mt-2">
                         <p className="text-sm text-left text-muted-foreground ">
-                            Utilizamos cookies para asegurarnos de que obtengas la mejor experiencia en nuestro sitio web. Para más información sobre cómo usamos las cookies, consulta nuestra <Link href="https://www.bridgecapital.mx/pdf/politicacookies.pdf" target="_blank" className="cursor-pointer underline">política de cookies</Link>.
+                            Utilizamos cookies para asegurarnos de que obtengas la mejor experiencia en nuestro sitio web. Para más información sobre cómo usamos las cookies, consulta nuestra <Link href="https://www.bridgecapital.mx/pdf/politicacookies.pdf" target="_blank" className=" underline">política de cookies</Link>.
                         </p>
                     </div>
                     <div className="p-3 flex flex-col items-center gap-2 mt-2 border-t">
-                        <Button onClick={accept} className="w-full h-9 rounded-full cursor-pointer">Aceptar</Button>
-                        <Button onClick={decline} className="w-full h-9 rounded-full cursor-pointer" variant="outline">Declinar</Button>
+                        <Button onClick={accept} className="w-full h-9 rounded-full ">Aceptar</Button>
+                        <Button onClick={decline} className="w-full h-9 rounded-full " variant="outline">Declinar</Button>
                     </div>
                 </div>
             </div>

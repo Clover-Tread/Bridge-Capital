@@ -157,7 +157,7 @@ export const ContactModalTrigger = () => {
     <DialogTrigger asChild>
       <Button
         size="lg"
-        className="cursor-pointer bg-[var(--color-dark-red)] hover:bg-[var(--color-dark-red-hover)]/90 text-white font-bold text-lg px-8 py-6">
+        className=" bg-[var(--color-dark-red)] hover:bg-[var(--color-dark-red-hover)]/90 text-white font-bold text-lg px-8 py-6">
         Contacta a un asesor
       </Button>
     </DialogTrigger>

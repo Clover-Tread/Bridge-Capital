@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import CookieConsent from "@/app/components/CookieConsent";
+import CustomCursor from "./CustomCursor";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -69,6 +70,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${montserrat.variable} h-full`}>
       <body className={`font-sans flex flex-col min-h-screen antialiased`}>
+        <CustomCursor />
         <Navbar />
         <main className="flex-grow w-full">{children}</main>
         <Footer />

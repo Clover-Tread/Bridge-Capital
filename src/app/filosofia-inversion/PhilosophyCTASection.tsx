@@ -40,7 +40,7 @@ const PhilosophyCTASection = () => {
           durante{" "}
           <Popover>
             <PopoverTrigger asChild>
-              <span className="text-[var(--color-primary)] font-semibold underline cursor-pointer hover:text-opacity-80 transition-colors duration-200">
+              <span className="text-[var(--color-primary)] font-semibold underline  hover:text-opacity-80 transition-colors duration-200">
                 horas de oficina
               </span>
             </PopoverTrigger>
