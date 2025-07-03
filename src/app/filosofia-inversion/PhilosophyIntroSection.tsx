@@ -131,15 +131,14 @@ const PhilosophyIntroSection = () => {
           <span ref={titleMainRef} className="inline-block opacity-0">
             {" "}
             {/* Envolver el texto principal */}
-            LO QUE HACEMOS
-            <br className="hidden sm:block" />
+            LO QUE HACEMOS <br className="hidden sm:block" />
             ES FÁCIL DE ENTENDER.
           </span>
           <br className="hidden sm:block" />
           <span
             ref={titleSubRef}
             className="block text-2xl sm:text-3xl md:text-4xl font-semibold mt-1 md:mt-2 opacity-0">
-            pero es difícil de ejecutar
+            Pero es difícil de ejecutar
           </span>
         </h1>
       </div>

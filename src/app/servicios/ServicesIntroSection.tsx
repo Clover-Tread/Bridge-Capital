@@ -9,7 +9,7 @@ const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
 const CONTENT_PADDING_TOP_CLASS = "pt-0 md:pt-[10rem]";
-const CONTENT_PADDING_BOTTOM_CLASS = "pb-100 md:pb-16 lg:pb-20";
+const CONTENT_PADDING_BOTTOM_CLASS = "pb-85 md:pb-16 lg:pb-20";
 const SECTION_NEGATIVE_MARGIN_TOP_CLASS = "-mt-[7rem]";
 
 const ServicesIntroSection = () => {

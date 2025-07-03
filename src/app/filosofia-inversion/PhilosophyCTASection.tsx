@@ -33,7 +33,7 @@ const PhilosophyCTASection = () => {
         className={`mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES} text-center`}>
         <h2 className="text-4xl md:text-6xl font-black text-(--color-primary) mb-4 md:mb-6 leading-tight">
           {/* font-black para grosor 900 */}
-          ¿Quiere profundizar en nuestra Filosofía de Inversión?
+          ¿Quieres profundizar en nuestra Filosofía de Inversión?
         </h2>
         <p className="text-lg md:text-xl text-(--color-primary) max-w-2xl mx-auto mb-8 md:mb-10">
           Permítenos explicarte personalmente nuestra estrategia. Contáctanos
