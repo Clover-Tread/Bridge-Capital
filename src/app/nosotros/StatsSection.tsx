@@ -12,8 +12,8 @@ const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
 const statsData = [
-  { value: "+12", label: "Años de Experiencia", numericValue: 10 },
-  { value: "+60", label: "Clientes Satisfechos", numericValue: 20 },
+  { value: "+12", label: "Años de Experiencia", numericValue: 12 },
+  { value: "+60", label: "Clientes Satisfechos", numericValue: 60 },
 ];
 
 const StatsSection = () => {
