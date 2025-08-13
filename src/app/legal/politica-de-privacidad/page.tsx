@@ -63,7 +63,7 @@ const PoliticaDePrivacidadPage = () => {
       <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
           <aside className="lg:w-1/4">
-            <nav className="lg:sticky lg:top-24">
+            <nav className="lg:sticky lg:top-40">
               <h3 className="font-semibold text-gray-500 uppercase tracking-wider mb-4">
                 Índice del documento
               </h3>
