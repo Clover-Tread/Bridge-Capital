@@ -21,23 +21,23 @@ const Footer = () => {
 
   const footerLinks = [
     {
-      href: "https://www.bridgecapital.mx/pdf/aviso.pdf",
+      href: "/legal/aviso-de-privacidad",
       label: "Aviso de Privacidad",
     },
     {
-      href: "https://www.bridgecapital.mx/pdf/politicaprivacidad.pdf",
+      href: "/legal/politica-de-privacidad",
       label: "Política de Privacidad",
     },
     {
-      href: "https://www.bridgecapital.mx/pdf/politicacookies.pdf",
+      href: "/legal/politica-de-cookies",
       label: "Política de Uso de Cookies",
     },
     {
-      href: "https://www.bridgecapital.mx/pdf/guia.pdf",
+      href: "/legal/guia-de-servicios-de-inversion",
       label: "Guía de Servicios de Inversión",
     },
     {
-      href: "https://bridgecapital.mx/pdf/marcogeneral.pdf",
+      href: "/legal/marco-general-de-actuacion",
       label: "Marco General de Actuación",
     },
     // { href: "/contacto", label: "Preguntas Frecuentes" },
