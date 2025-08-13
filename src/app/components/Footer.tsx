@@ -40,7 +40,7 @@ const Footer = () => {
       href: "https://bridgecapital.mx/pdf/marcogeneral.pdf",
       label: "Marco General de Actuación",
     },
-    { href: "/contacto", label: "Preguntas Frecuentes" },
+    // { href: "/contacto", label: "Preguntas Frecuentes" },
   ];
 
   const socialLinks = [
