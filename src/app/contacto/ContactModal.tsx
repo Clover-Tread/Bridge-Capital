@@ -70,20 +70,46 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  // Maneja el envío del formulario
+  // Maneja el envío del formulario de forma real
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     if (validate()) {
       setStatus("sending");
-      // Aquí va tu lógica para enviar el formulario a una API route
-      console.log("Formulario válido, enviando...", formData);
-      // Simulación de envío
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log("Formulario enviado con éxito.");
-      setStatus("success");
-      onSuccess(); // Llama a la función para cerrar el modal
+      // console.log("Formulario válido, enviando al backend...", formData);
+
+      try {
+        // 1. Enviamos una solicitud POST a nuestra API Route
+        const response = await fetch("../../api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // 2. Convertimos los datos del formulario a formato JSON
+          body: JSON.stringify(formData),
+        });
+
+        // 3. Si el servidor responde con un error, lo manejamos
+        if (!response.ok) {
+          // Obtenemos el mensaje de error del backend si existe
+          const errorData = await response.json();
+          throw new Error(
+            errorData.message || "Algo salió mal en el servidor."
+          );
+        }
+
+        // 4. Si todo sale bien
+        console.log("Formulario enviado y procesado con éxito por el backend.");
+        setStatus("success");
+        onSuccess(); // Cierra el modal
+      } catch (error) {
+        // 5. Si hay un error de red o del servidor, lo mostramos
+        console.error("Error al enviar el formulario:", error);
+        setStatus("error");
+        // Aquí podrías mostrar un mensaje de error al usuario en la UI
+      }
     } else {
-      console.log("El formulario tiene errores de validación.");
+      console.error("La validación del formulario falló.", errors);
     }
   };
 

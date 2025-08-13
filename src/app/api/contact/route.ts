@@ -20,8 +20,8 @@ if (!resendApiKey) {
 const resend = new Resend(resendApiKey);
 
 // 3. Define el email receptor y el remitente (idealmente desde variables de entorno)
-const toEmail = process.env.COMPANY_CONTACT_EMAIL;
-const fromEmail = process.env.RESEND_FROM_EMAIL;
+const toEmail = process.env.TO_EMAIL;
+const fromEmail = process.env.FROM_EMAIL;
 
 if (!toEmail || !fromEmail) {
   console.error("COMPANY_CONTACT_EMAIL o RESEND_FROM_EMAIL no están definidos.");
