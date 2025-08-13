@@ -1,9 +1,8 @@
-"use client"; // Necesario para usar hooks de React como useState y useEffect
+"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { Download } from "lucide-react";
 
-// Datos para la barra de navegación lateral (índice)
 const sections = [
   { href: "#introduccion", title: "I. Introducción" },
   { href: "#servicios-inversion", title: "II. Servicios de Inversión" },
@@ -20,7 +19,6 @@ const sections = [
 ];
 
 const GuiaServiciosInversionPage = () => {
-  // Estado para guardar el ID de la sección activa
   const [activeSection, setActiveSection] = useState("");
   const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -29,7 +27,6 @@ const GuiaServiciosInversionPage = () => {
       const intersectingEntries = entries.filter(
         (entry) => entry.isIntersecting
       );
-
       if (intersectingEntries.length > 0) {
         intersectingEntries.sort(
           (a, b) => a.boundingClientRect.top - b.boundingClientRect.top
@@ -37,22 +34,15 @@ const GuiaServiciosInversionPage = () => {
         setActiveSection(intersectingEntries[0].target.id);
       }
     };
-
-    const options = {
-      rootMargin: "-120px 0px -70% 0px",
-      threshold: 0,
-    };
-
+    const options = { rootMargin: "-120px 0px -70% 0px", threshold: 0 };
     observerRef.current = new IntersectionObserver(observerCallback, options);
     const currentObserver = observerRef.current;
-
     sections.forEach((section) => {
       const element = document.querySelector(section.href);
       if (element) {
         currentObserver.observe(element);
       }
     });
-
     return () => {
       if (currentObserver) {
         currentObserver.disconnect();
@@ -60,7 +50,6 @@ const GuiaServiciosInversionPage = () => {
     };
   }, []);
 
-  // Clases unificadas para los títulos de sección
   const headingClasses =
     "text-2xl md:text-3xl font-bold text-gray-800 mt-12 mb-4 scroll-mt-40";
   const subHeadingClasses =
@@ -68,7 +57,6 @@ const GuiaServiciosInversionPage = () => {
 
   return (
     <>
-      {/* SECCIÓN DEL ENCABEZADO GRIS */}
       <header className="bg-gray-100 py-16 md:py-24">
         <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight">
@@ -76,11 +64,8 @@ const GuiaServiciosInversionPage = () => {
           </h1>
         </div>
       </header>
-
-      {/* SECCIÓN DEL CONTENIDO PRINCIPAL */}
       <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-          {/* COLUMNA IZQUIERDA: NAVEGAZACIÓN STICKY */}
           <aside className="lg:w-1/4">
             <nav className="lg:sticky lg:top-24">
               <h3 className="font-semibold text-gray-500 uppercase tracking-wider mb-4">
@@ -93,8 +78,8 @@ const GuiaServiciosInversionPage = () => {
                       href={section.href}
                       className={`transition-colors duration-200 text-sm ${
                         activeSection === section.href.substring(1)
-                          ? "font-bold text-gray-900" // Estilo ACTIVO
-                          : "text-gray-600 hover:text-gray-900" // Estilo INACTIVO
+                          ? "font-bold text-gray-900"
+                          : "text-gray-600 hover:text-gray-900"
                       }`}>
                       {section.title}
                     </a>
@@ -103,8 +88,6 @@ const GuiaServiciosInversionPage = () => {
               </ul>
             </nav>
           </aside>
-
-          {/* COLUMNA DERECHA: CONTENIDO DE LA GUÍA */}
           <main className="lg:w-3/4">
             <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
               <div className="mb-8 p-4 border-l-4 border-gray-200 bg-gray-50 rounded-r-lg">
@@ -119,7 +102,6 @@ const GuiaServiciosInversionPage = () => {
                   Descargar Versión en PDF
                 </a>
               </div>
-
               <h2 id="introduccion" className={headingClasses}>
                 I. INTRODUCCIÓN
               </h2>
@@ -128,14 +110,13 @@ const GuiaServiciosInversionPage = () => {
                 Valores y las Disposiciones de carácter general aplicables a
                 entidades financieras y demás personas que proporcionen
                 servicios de inversión. En cumplimiento con la normatividad, BC
-                ASESORES INDEPENDIENTES, S.A.P.I. DE C.V. (en adelante "BC
-                Asesores"), pone a disposición del público inversionista la
+                ASESORES INDEPENDIENTES, S.A.P.I. DE C.V. (en adelante &quot;BC
+                Asesores&quot;), pone a disposición del público inversionista la
                 presente Guía, en la que se describen los servicios de inversión
                 que proporciona, las comisiones, mecanismos de reclamaciones y
                 políticas para prevenir conflictos de interés y para la
                 diversificación de carteras.
               </p>
-
               <h2 id="servicios-inversion" className={headingClasses}>
                 II. SERVICIOS DE INVERSIÓN
               </h2>
@@ -164,7 +145,6 @@ const GuiaServiciosInversionPage = () => {
                 la correspondencia entre dicho perfil y la cartera de productos
                 ofrecida.
               </p>
-
               <h2 id="otros-servicios" className={headingClasses}>
                 III. OTROS SERVICIOS
               </h2>
@@ -174,7 +154,6 @@ const GuiaServiciosInversionPage = () => {
                 instrucciones del cliente vía telefónica o por medios
                 electrónicos.
               </p>
-
               <h2 id="productos-financieros" className={headingClasses}>
                 IV. PRODUCTOS FINANCIEROS
               </h2>
@@ -205,7 +184,6 @@ const GuiaServiciosInversionPage = () => {
                   con cuentas en el extranjero.
                 </li>
               </ul>
-
               <h2 id="politica-productos" className={headingClasses}>
                 V. POLÍTICA DE LOS PRODUCTOS FINANCIEROS
               </h2>
@@ -218,7 +196,6 @@ const GuiaServiciosInversionPage = () => {
                 superar un rendimiento de referencia) o pasiva (buscando igualar
                 el rendimiento de referencia).
               </p>
-
               <h2 id="politica-diversificacion" className={headingClasses}>
                 VI. POLÍTICA DE DIVERSIFICACIÓN DE CARTERAS
               </h2>
@@ -230,7 +207,6 @@ const GuiaServiciosInversionPage = () => {
                 Variable, mitigando el riesgo. Los Instrumentos Financieros
                 Derivados son utilizados como réplica de activos o cobertura.
               </p>
-
               <h2 id="comisiones" className={headingClasses}>
                 VII. COMISIONES
               </h2>
@@ -253,7 +229,6 @@ const GuiaServiciosInversionPage = () => {
                 Todos los honorarios generan IVA. BC Asesores no recibe ingresos
                 de intermediarios del Mercado de Valores.
               </p>
-
               <h2 id="reclamaciones" className={headingClasses}>
                 VIII. RECLAMACIONES
               </h2>
@@ -265,7 +240,6 @@ const GuiaServiciosInversionPage = () => {
                 Nacional para la Protección y Defensa de los Usuarios de
                 Servicios Financieros (CONDUSEF).
               </p>
-
               <h2 id="conflictos-interes" className={headingClasses}>
                 IX. CONFLICTOS DE INTERÉS
               </h2>

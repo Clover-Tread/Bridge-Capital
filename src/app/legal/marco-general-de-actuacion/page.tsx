@@ -3,16 +3,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Download, AlertCircle } from "lucide-react";
 
-// Datos para la barra de navegación lateral (índice)
 const sections = [
   { href: "#declaracion-cliente", title: "Declaración del Cliente" },
-  { href: "#perfiles-carteras", title: "Carteras de Inversión" },
+  { href: "#perfiles-carteras", title: "Perfiles y Carteras de Inversión" },
   { href: "#horizonte-benchmarks", title: "Horizonte y Benchmarks" },
   { href: "#caracteristicas-activos", title: "Características de los Activos" },
-  {
-    href: "#politicas-lineamientos",
-    title: "Políticas y Lineamientos de Inversión",
-  },
+  { href: "#politicas-inversion", title: "Políticas y Criterios de Inversión" },
   { href: "#riesgos", title: "Riesgos de Inversión" },
   { href: "#operaciones-referencias", title: "Operaciones y Referencias" },
   { href: "#excepciones", title: "Excepciones" },
@@ -51,9 +47,7 @@ const MarcoGeneralActuacionPage = () => {
   }, []);
 
   const headingClasses =
-    "text-2xl md:text-3xl font-bold text-gray-800 mt-12 mb-4 scroll-mt-28";
-  const subHeadingClasses =
-    "text-xl md:text-2xl font-semibold text-gray-700 mt-8 mb-3";
+    "text-2xl md:text-3xl font-bold text-gray-800 mt-12 mb-4 scroll-mt-40";
 
   return (
     <>
@@ -64,7 +58,6 @@ const MarcoGeneralActuacionPage = () => {
           </h1>
         </div>
       </header>
-
       <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
           <aside className="lg:w-1/4">
@@ -89,7 +82,6 @@ const MarcoGeneralActuacionPage = () => {
               </ul>
             </nav>
           </aside>
-
           <main className="lg:w-3/4">
             <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
               <div className="mb-10 p-4 border-l-4 border-sky-500 bg-sky-50 rounded-r-lg flex items-start gap-4">
@@ -112,16 +104,15 @@ const MarcoGeneralActuacionPage = () => {
                   </a>
                 </div>
               </div>
-
               <h2 id="declaracion-cliente" className={headingClasses}>
                 Declaración del Cliente
               </h2>
               <p>
                 Manifiesto que el Promotor de Valores asignado para el manejo de
-                la cuenta aplicó el cuestionario "Perfil de Inversión",
-                resultando un perfil que, después de haberme sido explicado y
-                aclaradas mis dudas, acepto que es congruente con mis
-                necesidades y objetivos de inversión.
+                la cuenta aplicó el cuestionario &quot;Perfil de
+                Inversión&quot;, resultando un perfil que, después de haberme
+                sido explicado y aclaradas mis dudas, acepto que es congruente
+                con mis necesidades y objetivos de inversión.
               </p>
               <p>
                 Que el presente Marco General de Actuación rige el servicio de
@@ -136,16 +127,15 @@ const MarcoGeneralActuacionPage = () => {
                 conforman la cartera diseñada por la empresa y asociada a mi
                 perfil, considerando las clases de valores, política de
                 diversificación y límites máximos. Esta discrecionalidad será
-                del 100%, con la posibilidad de que el Cliente gire
-                instrucciones directas por escrito.
+                del 100% de acuerdo con el Perfil de Inversión, aunque el
+                cliente puede girar instrucciones directas por escrito.
               </p>
-
               <h2 id="perfiles-carteras" className={headingClasses}>
                 Perfiles y Carteras de Inversión
               </h2>
               <p>
-                Los valores, productos financieros y porcentajes máximos en los
-                que se podrá invertir de acuerdo con cada perfil son:
+                Los porcentajes máximos de inversión según cada perfil son los
+                siguientes:
               </p>
               <div className="overflow-x-auto my-8">
                 <table className="w-full text-sm text-left border-collapse">
@@ -353,7 +343,6 @@ const MarcoGeneralActuacionPage = () => {
                   </tbody>
                 </table>
               </div>
-
               <h2 id="horizonte-benchmarks" className={headingClasses}>
                 Horizonte y Benchmarks
               </h2>
@@ -362,12 +351,11 @@ const MarcoGeneralActuacionPage = () => {
                 premisa los horizontes de inversión recomendados van desde 1 año
                 para perfiles Precavidos hasta más de 5 años para perfiles
                 Emprendedores. Para medir el desempeño se utilizan referencias
-                objetivas y de conocimiento público ("Benchmarks") adecuadas a
-                cada tipo de instrumento.
+                objetivas y de conocimiento público (&quot;Benchmarks&quot;)
+                adecuadas a cada tipo de instrumento.
               </p>
-
               <h2 id="caracteristicas-activos" className={headingClasses}>
-                Características de los Activos
+                Características de los Activos de Inversión
               </h2>
               <p>
                 Los activos de inversión se dividen en instrumentos del mercado
@@ -376,19 +364,20 @@ const MarcoGeneralActuacionPage = () => {
                 notas estructuradas (instrumentos creados por bancos y
                 referenciados a otros índices).
               </p>
-
-              <h2 id="politicas-lineamientos" className={headingClasses}>
-                Políticas y Lineamientos de Inversión
+              <h2 id="politicas-inversion" className={headingClasses}>
+                Políticas y Criterios de Inversión
               </h2>
               <p>
-                Nuestra política de inversión es moderada y prudente, evitando
-                riesgos innecesarios. Se establecen criterios de selección para
-                acciones y deuda, y se definen medidas a adoptar ante
-                condiciones de alta volatilidad. Todos los portafolios deben
-                mantener un porcentaje de liquidez para rebalanceos y para
-                cubrir eventuales requerimientos de los inversionistas.
+                Nuestra política de inversión es moderada y prudente, buscando
+                no comprometer a riesgos adicionales a los propios de cada
+                instrumento. Sin embargo, para perfiles agresivos se puede
+                considerar una política Activa. Todos los portafolios deben
+                contar con un porcentaje de liquidez para rebalanceos y para
+                cubrir eventuales requerimientos de los inversionistas. La
+                selección de acciones y de instrumentos de deuda se basa en la
+                calidad de las condiciones fundamentales y en los lineamientos
+                acordados por el comité de inversiones.
               </p>
-
               <h2 id="riesgos" className={headingClasses}>
                 Riesgos de Inversión
               </h2>
@@ -398,28 +387,28 @@ const MarcoGeneralActuacionPage = () => {
                 Contraparte y Legal. Se le informa al cliente de estos riesgos
                 inherentes a los mercados financieros.
               </p>
-
               <h2 id="operaciones-referencias" className={headingClasses}>
                 Operaciones y Referencias
               </h2>
               <p>
-                Las operaciones se realizan con valores inscritos en el
-                "Registro Nacional de Valores" (RNV) y en el "Sistema
-                Internacional de Cotizaciones" (SIC). Se proporcionan al cliente
-                las páginas web de referencia (BMV, BIVA, Valmer, Banxico, etc.)
-                para que pueda consultar los documentos de oferta y prospectos
-                de los valores.
+                Las operaciones que el Asesor realiza son de compra, venta y
+                reportos de instrumentos negociados en el mercado de dinero y de
+                capitales, limitadas a instrumentos listados en la BMV, BIVA y
+                en el Sistema Internacional de Cotizaciones (&quot;SIC&quot;).
+                Las referencias para consultar información sobre los valores
+                incluyen sitios web como bmv.com.mx, biva.mx, valmer.com.mx, y
+                banxico.org.mx.
               </p>
-
               <h2 id="excepciones" className={headingClasses}>
                 Excepciones
               </h2>
               <p>
-                El Asesor podrá exceptuar la aplicación de la política de
-                inversión ante eventos como volatilidades extremas,
-                incumplimiento de emisores, eventos relevantes que afecten una
-                emisora, o por instrucciones expresas y documentadas del cliente
-                para incluir valores fuera de la estrategia.
+                El Asesor podrá exceptuar la aplicación de la política cuando se
+                presenten eventos como volatilidades extremas en el mercado,
+                incumplimiento de emisores, &quot;eventos relevantes&quot; que
+                afecten a una emisora, o por instrucciones expresas y
+                documentadas del cliente para incluir valores fuera de la
+                estrategia.
               </p>
             </div>
           </main>

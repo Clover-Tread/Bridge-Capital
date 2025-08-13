@@ -1,9 +1,8 @@
-"use client"; // Necesario para usar hooks de React como useState y useEffect
+"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { Download } from "lucide-react";
 
-// Datos para la barra de navegación lateral (índice)
 const sections = [
   { href: "#aspectos-importantes", title: "Aspectos Importantes" },
   { href: "#terminos-definiciones", title: "1. Términos y Definiciones" },
@@ -18,43 +17,30 @@ const sections = [
 ];
 
 const PoliticaDePrivacidadPage = () => {
-  // Estado para guardar el ID de la sección activa
   const [activeSection, setActiveSection] = useState("");
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      // Filtramos para obtener solo las entradas que están actualmente visibles
       const intersectingEntries = entries.filter(
         (entry) => entry.isIntersecting
       );
-
       if (intersectingEntries.length > 0) {
-        // Las ordenamos por su posición en la pantalla (de arriba hacia abajo)
         intersectingEntries.sort(
           (a, b) => a.boundingClientRect.top - b.boundingClientRect.top
         );
-
-        // La sección activa será la primera de la lista ordenada (la más alta en pantalla)
         setActiveSection(intersectingEntries[0].target.id);
       }
     };
-
-    const options = {
-      rootMargin: "-120px 0px -70% 0px",
-      threshold: 0,
-    };
-
+    const options = { rootMargin: "-120px 0px -70% 0px", threshold: 0 };
     observerRef.current = new IntersectionObserver(observerCallback, options);
     const currentObserver = observerRef.current;
-
     sections.forEach((section) => {
       const element = document.querySelector(section.href);
       if (element) {
         currentObserver.observe(element);
       }
     });
-
     return () => {
       if (currentObserver) {
         currentObserver.disconnect();
@@ -62,13 +48,11 @@ const PoliticaDePrivacidadPage = () => {
     };
   }, []);
 
-  // Clases unificadas para todos los títulos de sección
   const headingClasses =
     "text-2xl md:text-3xl font-bold text-gray-800 mt-12 mb-4 scroll-mt-40";
 
   return (
     <>
-      {/* SECCIÓN DEL ENCABEZADO GRIS */}
       <header className="bg-gray-100 py-16 md:py-24">
         <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight">
@@ -76,11 +60,8 @@ const PoliticaDePrivacidadPage = () => {
           </h1>
         </div>
       </header>
-
-      {/* SECCIÓN DEL CONTENIDO PRINCIPAL */}
       <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-          {/* COLUMNA IZQUIERDA: NAVEGACIÓN STICKY */}
           <aside className="lg:w-1/4">
             <nav className="lg:sticky lg:top-24">
               <h3 className="font-semibold text-gray-500 uppercase tracking-wider mb-4">
@@ -103,8 +84,6 @@ const PoliticaDePrivacidadPage = () => {
               </ul>
             </nav>
           </aside>
-
-          {/* COLUMNA DERECHA: CONTENIDO DE LA POLÍTICA */}
           <main className="lg:w-3/4">
             <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
               <div className="mb-8 p-4 border-l-4 border-gray-200 bg-gray-50 rounded-r-lg">
@@ -112,14 +91,13 @@ const PoliticaDePrivacidadPage = () => {
                   Fecha de última actualización: 05 de agosto de 2021
                 </p>
                 <a
-                  href="/documentos/BC_Politica_Privacidad.pdf" // Asegúrate de colocar tu PDF en la carpeta /public/documentos
+                  href="/documentos/BC_Politica_Privacidad.pdf"
                   download
                   className="inline-flex items-center gap-2 mt-2 text-sm font-semibold text-sky-600 hover:text-sky-800 transition-colors">
                   <Download size={16} />
                   Descargar Versión en PDF
                 </a>
               </div>
-
               <p>
                 BC ASESORES INDEPENDIENTES, S.A.P.I. DE C.V. (en adelante,
                 BRIDGE CAPITAL), se apega en total cumplimiento a lo establecido
@@ -146,7 +124,6 @@ const PoliticaDePrivacidadPage = () => {
                 legal y práctico en el tratamiento legítimo y responsable de los
                 datos personales al interior de BRIDGE CAPITAL.
               </p>
-
               <h2 id="aspectos-importantes" className={headingClasses}>
                 Aspectos Importantes a Considerar
               </h2>
@@ -186,7 +163,6 @@ const PoliticaDePrivacidadPage = () => {
                   titulares para el ejercicio de sus Derechos ARCO.
                 </li>
               </ul>
-
               <h2 id="terminos-definiciones" className={headingClasses}>
                 1. Términos y Definiciones
               </h2>
@@ -226,9 +202,7 @@ const PoliticaDePrivacidadPage = () => {
                   <strong>Titular:</strong> La persona física a quien
                   corresponden los datos personales.
                 </li>
-                {/* ... y otras definiciones ... */}
               </ul>
-
               <h2 id="informacion-recabada" className={headingClasses}>
                 2. ¿Qué Información y Datos Recabamos?
               </h2>
@@ -246,7 +220,6 @@ const PoliticaDePrivacidadPage = () => {
                 otras tecnologías, a través de las cuales es posible monitorear
                 su comportamiento como usuario.
               </p>
-
               <h2 id="seguridad" className={headingClasses}>
                 3. Seguridad de la Información
               </h2>
@@ -256,15 +229,14 @@ const PoliticaDePrivacidadPage = () => {
                 asegurarnos de que no haya pérdida de manera inapropiada, mal
                 uso, acceso, divulgación, alteración o destrucción de esta.
               </p>
-
               <h2 id="derechos-arco" className={headingClasses}>
                 4. Derechos ARCO y Revocación del Consentimiento
               </h2>
               <p>
                 Usted o su representante legal, podrá ejercer cualquiera de los
                 Derechos de Acceso, Rectificación, Cancelación u Oposición
-                ("Derechos ARCO"), así como Revocar su Consentimiento para el
-                tratamiento de sus datos personales enviando un correo
+                (&quot;Derechos ARCO&quot;), así como Revocar su Consentimiento
+                para el tratamiento de sus datos personales enviando un correo
                 electrónico a nuestro Departamento de Protección de Datos
                 Personales a la dirección:{" "}
                 <strong>legal@bridgecapital.mx</strong>.
@@ -275,7 +247,6 @@ const PoliticaDePrivacidadPage = () => {
                 identidad y debe incluir la información completa solicitada en
                 nuestro Aviso de Privacidad.
               </p>
-
               <h2 id="limitar-uso" className={headingClasses}>
                 5. Medios para Limitar el Uso o la Divulgación de sus Datos
               </h2>
@@ -287,7 +258,6 @@ const PoliticaDePrivacidadPage = () => {
                 otros mecanismos como el Registro Público para Evitar Publicidad
                 (REPEP) de la PROFECO.
               </p>
-
               <h2 id="autoridad" className={headingClasses}>
                 6. Autoridad de Privacidad y Protección de Datos Personales
               </h2>
@@ -297,7 +267,6 @@ const PoliticaDePrivacidadPage = () => {
                 Acceso a la Información y Protección de Datos Personales (INAI)
                 para hacer valer cualquier inconformidad.
               </p>
-
               <h2 id="contacto" className={headingClasses}>
                 7. Contacto para Dudas o Aclaraciones
               </h2>
@@ -307,7 +276,6 @@ const PoliticaDePrivacidadPage = () => {
                 privacidad a través del correo:{" "}
                 <strong>legal@bridgecapital.mx</strong>.
               </p>
-
               <h2 id="informacion-adicional" className={headingClasses}>
                 8. Información Adicional a la Política
               </h2>
@@ -341,7 +309,6 @@ const PoliticaDePrivacidadPage = () => {
                   Ley.
                 </li>
               </ol>
-
               <h2 id="cambios-politica" className={headingClasses}>
                 9. Cambios a la Política de Privacidad y Manejo de Datos
                 Personales
@@ -353,7 +320,6 @@ const PoliticaDePrivacidadPage = () => {
                 solicitar este documento o consultar su publicación en nuestro
                 sitio web.
               </p>
-
               <div className="mt-12 pt-8 border-t border-gray-200 text-center text-sm">
                 <p className="font-bold">ATENTAMENTE</p>
                 <p className="mt-1 font-semibold">BRIDGE CAPITAL</p>

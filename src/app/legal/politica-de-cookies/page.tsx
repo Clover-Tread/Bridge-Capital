@@ -1,9 +1,8 @@
-"use client"; // Necesario para usar hooks de React como useState y useEffect
+"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { Download } from "lucide-react";
 
-// Datos para la barra de navegación lateral (índice)
 const sections = [
   { href: "#que-son-cookies", title: "1. ¿Qué son las Cookies?" },
   { href: "#que-son-web-beacons", title: "2. ¿Qué son los Web Beacons?" },
@@ -16,7 +15,6 @@ const sections = [
 ];
 
 const PoliticaCookiesPage = () => {
-  // Estado para guardar el ID de la sección activa
   const [activeSection, setActiveSection] = useState("");
   const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -25,7 +23,6 @@ const PoliticaCookiesPage = () => {
       const intersectingEntries = entries.filter(
         (entry) => entry.isIntersecting
       );
-
       if (intersectingEntries.length > 0) {
         intersectingEntries.sort(
           (a, b) => a.boundingClientRect.top - b.boundingClientRect.top
@@ -33,22 +30,15 @@ const PoliticaCookiesPage = () => {
         setActiveSection(intersectingEntries[0].target.id);
       }
     };
-
-    const options = {
-      rootMargin: "-120px 0px -70% 0px",
-      threshold: 0,
-    };
-
+    const options = { rootMargin: "-120px 0px -70% 0px", threshold: 0 };
     observerRef.current = new IntersectionObserver(observerCallback, options);
     const currentObserver = observerRef.current;
-
     sections.forEach((section) => {
       const element = document.querySelector(section.href);
       if (element) {
         currentObserver.observe(element);
       }
     });
-
     return () => {
       if (currentObserver) {
         currentObserver.disconnect();
@@ -56,13 +46,11 @@ const PoliticaCookiesPage = () => {
     };
   }, []);
 
-  // Clases unificadas para todos los títulos de sección
   const headingClasses =
     "text-2xl md:text-3xl font-bold text-gray-800 mt-12 mb-4 scroll-mt-40";
 
   return (
     <>
-      {/* SECCIÓN DEL ENCABEZADO GRIS */}
       <header className="bg-gray-100 py-16 md:py-24">
         <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight">
@@ -70,11 +58,8 @@ const PoliticaCookiesPage = () => {
           </h1>
         </div>
       </header>
-
-      {/* SECCIÓN DEL CONTENIDO PRINCIPAL */}
       <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-          {/* COLUMNA IZQUIERDA: NAVEGACIÓN STICKY */}
           <aside className="lg:w-1/4">
             <nav className="lg:sticky lg:top-24">
               <h3 className="font-semibold text-gray-500 uppercase tracking-wider mb-4">
@@ -87,8 +72,8 @@ const PoliticaCookiesPage = () => {
                       href={section.href}
                       className={`transition-colors duration-200 text-sm ${
                         activeSection === section.href.substring(1)
-                          ? "font-bold text-gray-900" // Estilo ACTIVO
-                          : "text-gray-600 hover:text-gray-900" // Estilo INACTIVO
+                          ? "font-bold text-gray-900"
+                          : "text-gray-600 hover:text-gray-900"
                       }`}>
                       {section.title}
                     </a>
@@ -97,8 +82,6 @@ const PoliticaCookiesPage = () => {
               </ul>
             </nav>
           </aside>
-
-          {/* COLUMNA DERECHA: CONTENIDO DE LA POLÍTICA */}
           <main className="lg:w-3/4">
             <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
               <div className="mb-8 p-4 border-l-4 border-gray-200 bg-gray-50 rounded-r-lg">
@@ -106,14 +89,13 @@ const PoliticaCookiesPage = () => {
                   Fecha de última actualización: 05 de agosto de 2021
                 </p>
                 <a
-                  href="/documentos/BC_Politica_Cookies.pdf" // Coloca tu PDF en la carpeta /public/documentos
+                  href="/documentos/BC_Politica_Cookies.pdf"
                   download
                   className="inline-flex items-center gap-2 mt-2 text-sm font-semibold text-sky-600 hover:text-sky-800 transition-colors">
                   <Download size={16} />
                   Descargar Versión en PDF
                 </a>
               </div>
-
               <p>
                 En cumplimiento de lo dispuesto por la Ley Federal de Protección
                 de Datos Personales en Posesión de los Particulares, su
@@ -122,13 +104,12 @@ const PoliticaCookiesPage = () => {
                 INDEPENDIENTES, S.A.P.I. DE C.V., conocido comercialmente como
                 BRIDGE CAPITAL, actuará como el Responsable del tratamiento de
                 sus datos personales que se recaben a través del sitio web
-                http://www.bridgecapital.mx/ (en adelante, "nuestra
-                plataforma"), por lo que ponemos a su disposición la presente
-                Política de Uso de Cookies, SDK, Tecnologías de Rastreo y
-                Similares; en ese sentido, hacemos de su conocimiento la
+                http://www.bridgecapital.mx/ (en adelante, &quot;nuestra
+                plataforma&quot;), por lo que ponemos a su disposición la
+                presente Política de Uso de Cookies, SDK, Tecnologías de Rastreo
+                y Similares; en ese sentido, hacemos de su conocimiento la
                 siguiente información:
               </p>
-
               <h2 id="que-son-cookies" className={headingClasses}>
                 1. ¿QUÉ SON LAS COOKIES?
               </h2>
@@ -142,7 +123,6 @@ const PoliticaCookiesPage = () => {
                 sesión), hasta una fecha futura especificada a partir de la cual
                 dejan de ser operativas (Cookies persistentes).
               </p>
-
               <h2 id="que-son-web-beacons" className={headingClasses}>
                 2. ¿QUÉ SON LOS WEB BEACONS?
               </h2>
@@ -156,7 +136,6 @@ const PoliticaCookiesPage = () => {
                 con las Cookies para comprender cómo los usuarios de una web
                 navegan y procesan el contenido almacenado en ella.
               </p>
-
               <h2 id="que-son-sdk" className={headingClasses}>
                 3. ¿QUÉ SON LOS SDK?
               </h2>
@@ -171,7 +150,6 @@ const PoliticaCookiesPage = () => {
                 casos, los SDK son de uso gratuito, si bien su fabricante los
                 puede limitar con ciertas reglas y licencias.
               </p>
-
               <h2 id="recaban-datos" className={headingClasses}>
                 4. ¿LAS COOKIES RECABAN DATOS PERSONALES?
               </h2>
@@ -183,29 +161,30 @@ const PoliticaCookiesPage = () => {
                 Responsable del Tratamiento de esos Datos Personales, para las
                 finalidades antes descritas.
               </p>
-
               <h2 id="uso-de-tecnologias" className={headingClasses}>
                 5. USO DE COOKIES, WEB BEACONS, SDK Y SIMILARES
               </h2>
               <p>
                 Hacemos de su conocimiento que a través de nuestras plataformas,
-                podemos hacer uso de Cookies, Web Beacons, SDK y otras
-                tecnologías a través de las cuales es posible monitorear su
-                comportamiento como usuario de nuestras plataformas, así como
-                ofrecerle nuevos productos y servicios basados en sus
-                preferencias. Para cumplir con lo anterior, podemos dar uso a
-                las siguientes Cookies y SDK's propias y de terceros:
+                podemos hacer uso de Cookies, Web Beacons, SDK (&quot;Software
+                Development Kit&quot; o &quot;Kit de Desarrollo de
+                Software&quot;) y otras tecnologías a través de las cuales es
+                posible monitorear su comportamiento como usuario de nuestras
+                plataformas, así como ofrecerle nuevos productos y servicios
+                basados en sus preferencias. Para cumplir con lo anterior,
+                podemos dar uso a las siguientes Cookies y SDK&apos;s propias y
+                de terceros:
               </p>
               <ul>
                 <li>
-                  <strong>Cookies y SDK's esenciales:</strong> Son esenciales
-                  para permitirle un uso adecuado de nuestras plataformas y
-                  utilizar sus características, por lo que no pueden ser
-                  deshabilitadas.
+                  <strong>Cookies y SDK&apos;s esenciales:</strong> Son
+                  esenciales para permitirle un uso adecuado de nuestras
+                  plataformas y utilizar sus características, por lo que no
+                  pueden ser deshabilitadas.
                 </li>
                 <li>
                   <strong>
-                    Cookies y SDK's para recordar sus preferencias:
+                    Cookies y SDK&apos;s para recordar sus preferencias:
                   </strong>{" "}
                   Nos permiten recordar sus preferencias y opciones de
                   navegación, proporcionarle funciones personalizadas y recordar
@@ -213,7 +192,7 @@ const PoliticaCookiesPage = () => {
                 </li>
                 <li>
                   <strong>
-                    Cookies y SDK's para personalizar su experiencia:
+                    Cookies y SDK&apos;s para personalizar su experiencia:
                   </strong>{" "}
                   Podemos usar este tipo para cambiar el comportamiento o el
                   aspecto de nuestras plataformas, con el objetivo de
@@ -221,7 +200,8 @@ const PoliticaCookiesPage = () => {
                 </li>
                 <li>
                   <strong>
-                    Cookies y SDK's para objetivos de rendimiento y análisis:
+                    Cookies y SDK&apos;s para objetivos de rendimiento y
+                    análisis:
                   </strong>{" "}
                   Usamos herramientas propias y de terceros para identificar la
                   forma en que usted utiliza nuestros servicios con la finalidad
@@ -229,14 +209,13 @@ const PoliticaCookiesPage = () => {
                 </li>
                 <li>
                   <strong>
-                    Cookies y SDK's publicitarias propias y de terceros:
+                    Cookies y SDK&apos;s publicitarias propias y de terceros:
                   </strong>{" "}
                   Podemos colocar cookies publicitarias, dentro y fuera de
                   nuestras plataformas, para mostrarle publicidad que
                   consideremos relevante para usted.
                 </li>
               </ul>
-
               <h2 id="eliminar-cookies" className={headingClasses}>
                 6. ¿SE PUEDEN ELIMINAR LAS COOKIES?
               </h2>
@@ -278,7 +257,6 @@ const PoliticaCookiesPage = () => {
                 nuestro sitio web, aunque algunas funciones o prestaciones del
                 sitio podrán estar limitadas o no funcionar adecuadamente.
               </p>
-
               <h2 id="autoridad" className={headingClasses}>
                 7. AUTORIDAD EN MATERIA DE PROTECCIÓN DE DATOS PERSONALES
               </h2>
@@ -289,7 +267,6 @@ const PoliticaCookiesPage = () => {
                 para hacer valer cualquier inconformidad relacionada con su
                 Derecho a la Protección de Datos Personales.
               </p>
-
               <h2 id="contacto" className={headingClasses}>
                 8. CONTACTO PARA DUDAS O ACLARACIONES
               </h2>
@@ -301,7 +278,6 @@ const PoliticaCookiesPage = () => {
                 podrá contactarnos a través del correo electrónico:{" "}
                 <strong>legal@bridgecapital.mx</strong>.
               </p>
-
               <div className="mt-12 pt-8 border-t border-gray-200 text-center text-sm">
                 <p className="font-bold">ATENTAMENTE</p>
                 <p className="mt-1 font-semibold">BRIDGE CAPITAL</p>

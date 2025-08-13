@@ -1,4 +1,4 @@
-"use client"; // Necesario para usar hooks de React como useState y useEffect
+"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { Download } from "lucide-react";
@@ -24,16 +24,18 @@ const AvisoDePrivacidadPage = () => {
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    // Lógica del Intersection Observer
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
+      const intersectingEntries = entries.filter(
+        (entry) => entry.isIntersecting
+      );
+      if (intersectingEntries.length > 0) {
+        intersectingEntries.sort(
+          (a, b) => a.boundingClientRect.top - b.boundingClientRect.top
+        );
+        setActiveSection(intersectingEntries[0].target.id);
+      }
     };
 
-    // Opciones para que la detección funcione bien con el navbar fijo
     const options = {
       rootMargin: "-120px 0px -70% 0px",
       threshold: 0,
@@ -42,7 +44,6 @@ const AvisoDePrivacidadPage = () => {
     observerRef.current = new IntersectionObserver(observerCallback, options);
     const currentObserver = observerRef.current;
 
-    // Observamos cada sección
     sections.forEach((section) => {
       const element = document.querySelector(section.href);
       if (element) {
@@ -50,13 +51,12 @@ const AvisoDePrivacidadPage = () => {
       }
     });
 
-    // Limpieza al desmontar el componente
     return () => {
       if (currentObserver) {
         currentObserver.disconnect();
       }
     };
-  }, []); // El array vacío asegura que esto solo se ejecute una vez
+  }, []);
 
   // Clases unificadas para todos los títulos de sección
   const headingClasses =
@@ -64,7 +64,6 @@ const AvisoDePrivacidadPage = () => {
 
   return (
     <>
-      {/* SECCIÓN DEL ENCABEZADO GRIS */}
       <header className="bg-gray-100 py-16 md:py-24">
         <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight">
@@ -73,10 +72,8 @@ const AvisoDePrivacidadPage = () => {
         </div>
       </header>
 
-      {/* SECCIÓN DEL CONTENIDO PRINCIPAL */}
       <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-          {/* COLUMNA IZQUIERDA: NAVEGACIÓN STICKY */}
           <aside className="lg:w-1/4">
             <nav className="lg:sticky lg:top-24">
               <h3 className="font-semibold text-gray-500 uppercase tracking-wider mb-4">
@@ -87,11 +84,10 @@ const AvisoDePrivacidadPage = () => {
                   <li key={section.href}>
                     <a
                       href={section.href}
-                      // Aplicamos un estilo diferente si la sección está activa
                       className={`transition-colors duration-200 text-sm ${
                         activeSection === section.href.substring(1)
-                          ? "font-bold text-gray-900" // Estilo ACTIVO
-                          : "text-gray-600 hover:text-gray-900" // Estilo INACTIVO
+                          ? "font-bold text-gray-900"
+                          : "text-gray-600 hover:text-gray-900"
                       }`}>
                       {section.title}
                     </a>
@@ -101,7 +97,6 @@ const AvisoDePrivacidadPage = () => {
             </nav>
           </aside>
 
-          {/* COLUMNA DERECHA: CONTENIDO DEL AVISO */}
           <main className="lg:w-3/4">
             <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
               <div className="mb-8 p-4 border-l-4 border-gray-200 bg-gray-50 rounded-r-lg">
@@ -109,7 +104,7 @@ const AvisoDePrivacidadPage = () => {
                   Fecha de última actualización: 05 de agosto de 2021
                 </p>
                 <a
-                  href="/documentos/BC_Aviso_Privacidad.pdf" // Asegúrate de colocar tu PDF en la carpeta /public/documentos
+                  href="/documentos/BC_Aviso_Privacidad.pdf"
                   download
                   className="inline-flex items-center gap-2 mt-2 text-sm font-semibold text-sky-600 hover:text-sky-800 transition-colors">
                   <Download size={16} />
@@ -147,10 +142,11 @@ const AvisoDePrivacidadPage = () => {
               </h2>
               <p>
                 BC ASESORES INDEPENDIENTES, S.A.P.I. DE C.V., conocido
-                comercialmente como "BRIDGE CAPITAL", es el responsable del
-                tratamiento de sus datos personales, con domicilio en Calle
-                Ernesto Elorduy número 91, interior 2, Colonia Guadalupe Inn,
-                Alcaldía Álvaro Obregón, C.P. 01020 en la Ciudad de México.
+                comercialmente como &quot;BRIDGE CAPITAL&quot;, es el
+                responsable del tratamiento de sus datos personales, con
+                domicilio en Calle Ernesto Elorduy número 91, interior 2,
+                Colonia Guadalupe Inn, Alcaldía Álvaro Obregón, C.P. 01020 en la
+                Ciudad de México.
               </p>
 
               <h2 id="datos-personales" className={headingClasses}>
@@ -297,9 +293,9 @@ const AvisoDePrivacidadPage = () => {
                 datos personales para las finalidades secundarias antes
                 indicadas, e incluso puede revocar su consentimiento para tales
                 efectos. En dichos casos, podrá comunicar su decisión a través
-                del procedimiento previsto en la sección "Derechos ARCO y/o
+                del procedimiento previsto en la sección &quot;Derechos ARCO y/o
                 Revocación del Consentimiento para el Tratamiento de Datos
-                Personales" del presente Aviso de Privacidad.
+                Personales&quot; del presente Aviso de Privacidad.
               </p>
 
               <h2 id="transferencias" className={headingClasses}>
@@ -516,8 +512,8 @@ const AvisoDePrivacidadPage = () => {
                 Usted podrá solicitar en todo momento este documento al
                 Departamento de Protección de Datos Personales de BRIDGE CAPITAL
                 a la cuenta de correo electrónico: legal@bridgecapital.mx, o
-                bien, podrá consultar su publicación en la sección "Avisos de
-                Privacidad" y que estará disponible en la página web:
+                bien, podrá consultar su publicación en la sección &quot;Avisos
+                de Privacidad&quot; y que estará disponible en la página web:
                 http://www.bridgecapital.mx/
               </p>
 
