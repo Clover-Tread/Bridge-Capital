@@ -5,6 +5,9 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import CookieConsent from "@/app/components/CookieConsent";
 import CustomCursor from "./CustomCursor";
+// Vercel Analytics and Speed Insights
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -80,6 +83,8 @@ export default function RootLayout({
           // onAcceptCallback={() => console.log("Cookies aceptadas!")}
           // onDeclineCallback={() => console.log("Cookies declinadas!")}
         />
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
