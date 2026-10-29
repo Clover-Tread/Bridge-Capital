@@ -1,13 +1,19 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Libre_Caslon_Display, Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import CookieConsent from "@/app/components/CookieConsent";
-import CustomCursor from "./CustomCursor";
 // Vercel Analytics and Speed Insights
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+
+const caslon = Libre_Caslon_Display({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-caslon",
+});
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -86,13 +92,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${montserrat.variable} h-full`}>
-      <body className={`font-sans flex flex-col min-h-screen antialiased`}>
+    <html lang="es" className={`${montserrat.variable} ${caslon.variable} h-full`}>
+      <body className="font-sans flex flex-col min-h-screen antialiased bg-[var(--color-paper)] text-[var(--color-ink)]">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        <CustomCursor />
         <Navbar />
         <main className="flex-grow w-full">{children}</main>
         <Footer />

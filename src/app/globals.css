@@ -6,6 +6,18 @@
 @theme {
   /* Fuentes */
   --font-sans: var(--font-montserrat), Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Serif para títulos: Caslon, tradición bancaria/documental */
+  --font-display: var(--font-caslon), "Libre Caslon Display", Georgia, serif;
+
+  /* Sistema editorial (rediseño 2026) */
+  --color-paper: #f2f1ec;      /* fondo base: marfil frío */
+  --color-paper-deep: #e8e6df; /* superficies secundarias */
+  --color-ink: #1d1d1b;        /* texto principal (mismo tono del logo) */
+  --color-stone: #64645f;      /* texto secundario, AA sobre paper */
+  --color-rule: #d6d3cb;       /* filetes y bordes */
+  --color-night: #002a3a;      /* azul de marca */
+  --color-wine: #79242f;       /* acento: solo acción principal */
+  --color-wine-deep: #5f1c25;
 
   /* Colores */
   --color-primary: #1d1d1b;
@@ -29,9 +41,6 @@
   --font-size-navbar: 1.25rem;
 }
 
-body, a, button {
-  cursor: none;
-}
 
 /* Entrada del hero: solo transform (opacidad siempre 1) para no retrasar el LCP. */
 @keyframes hero-rise {
@@ -53,40 +62,6 @@ body, a, button {
   }
 }
 
-/* Cursor customizado */
-.custom-cursor-blend {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: white;
-  mix-blend-mode: difference;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
-}
-
-/* Inner solid layer: always visible dot */
-.custom-cursor-core {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: 1px;
-  background-color: #1d1d1b;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-}
-
-.custom-cursor-blend.interactive-hover {
-  width: 40px;
-  height: 40px;
-}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -201,5 +176,114 @@ body, a, button {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+/* ---------- Sistema editorial ---------- */
+.editorial {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+/* Escala tipográfica (razón ~1.333) */
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 1.4rem + 4.2vw, 4.75rem);
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+.t-h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 1.35rem + 2.4vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.008em;
+  text-wrap: balance;
+}
+.t-h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 1.25rem + 0.8vw, 1.875rem);
+  line-height: 1.15;
+}
+.t-lead {
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--color-stone);
+  max-width: 34rem;
+  text-wrap: pretty;
+}
+.t-body {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  max-width: 38rem;
+  text-wrap: pretty;
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3.25rem;
+  padding: 0 1.75rem;
+  border-radius: 2px;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+.btn:focus-visible,
+.link-quiet:focus-visible {
+  outline: 2px solid var(--color-night);
+  outline-offset: 3px;
+}
+.btn-primary {
+  background: var(--color-wine);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--color-wine-deep);
+}
+.btn-inverse {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+.btn-inverse:hover {
+  background: #fff;
+}
+.link-quiet {
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-rule);
+  text-underline-offset: 0.35em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 200ms ease;
+}
+.link-quiet:hover {
+  text-decoration-color: var(--color-ink);
+}
+
+/* Barras de los pilares: crecen una sola vez al entrar en pantalla (sin JS) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .pillar-bar {
+      transform-origin: bottom;
+      animation: pillar-grow linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 35%;
+    }
+  }
+}
+@keyframes pillar-grow {
+  from {
+    transform: scaleY(0.08);
+  }
+  to {
+    transform: scaleY(1);
   }
 }

@@ -2,226 +2,128 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-import { gsap } from "gsap";
+const navLinks = [
+  { href: "/nosotros", label: "Nosotros" },
+  { href: "/servicios", label: "Servicios" },
+  { href: "/filosofia-inversion", label: "Filosofía de inversión" },
+  { href: "/calculadora", label: "Calculadora" },
+];
 
+/**
+ * Barra de navegación editorial.
+ * Sin GSAP: el menú móvil y el cambio al hacer scroll son transiciones de CSS,
+ * así esta pieza (presente en todas las páginas) ya no arrastra la librería.
+ */
 const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const pathname = usePathname();
-  const mobileMenuContainerRef = useRef<HTMLDivElement>(null); // Ref para el contenedor principal del menú
-  const mobileMenuContentRef = useRef<HTMLDivElement>(null); // Ref para el div con los enlaces
-
-  const navLinks = [
-    { href: "/nosotros", label: "Nosotros" },
-    { href: "/servicios", label: "Servicios" },
-    { href: "/filosofia-inversion", label: "Filosofía de Inversión" },
-    { href: "/calculadora", label: "Calculadora" },
-  ];
 
   useEffect(() => {
-    const handleScroll = () => {
-      const offset = window.scrollY;
-      setHasScrolled(offset > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setHasScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // useEffect para animar el menú móvil
+  // Cierra el menú al cambiar de página y bloquea el scroll mientras está abierto.
+  useEffect(() => setIsMenuOpen(false), [pathname]);
   useEffect(() => {
-    const menuContainer = mobileMenuContainerRef.current;
-    const menuContent = mobileMenuContentRef.current;
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
 
-    if (!menuContainer || !menuContent) return;
-
-    gsap.killTweensOf([menuContainer, menuContent]); // Detiene animaciones previas en estos elementos
-
-    if (isMobileMenuOpen) {
-      gsap.set(menuContainer, { display: "block", pointerEvents: "auto" });
-      gsap.to(menuContainer, {
-        opacity: 1,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-      gsap.fromTo(
-        menuContent,
-        { y: -20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.3, delay: 0.05, ease: "power2.out" }
-      );
-    } else {
-      // Animar la salida del contenido primero
-      gsap.to(menuContent, {
-        opacity: 0,
-        y: -20,
-        duration: 0.2,
-        ease: "power2.in",
-        onComplete: () => {
-          // Luego animar la salida del contenedor principal
-          gsap.to(menuContainer, {
-            opacity: 0,
-            duration: 0.3,
-            ease: "power2.in",
-            onComplete: () => {
-              gsap.set(menuContainer, {
-                display: "none",
-                pointerEvents: "none",
-              });
-            },
-          });
-        },
-      });
-    }
-  }, [isMobileMenuOpen]);
-
-  // Clases para el navbar y enlaces
-  const navbarScrolledBgClasses =
-    "bg-[var(--color-primary)]/80 shadow-xl backdrop-blur-sm";
-  const navbarInitialBgClasses = "bg-transparent";
-  const linkBaseTextColor = "text-[var(--color-primary)]";
-  const linkScrolledTextColor = "text-white";
-  const linkHoverScrolledTextColor = "hover:text-[var(--color-white)]";
-  const linkHoverInitialTextColor = "hover:text-[var(--color-primary)]";
-  const afterBgScrolledColor = "after:bg-[var(--color-white)]";
-  const afterBgInitialColor = "after:bg-[var(--color-primary)]";
-  const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
-  const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4";
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const solid = hasScrolled || isMenuOpen;
 
   return (
-    <header className="sticky top-0 z-50 w-full pt-4 md:pt-6 px-4">
-      <nav
-        className={`
-          mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES} 
-          flex items-center justify-between py-3 md:py-4 rounded-xl 
-          transition-all duration-300 ease-in-out
-          ${hasScrolled ? navbarScrolledBgClasses : navbarInitialBgClasses}
-        `}>
-        {/* Logo */}
-        <div className="flex-shrink-0">
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/images/logo-bridge-capital.svg"
-              alt="Bridge Capital Logo"
-              className={hasScrolled ? "brightness-0 invert" : ""}
-              width={23}
-              height={60}
-              priority
-            />
-          </Link>
-        </div>
+    <header
+      className={`sticky top-0 z-50 w-full h-20 transition-[background-color,border-color] duration-300 border-b ${
+        solid
+          ? "bg-[var(--color-paper)]/95 backdrop-blur-md border-[var(--color-rule)]"
+          : "bg-transparent border-transparent"
+      }`}>
+      <nav className="mx-auto flex h-full max-w-screen-xl items-center justify-between px-5 md:px-8">
+        <Link href="/" className="flex items-center gap-3 rounded-sm" aria-label="Bridge Capital, inicio">
+          <Image
+            src="/images/logo-bridge-capital.svg"
+            alt=""
+            width={16}
+            height={32}
+            priority
+          />
+          <span className="text-[0.9375rem] font-semibold tracking-[0.02em] text-[var(--color-ink)]">
+            Bridge Capital
+          </span>
+        </Link>
 
-        {/* Enlaces de Navegación para Escritorio */}
-        <div className="hidden md:flex flex-grow justify-center items-center space-x-3 lg:space-x-5">
-          {navLinks.map((link) => {
-            const isActive =
-              pathname === link.href ||
-              (link.href !== "/" &&
-                pathname.startsWith(link.href) &&
-                link.href.length > 1);
-            return (
+        <ul className="hidden items-center gap-8 md:flex">
+          {navLinks.map((link) => (
+            <li key={link.href}>
               <Link
-                key={link.label}
                 href={link.href}
-                className={`
-                  relative font-[600] text-sm md:text-base
-                  ${isActive ? (hasScrolled ? linkScrolledTextColor : "text-[var(--color-primary)]") : hasScrolled ? linkScrolledTextColor : linkBaseTextColor}
-                  ${isActive ? "" : hasScrolled ? linkHoverScrolledTextColor : linkHoverInitialTextColor}
-                  ${isActive ? "font-[600]" : "hover:font-[600]"}
-                  px-2 py-1 transition-all duration-300 ease-in-out
-                  after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] 
-                  ${isActive ? (hasScrolled ? afterBgScrolledColor : afterBgInitialColor) : hasScrolled ? afterBgScrolledColor : afterBgInitialColor}
-                  after:origin-left after:transition-transform after:duration-300 after:ease-out
-                  ${isActive ? "after:scale-x-100" : "after:scale-x-0"}
-                  hover:after:scale-x-100
-                `}>
+                aria-current={isActive(link.href) ? "page" : undefined}
+                className={`text-[0.9375rem] font-medium transition-colors duration-200 underline-offset-[0.6em] decoration-1 ${
+                  isActive(link.href)
+                    ? "text-[var(--color-ink)] underline decoration-[var(--color-ink)]"
+                    : "text-[var(--color-stone)] hover:text-[var(--color-ink)]"
+                }`}>
                 {link.label}
               </Link>
-            );
-          })}
-        </div>
+            </li>
+          ))}
+        </ul>
 
-        {/* Botón de Contacto (Desktop) */}
-        <div className="hidden md:flex flex-shrink-0">
-          <Link
-            href="/contacto"
-            className={`
-              ${pathname === "/contacto" ? (hasScrolled ? "bg-[var(--color-white)] text-[var(--color-primary)] ring-2 ring-inset ring-[var(--color-primary)]" : "bg-[var(--color-dark-red)] text-white ring-2 ring-inset ring-[var(--color-dark-red-hover)]") : hasScrolled ? `bg-[var(--color-white)] hover:bg-opacity-80 text-[var(--color-primary)]` : `bg-[var(--color-primary)] hover:bg-opacity-80 text-white`} 
-              px-5 py-2 rounded-lg text-xs md:text-sm font-[600] transition-all duration-300 ease-in-out
-            `}>
-            Contacto
-          </Link>
-        </div>
+        <Link
+          href="/contacto"
+          aria-current={isActive("/contacto") ? "page" : undefined}
+          className="hidden md:inline-flex h-10 items-center rounded-[2px] border border-[var(--color-ink)] px-5 text-sm font-medium text-[var(--color-ink)] transition-colors duration-200 hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]">
+          Contacto
+        </Link>
 
-        {/* Botón de Menú Hamburguesa para Móvil */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`${hasScrolled ? linkScrolledTextColor : linkBaseTextColor} focus:outline-none transition-colors duration-300 ease-in-out p-1`}
-            aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={isMobileMenuOpen}>
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d={
-                  isMobileMenuOpen
-                    ? "M6 18L18 6M6 6l12 12"
-                    : "M4 6h16M4 12h16m-7 6h7"
-                }
-              />
-            </svg>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen((open) => !open)}
+          className="-mr-2 p-2 text-[var(--color-ink)] md:hidden"
+          aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={isMenuOpen}
+          aria-controls="menu-movil">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            {isMenuOpen ? (
+              <path d="M6 6l12 12M18 6L6 18" />
+            ) : (
+              <path d="M4 8h16M4 16h16" />
+            )}
+          </svg>
+        </button>
       </nav>
 
-      {/* Menú Desplegable para Móvil - Contenedor Persistente */}
+      {/* Menú móvil: panel a pantalla completa, transición solo con CSS */}
       <div
-        ref={mobileMenuContainerRef} // Ref al contenedor principal del menú
-        style={{ display: "none", opacity: 0 }} // GSAP lo controlará, inicia oculto y transparente
-        className={`
-          md:hidden absolute top-full left-0 right-0 mx-auto w-[calc(100%-2rem)] max-w-screen-xl 
-          rounded-lg shadow-xl 
-          ${hasScrolled ? "bg-[#1d1d1b]/90 backdrop-blur-md" : "bg-white"}
-          pointer-events-none /* Inicia sin pointer-events, GSAP los activará */
-        `}>
-        <div
-          ref={mobileMenuContentRef}
-          className="flex flex-col space-y-1 px-3 py-3 opacity-0">
-          {" "}
-          {/* Ref al contenido, inicia transparente */}
-          {navLinks.map((link) => {
-            const isActive =
-              pathname === link.href ||
-              (link.href !== "/" &&
-                pathname.startsWith(link.href) &&
-                link.href.length > 1);
-            return (
+        id="menu-movil"
+        className={`fixed inset-x-0 top-20 bottom-0 bg-[var(--color-paper)] px-5 pt-8 pb-10 transition-[opacity,visibility] duration-300 md:hidden flex flex-col ${
+          isMenuOpen ? "visible opacity-100" : "invisible opacity-0"
+        }`}>
+        <ul className="flex flex-col">
+          {navLinks.map((link) => (
+            <li key={link.href} className="border-b border-[var(--color-rule)]">
               <Link
-                key={link.label}
                 href={link.href}
-                className={`block px-3 py-2.5 rounded-md text-base font-[600] 
-                            ${hasScrolled ? (isActive ? "text-white font-semibold underline underline-offset-8" : `text-white hover:bg-[var(--color-dark-red)]/80`) : isActive ? "text-[var(--color-primary)] font-semibold" : `text-gray-700 hover:bg-gray-100`}`}
-                onClick={() => setIsMobileMenuOpen(false)}>
+                aria-current={isActive(link.href) ? "page" : undefined}
+                className="block py-5 font-[family-name:var(--font-display)] text-[1.75rem] leading-none text-[var(--color-ink)]">
                 {link.label}
               </Link>
-            );
-          })}
-          <Link
-            href="/contacto"
-            className={`block text-center mt-2 px-3 py-2.5 rounded-md text-base font-medium 
-                        ${pathname === "/contacto" ? (hasScrolled ? "bg-slate-600 text-white" : "bg-[var(--color-dark-red)] text-white") : hasScrolled ? `bg-[var(--color-dark-red)]/90 hover:bg-[var(--color-dark-red-hover)]/90 text-white` : `bg-[var(--color-primary)] hover:bg-opacity-80 text-white`}`}
-            onClick={() => setIsMobileMenuOpen(false)}>
-            Contacto
-          </Link>
-        </div>
+            </li>
+          ))}
+        </ul>
+        <Link href="/contacto" className="btn btn-primary mt-auto w-full">
+          Agendar una conversación
+        </Link>
       </div>
     </header>
   );

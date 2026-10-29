@@ -1,34 +1,26 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 const CTASection = () => {
   return (
-    <section className="bg-[#ebebeb] py-20 md:py-28">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-[800] text-(--color-primary) mb-8">
+    <section className="editorial">
+      <div className="mx-auto grid max-w-screen-xl gap-10 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-12 lg:items-end lg:gap-8">
+        <div className="lg:col-span-8">
+          <h2 className="t-h2">
             ¿Te interesan las inversiones a largo plazo, en compañías rentables
             y con riesgos controlados?
           </h2>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-8">
-            {/* Botón 1: "Contáctanos" con fondo sólido */}
-            <Link href="/contacto">
-              <Button
-                size="lg"
-                className="bg-[#8B3A3A] hover:bg-[#7a3232] text-white px-15 py-6 text-lg ">
-                Contáctanos
-              </Button>
-            </Link>
-
-            {/* Botón 2: "Conoce nuestros Servicios" */}
-            <Link href="/servicios">
-              <Button
-                variant="link"
-                className="text-(--color-primary) underline underline-offset-4 hover:text-(--color-dark-red) text-lg ">
-                Conoce nuestros Servicios
-              </Button>
-            </Link>
-          </div>
+          <p className="t-lead mt-6">
+            En una primera conversación te explicamos cómo trabajamos, el monto
+            mínimo de inversión y cómo cobramos.
+          </p>
+        </div>
+        <div className="flex flex-col items-start gap-5 lg:col-span-4 lg:items-end">
+          <Link href="/contacto" className="btn btn-primary">
+            Agendar una conversación
+          </Link>
+          <a href="tel:5588522764" className="link-quiet">
+            O llámanos al (55) 8852 2764
+          </a>
         </div>
       </div>
     </section>
