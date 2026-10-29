@@ -6,7 +6,7 @@ import * as z from "zod";
 // 1. Define el esquema de validación (debe coincidir con el del frontend)
 const formSchema = z.object({
   name: z.string().min(1, "El nombre es requerido.").max(50, "El nombre es muy largo."),
-  email: z.string().email("Correo electrónico inválido."),
+  email: z.email("Correo electrónico inválido."),
   phone: z
     .string()
     .max(20, "El teléfono es muy largo.")
@@ -53,11 +53,11 @@ export async function POST(request: Request) {
     const validationResult = formSchema.safeParse(body);
 
     if (!validationResult.success) {
-      console.error("Datos de formulario inválidos:", validationResult.error.flatten().fieldErrors);
+      console.error("Datos de formulario inválidos:", z.flattenError(validationResult.error).fieldErrors);
       return NextResponse.json(
         { 
           message: 'Datos de formulario inválidos.', 
-          errors: validationResult.error.flatten().fieldErrors 
+          errors: z.flattenError(validationResult.error).fieldErrors 
         }, 
         { status: 400 }
       );

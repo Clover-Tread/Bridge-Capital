@@ -24,9 +24,7 @@ const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 // Esquema de validación con Zod
 const formSchema = z.object({
   name: z.string().min(1, { message: "El nombre es requerido." }).max(50),
-  email: z
-    .string()
-    .email({ message: "Por favor, ingresa un correo electrónico válido." }),
+  email: z.email({ message: "Por favor, ingresa un correo electrónico válido." }),
   phone: z
     .string()
     .min(7, { message: "El teléfono debe tener al menos 7 dígitos." })

@@ -49,10 +49,10 @@ const calculatorSchema = z.object({
     { message: "El capital inicial debe ser de al menos $3,000,000." }
   ),
   annualReturn: z.enum(annualReturnOptions, {
-    required_error: "Debes seleccionar un rendimiento estimado.",
+    error: "Debes seleccionar un rendimiento estimado.",
   }),
   investmentTerm: z.enum(["5", "10", "20"], {
-    required_error: "Debes seleccionar un plazo.",
+    error: "Debes seleccionar un plazo.",
   }),
   annualContribution: z
     .string()
