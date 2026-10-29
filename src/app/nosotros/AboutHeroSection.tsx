@@ -140,6 +140,8 @@ const AboutHeroSection = () => {
                 objectFit="cover"
                 className="transform transition-transform duration-500 hover:scale-105"
                 quality={80}
+                sizes="(min-width: 768px) 50vw, 100vw"
+                priority
               />
             </div>
           </div>

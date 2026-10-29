@@ -51,49 +51,7 @@ export const metadata: Metadata = {
     images: ["/images/og-bridge-capital.jpg"],
   },
   robots: { index: true, follow: true },
-  icons: {
-    icon: [
-      // Cuando el navegador está en tema "light", mostramos el favicon oscuro:
-      {
-        url: "/favicon/dark/favicon-32x32.png",
-        type: "image/png",
-        sizes: "32x32",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/favicon/dark/favicon-16x16.png",
-        type: "image/png",
-        sizes: "16x16",
-        media: "(prefers-color-scheme: dark)",
-      },
-      // Cuando el navegador está en tema "dark", mostramos el favicon claro:
-      {
-        url: "/favicon/light/favicon-32x32.png",
-        type: "image/png",
-        sizes: "32x32",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/favicon/light/favicon-16x16.png",
-        type: "image/png",
-        sizes: "16x16",
-        media: "(prefers-color-scheme: light)",
-      },
-      // Fallback genérico (si no hay preferencia de color o no soporta la consulta):
-      {
-        url: "/favicon/light/favicon-32x32.png",
-        type: "image/png",
-      },
-    ],
-    apple: [
-      // El Apple Touch Icon suele ser estático, pero si deseas invertido también lo puedes hacer:
-      {
-        url: "/favicon/light/apple-touch-icon-152x152.png",
-        type: "image/png",
-        sizes: "180x180",
-      },
-    ],
-  },
+  // Íconos: Next.js los toma de src/app/favicon.ico, icon.png y apple-icon.png.
 };
 
 // Datos estructurados: ayudan a Google a mostrar dirección, teléfono y tipo de negocio.

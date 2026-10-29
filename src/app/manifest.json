@@ -1,6 +1,6 @@
 {
   "name": "Bridge Capital",
-  "short_name": "BC",
+  "short_name": "Bridge Capital",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -15,7 +15,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
+  "theme_color": "#002a3a",
   "background_color": "#ffffff",
   "display": "standalone"
 }

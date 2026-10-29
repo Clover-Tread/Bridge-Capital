@@ -109,6 +109,17 @@ const ValueCard: React.FC<ValueCardProps> = ({
   const cardInnerContent = (
     <div
       ref={cardRef}
+      // Cuando abre un modal, el div actúa como botón: rol y teclado accesibles.
+      {...(interactionType === "modal" && {
+        role: "button",
+        tabIndex: 0,
+        onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            e.currentTarget.click();
+          }
+        },
+      })}
       className={`relative w-full ${cardHeightClass} rounded-xl overflow-hidden shadow-2xl group  hover:shadow-slate-400/50 transition-shadow duration-300 ${className}`}>
       {imageUrl && (
         <Image
