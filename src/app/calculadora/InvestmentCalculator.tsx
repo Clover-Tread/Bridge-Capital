@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { projectInvestment } from "@/lib/projection";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -33,13 +34,18 @@ const SHARED_HORIZONTAL_PADDING_CLASSES = "px-5 md:px-8";
 // Estilos específicos para los inputs y select
 const inputBottomBorderStyle = ` block w-full appearance-none rounded-none border-x-0 border-t-0 border-b border-[var(--color-ink)]/30 bg-transparent px-0 py-3 font-[family-name:var(--font-display)] text-[1.75rem] md:text-[1.75rem] h-auto leading-none text-[var(--color-ink)] shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-b-2 focus-visible:border-[var(--color-ink)] `;
 const selectTriggerStyle = ` w-full flex items-center justify-between rounded-none border-x-0 border-t-0 border-b border-[var(--color-ink)]/30 bg-transparent shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:border-b-2 focus-visible:border-[var(--color-ink)] h-auto py-3 pl-0 pr-8 font-[family-name:var(--font-display)] text-[1.75rem] leading-none text-left [&>svg]:hidden relative `;
-const annualReturnOptions = [
-  "4.00",
-  "8.00",
-  "12.00",
-  "16.00",
-  "25.00",
-] as const;
+// Tasas acotadas a rangos históricos realistas (ver referencias en el PR):
+// CETES 28 días ~6 % (ago 2026); bolsa a largo plazo ~9–12 % nominal.
+const annualReturnOptions = ["6.00", "8.00", "10.00", "12.00"] as const;
+const annualReturnLabels: Record<(typeof annualReturnOptions)[number], string> = {
+  "6.00": "6\u00a0% · conservador",
+  "8.00": "8\u00a0% · moderado",
+  "10.00": "10\u00a0% · histórico de bolsa",
+  "12.00": "12\u00a0% · optimista",
+};
+// Inflación supuesta para expresar el resultado en pesos de hoy
+// (meta de Banxico 3 % ± 1; usamos el extremo superior para no sobrestimar).
+const INFLATION_RATE = 0.04;
 const calculatorSchema = z.object({
   initialCapital: z.string().refine(
     (value) => {
@@ -72,6 +78,7 @@ const calculatorSchema = z.object({
 type CalculatorFormValues = z.infer<typeof calculatorSchema>;
 interface CalculationResults {
   totalValue: number;
+  realTotalValue: number;
   totalContributions: number;
   totalInterest: number;
   breakdown: { year: number; value: number }[];
@@ -158,61 +165,25 @@ const InvestmentCalculator = () => {
   function onSubmit(data: CalculatorFormValues) {
     setIsCalculating(true);
     setResults(null);
-    const P = parseCurrency(data.initialCapital);
-    const r = parseFloat(data.annualReturn) / 100;
-    const n = parseInt(data.investmentTerm);
-    const C = data.annualContribution
-      ? parseCurrency(data.annualContribution)
-      : 0;
-    let currentValue = P;
-    let totalContributionsMade = P;
-    const yearlyBreakdown: { year: number; value: number }[] = [];
-    for (let year = 1; year <= n; year++) {
-      if (year > 1) {
-        currentValue += C;
-        totalContributionsMade += C;
-      } else if (year === 1 && P === 0 && C > 0) {
-        currentValue += C;
-        totalContributionsMade += C;
-      }
-      currentValue = currentValue * (1 + r);
-      if ([5, 10, 15, 20].includes(year) || year === n) {
-        if (
-          yearlyBreakdown.findIndex((item) => item.year === year) === -1 &&
-          year <= n
-        ) {
-          yearlyBreakdown.push({
-            year,
-            value: parseFloat(currentValue.toFixed(2)),
-          });
-        }
-      }
-    }
-    const finalValue = parseFloat(currentValue.toFixed(2));
-    const totalInterest = parseFloat(
-      (finalValue - totalContributionsMade).toFixed(2)
-    );
-    const uniqueYears = new Set<number>();
-    const finalBreakdownResult = yearlyBreakdown
-      .filter((item) => {
-        if (uniqueYears.has(item.year)) return false;
-        uniqueYears.add(item.year);
-        return true;
-      })
-      .sort((a, b) => a.year - b.year);
-    if (
-      !finalBreakdownResult.find((item) => item.year === n) &&
-      n > 0 &&
-      ![5, 10, 15, 20].includes(n)
-    ) {
-      finalBreakdownResult.push({ year: n, value: finalValue });
-      finalBreakdownResult.sort((a, b) => a.year - b.year);
-    }
+    const projection = projectInvestment({
+      initialCapital: parseCurrency(data.initialCapital),
+      annualRate: parseFloat(data.annualReturn) / 100,
+      years: parseInt(data.investmentTerm, 10),
+      annualContribution: data.annualContribution
+        ? parseCurrency(data.annualContribution)
+        : 0,
+      inflationRate: INFLATION_RATE,
+    });
+    const n = projection.years.length;
+    const finalBreakdownResult = projection.years
+      .filter((row) => row.year % 5 === 0 || row.year === n)
+      .map((row) => ({ year: row.year, value: row.value }));
     setTimeout(() => {
       setResults({
-        totalValue: finalValue,
-        totalContributions: totalContributionsMade,
-        totalInterest: totalInterest,
+        totalValue: projection.totalValue,
+        realTotalValue: projection.realTotalValue,
+        totalContributions: projection.totalContributions,
+        totalInterest: projection.totalInterest,
         breakdown: finalBreakdownResult,
       });
       setIsCalculating(false);
@@ -281,7 +252,7 @@ const InvestmentCalculator = () => {
     );
     startY += 7;
     doc.text(
-      `Intereses Estimados Ganados: ${formatCurrency(results.totalInterest, true)}`,
+      `Rendimiento Estimado: ${formatCurrency(results.totalInterest, true)}`,
       14,
       startY
     );
@@ -294,6 +265,12 @@ const InvestmentCalculator = () => {
       startY
     );
     doc.setFont("", "normal");
+    startY += 7;
+    doc.text(
+      `En pesos de hoy (inflación ${INFLATION_RATE * 100}% anual): ${formatCurrency(results.realTotalValue, true)}`,
+      14,
+      startY
+    );
     startY += 14;
     doc.setFontSize(12);
     doc.setTextColor(0, 42, 58);
@@ -321,7 +298,7 @@ const InvestmentCalculator = () => {
         doc.setFontSize(8);
         doc.setTextColor(150);
         doc.text(
-          "Esta es una simulación y los rendimientos reales pueden variar. No constituye una garantía de retorno.",
+          "Simulación ilustrativa. No incluye comisiones ni impuestos. Rendimientos pasados no garantizan rendimientos futuros.",
           105,
           doc.internal.pageSize.height - 15,
           { align: "center" }
@@ -407,13 +384,13 @@ const InvestmentCalculator = () => {
                       <SelectContent>
                         {annualReturnOptions.map((option) => (
                           <SelectItem key={option} value={option}>
-                            {option}%
+                            {annualReturnLabels[option]}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                     <FormDescription>
-                      Tasa esperada, los rendimientos reales pueden variar.
+                      Tasa promedio anual supuesta. Como referencia, CETES paga alrededor de 6 % y la bolsa ha promediado entre 9 % y 12 % en plazos largos.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -523,6 +500,14 @@ const InvestmentCalculator = () => {
                   <p className="mt-2 font-[family-name:var(--font-display)] text-[clamp(2.75rem,2rem+3vw,4.5rem)] leading-none">
                     {formatCurrency(results.totalValue, true)}
                   </p>
+                  <p className="mt-4 text-[0.9375rem] text-[var(--color-stone)]">
+                    Equivale a{" "}
+                    <span className="font-medium text-[var(--color-ink)]">
+                      {formatCurrency(results.realTotalValue, true)}
+                    </span>{" "}
+                    en pesos de hoy, considerando una inflación de{" "}
+                    {INFLATION_RATE * 100} % anual.
+                  </p>
                 </div>
                 <dl className="grid grid-cols-2 gap-6 border-y border-[var(--color-rule)] py-6">
                   <div>
@@ -571,10 +556,11 @@ const InvestmentCalculator = () => {
 
                 <p className="text-xs leading-relaxed text-[var(--color-stone)]">
                   Simulación ilustrativa con interés compuesto anual a una tasa
-                  constante. No considera comisiones, impuestos ni inflación. Los
-                  rendimientos pasados no garantizan rendimientos futuros y esta
-                  estimación no constituye una recomendación ni una promesa de
-                  retorno.
+                  constante; en la realidad los rendimientos varían año con año y
+                  pueden ser negativos. El valor nominal no descuenta comisiones,
+                  impuestos ni inflación. Los rendimientos pasados no garantizan
+                  rendimientos futuros y esta estimación no constituye una
+                  recomendación ni una promesa de retorno.
                 </p>
               </div>
             )}
