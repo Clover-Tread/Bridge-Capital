@@ -115,13 +115,14 @@ const Navbar = () => {
               <Link
                 href={link.href}
                 aria-current={isActive(link.href) ? "page" : undefined}
+                onClick={() => setIsMenuOpen(false)}
                 className="block py-5 font-[family-name:var(--font-display)] text-[1.75rem] leading-none text-[var(--color-ink)]">
                 {link.label}
               </Link>
             </li>
           ))}
         </ul>
-        <Link href="/contacto" className="btn btn-primary mt-auto w-full">
+        <Link href="/contacto" onClick={() => setIsMenuOpen(false)} className="btn btn-primary mt-auto w-full">
           Agendar una conversación
         </Link>
       </div>

@@ -47,24 +47,24 @@ const MarcoGeneralActuacionPage = () => {
   }, []);
 
   const headingClasses =
-    "text-2xl md:text-3xl font-bold text-gray-800 mt-12 mb-4 scroll-mt-40";
+    "t-h3 mt-14 mb-4 scroll-mt-28 border-t border-[var(--color-rule)] pt-8";
 
   return (
     <>
-      <header className="bg-gray-100 py-16 md:py-24">
-        <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight">
-            MARCO GENERAL DE ACTUACIÓN
+      <header className="editorial">
+        <div className="mx-auto max-w-screen-xl px-5 pt-10 pb-12 md:px-8 md:pt-16 md:pb-16">
+          <h1 className="t-display max-w-4xl">
+            Marco general de actuación
           </h1>
         </div>
       </header>
-      <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <div className="mx-auto max-w-screen-xl border-t border-[var(--color-rule)] px-5 py-12 md:px-8 md:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
           <aside className="lg:w-1/4">
-            <nav className="lg:sticky lg:top-40">
-              <h3 className="font-semibold text-gray-500 uppercase tracking-wider mb-4">
+            <nav className="lg:sticky lg:top-28">
+              <p className="mb-4 text-sm font-medium text-[var(--color-ink)]">
                 Contenido
-              </h3>
+              </p>
               <ul className="space-y-2">
                 {sections.map((section) => (
                   <li key={section.href}>
@@ -72,8 +72,8 @@ const MarcoGeneralActuacionPage = () => {
                       href={section.href}
                       className={`transition-colors duration-200 text-sm ${
                         activeSection === section.href.substring(1)
-                          ? "font-bold text-gray-900"
-                          : "text-gray-600 hover:text-gray-900"
+                          ? "font-medium text-[var(--color-ink)] underline underline-offset-4 decoration-1"
+                          : "text-[var(--color-stone)] hover:text-[var(--color-ink)]"
                       }`}>
                       {section.title}
                     </a>
@@ -82,15 +82,15 @@ const MarcoGeneralActuacionPage = () => {
               </ul>
             </nav>
           </aside>
-          <main className="lg:w-3/4">
-            <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-              <div className="mb-10 p-4 border-l-4 border-sky-500 bg-sky-50 rounded-r-lg flex items-start gap-4">
-                <AlertCircle className="text-sky-600 mt-1 flex-shrink-0" />
+          <article className="lg:w-3/4">
+            <div className="legal-body">
+              <div className="mb-10 flex items-start gap-4 border-l-2 border-[var(--color-night)] pl-5">
+                <AlertCircle className="text-[var(--color-night)] mt-1 flex-shrink-0" />
                 <div>
-                  <p className="font-semibold text-sky-800 !mt-0">
+                  <p className="font-semibold text-[var(--color-ink)] !mt-0">
                     Documento para Llenar y Firmar
                   </p>
-                  <p className="text-sm text-sky-700 !mt-1">
+                  <p className="text-sm text-[var(--color-ink)] !mt-1">
                     Este documento detalla el Marco General de Actuación. Para
                     formalizar nuestra relación de servicios, es necesario
                     descargarlo, completarlo con sus datos y firmarlo.
@@ -98,7 +98,7 @@ const MarcoGeneralActuacionPage = () => {
                   <a
                     href="/documentos/BC_Marco_General.pdf"
                     download
-                    className="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-sky-600 hover:text-sky-800 transition-colors">
+                    className="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-[var(--color-ink)] underline underline-offset-4 decoration-[var(--color-rule)] hover:decoration-[var(--color-ink)] transition-colors">
                     <Download size={16} />
                     Descargar Marco General de Actuación en PDF
                   </a>
@@ -139,204 +139,204 @@ const MarcoGeneralActuacionPage = () => {
               </p>
               <div className="overflow-x-auto my-8">
                 <table className="w-full text-sm text-left border-collapse">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-100">
+                  <thead className="text-xs font-medium text-[var(--color-ink)] bg-[var(--color-paper-deep)]">
                     <tr>
                       <th
                         scope="col"
-                        className="px-4 py-3 border border-gray-200">
+                        className="px-4 py-3 border border-[var(--color-rule)]">
                         Instrumento
                       </th>
                       <th
                         scope="col"
-                        className="px-4 py-3 border border-gray-200 text-center">
+                        className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         Precavido
                       </th>
                       <th
                         scope="col"
-                        className="px-4 py-3 border border-gray-200 text-center">
+                        className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         Defensivo
                       </th>
                       <th
                         scope="col"
-                        className="px-4 py-3 border border-gray-200 text-center">
+                        className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         Balanceado
                       </th>
                       <th
                         scope="col"
-                        className="px-4 py-3 border border-gray-200 text-center">
+                        className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         Emprendedor
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="bg-white">
+                    <tr className="bg-transparent">
                       <th
                         scope="row"
-                        className="px-4 py-3 font-medium text-gray-900 border border-gray-200">
+                        className="px-4 py-3 font-medium text-[var(--color-ink)] border border-[var(--color-rule)]">
                         Máximo Renta Variable
                       </th>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         0%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         30%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         50%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         100%
                       </td>
                     </tr>
-                    <tr className="bg-gray-50">
+                    <tr className="bg-[var(--color-paper-deep)]/50">
                       <th
                         scope="row"
-                        className="px-4 py-3 font-medium text-gray-900 border border-gray-200">
+                        className="px-4 py-3 font-medium text-[var(--color-ink)] border border-[var(--color-rule)]">
                         Mínimo Renta Fija
                       </th>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         100%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         70%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         50%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         0%
                       </td>
                     </tr>
-                    <tr className="bg-white">
+                    <tr className="bg-transparent">
                       <th
                         scope="row"
-                        className="px-4 py-3 font-medium text-gray-900 border border-gray-200">
+                        className="px-4 py-3 font-medium text-[var(--color-ink)] border border-[var(--color-rule)]">
                         Valores Gubernamentales
                       </th>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         100%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         100%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         100%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         100%
                       </td>
                     </tr>
-                    <tr className="bg-gray-50">
+                    <tr className="bg-[var(--color-paper-deep)]/50">
                       <th
                         scope="row"
-                        className="px-4 py-3 font-medium text-gray-900 border border-gray-200">
+                        className="px-4 py-3 font-medium text-[var(--color-ink)] border border-[var(--color-rule)]">
                         Corporativos
                       </th>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         15%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         40%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         50%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         100%
                       </td>
                     </tr>
-                    <tr className="bg-white">
+                    <tr className="bg-transparent">
                       <th
                         scope="row"
-                        className="px-4 py-3 font-medium text-gray-900 border border-gray-200">
+                        className="px-4 py-3 font-medium text-[var(--color-ink)] border border-[var(--color-rule)]">
                         Fondos de Inversión de Renta Variable
                       </th>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         0%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         30%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         50%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         100%
                       </td>
                     </tr>
-                    <tr className="bg-gray-50">
+                    <tr className="bg-[var(--color-paper-deep)]/50">
                       <th
                         scope="row"
-                        className="px-4 py-3 font-medium text-gray-900 border border-gray-200">
+                        className="px-4 py-3 font-medium text-[var(--color-ink)] border border-[var(--color-rule)]">
                         Acciones, ETFs, Fibras (SIC)
                       </th>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         0%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         30%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         50%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         100%
                       </td>
                     </tr>
-                    <tr className="bg-white">
+                    <tr className="bg-transparent">
                       <th
                         scope="row"
-                        className="px-4 py-3 font-medium text-gray-900 border border-gray-200">
+                        className="px-4 py-3 font-medium text-[var(--color-ink)] border border-[var(--color-rule)]">
                         Notas Estructuradas
                       </th>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         0%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         15%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         30%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         50%
                       </td>
                     </tr>
-                    <tr className="bg-gray-50">
+                    <tr className="bg-[var(--color-paper-deep)]/50">
                       <th
                         scope="row"
-                        className="px-4 py-3 font-medium text-gray-900 border border-gray-200">
+                        className="px-4 py-3 font-medium text-[var(--color-ink)] border border-[var(--color-rule)]">
                         Productos Derivados
                       </th>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         0%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         0%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         30%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         50%
                       </td>
                     </tr>
-                    <tr className="bg-white">
+                    <tr className="bg-transparent">
                       <th
                         scope="row"
-                        className="px-4 py-3 font-medium text-gray-900 border border-gray-200">
+                        className="px-4 py-3 font-medium text-[var(--color-ink)] border border-[var(--color-rule)]">
                         Porcentaje máximo por emisora
                       </th>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         10%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         10%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         15%
                       </td>
-                      <td className="px-4 py-3 border border-gray-200 text-center">
+                      <td className="px-4 py-3 border border-[var(--color-rule)] text-center">
                         25%
                       </td>
                     </tr>
@@ -411,7 +411,7 @@ const MarcoGeneralActuacionPage = () => {
                 estrategia.
               </p>
             </div>
-          </main>
+          </article>
         </div>
       </div>
     </>

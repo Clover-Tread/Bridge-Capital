@@ -7,9 +7,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-// Clases compartidas para la alineación del ancho
-const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
-const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
 // Datos para el FAQ
 export const faqData = [
@@ -59,33 +56,25 @@ export const faqData = [
 
 const FAQSection = () => {
   return (
-    <section className="py-12 md:py-20 bg-white w-full">
-      <div
-        className={`mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES}`}>
-        <div className="text-center mb-10 md:mb-12">
-          <h2 className="text-3xl md:text-5xl font-[800] text-gray-800 leading-tight">
-            O Resuelve tus Dudas de Inmediato
-          </h2>
-          <p className="text-lg text-gray-600 mt-4">
-            Consulta nuestras preguntas frecuentes para obtener más información
-            sobre nuestros servicios.
+    <section className="bg-[var(--color-paper-deep)] text-[var(--color-ink)]">
+      <div className="mx-auto grid max-w-screen-xl gap-12 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-4">
+          <h2 className="t-h2">Preguntas frecuentes</h2>
+          <p className="t-lead mt-6">
+            Lo que más nos preguntan antes de la primera conversación.
           </p>
         </div>
-
-        <Accordion
-          type="single"
-          collapsible
-          className="w-full max-w-3xl mx-auto">
+        <Accordion type="single" collapsible className="lg:col-span-7 lg:col-start-6 border-t border-[var(--color-rule)]">
           {faqData.map((item) => (
-            <AccordionItem value={item.id} key={item.id}>
-              <AccordionTrigger className="text-left text-lg hover:no-underline font-[600] text-[var(--color-primary-blue)] hover:text-[var(--color-secondary-dark-gray)]">
+            <AccordionItem value={item.id} key={item.id} className="border-b border-[var(--color-rule)]">
+              <AccordionTrigger className="py-6 text-left font-[family-name:var(--font-display)] text-[1.375rem] leading-snug font-normal text-[var(--color-ink)] hover:no-underline focus-visible:ring-[var(--color-night)]/40">
                 {item.question}
               </AccordionTrigger>
               {/* forceMount: la respuesta siempre está en el HTML (indexable por Google);
                   el CSS la oculta cuando el acordeón está cerrado. */}
               <AccordionContent
                 forceMount
-                className="text-[var(--color-secondary-dark-gray)] text-base leading-relaxed pt-2 pb-4">
+                className="t-body pb-6 text-[var(--color-stone)]">
                 {item.answer.split("\n").map((paragraph, index) => (
                   <p key={index} className={index > 0 ? "mt-3" : ""}>
                     {paragraph}

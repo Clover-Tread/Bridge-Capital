@@ -47,24 +47,24 @@ const PoliticaCookiesPage = () => {
   }, []);
 
   const headingClasses =
-    "text-2xl md:text-3xl font-bold text-gray-800 mt-12 mb-4 scroll-mt-40";
+    "t-h3 mt-14 mb-4 scroll-mt-28 border-t border-[var(--color-rule)] pt-8";
 
   return (
     <>
-      <header className="bg-gray-100 py-16 md:py-24">
-        <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight">
-            POLÍTICA DE USO DE COOKIES
+      <header className="editorial">
+        <div className="mx-auto max-w-screen-xl px-5 pt-10 pb-12 md:px-8 md:pt-16 md:pb-16">
+          <h1 className="t-display max-w-4xl">
+            Política de uso de cookies
           </h1>
         </div>
       </header>
-      <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <div className="mx-auto max-w-screen-xl border-t border-[var(--color-rule)] px-5 py-12 md:px-8 md:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
           <aside className="lg:w-1/4">
-            <nav className="lg:sticky lg:top-40">
-              <h3 className="font-semibold text-gray-500 uppercase tracking-wider mb-4">
+            <nav className="lg:sticky lg:top-28">
+              <p className="mb-4 text-sm font-medium text-[var(--color-ink)]">
                 Índice del documento
-              </h3>
+              </p>
               <ul className="space-y-2">
                 {sections.map((section) => (
                   <li key={section.href}>
@@ -72,8 +72,8 @@ const PoliticaCookiesPage = () => {
                       href={section.href}
                       className={`transition-colors duration-200 text-sm ${
                         activeSection === section.href.substring(1)
-                          ? "font-bold text-gray-900"
-                          : "text-gray-600 hover:text-gray-900"
+                          ? "font-medium text-[var(--color-ink)] underline underline-offset-4 decoration-1"
+                          : "text-[var(--color-stone)] hover:text-[var(--color-ink)]"
                       }`}>
                       {section.title}
                     </a>
@@ -82,18 +82,18 @@ const PoliticaCookiesPage = () => {
               </ul>
             </nav>
           </aside>
-          <main className="lg:w-3/4">
-            <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-              <div className="mb-8 p-4 border-l-4 border-gray-200 bg-gray-50 rounded-r-lg">
-                <p className="text-sm text-gray-600 font-semibold">
+          <article className="lg:w-3/4">
+            <div className="legal-body">
+              <div className="mb-10 border-l border-[var(--color-rule)] pl-5">
+                <p className="text-sm text-[var(--color-stone)]">
                   Fecha de última actualización: 05 de agosto de 2021
                 </p>
                 <a
                   href="/documentos/BC_Politica_Cookies.pdf"
                   download
-                  className="inline-flex items-center gap-2 mt-2 text-sm font-semibold text-sky-600 hover:text-sky-800 transition-colors">
+                  className="inline-flex items-center gap-2 mt-2 text-sm font-semibold text-[var(--color-ink)] underline underline-offset-4 decoration-[var(--color-rule)] hover:decoration-[var(--color-ink)] transition-colors">
                   <Download size={16} />
-                  Descargar Versión en PDF
+                  Descargar versión en PDF
                 </a>
               </div>
               <p>
@@ -111,7 +111,7 @@ const PoliticaCookiesPage = () => {
                 siguiente información:
               </p>
               <h2 id="que-son-cookies" className={headingClasses}>
-                1. ¿QUÉ SON LAS COOKIES?
+                1. ¿Qué son las cookies?
               </h2>
               <p>
                 Las Cookies son archivos que permiten la recolección automática
@@ -124,7 +124,7 @@ const PoliticaCookiesPage = () => {
                 dejan de ser operativas (Cookies persistentes).
               </p>
               <h2 id="que-son-web-beacons" className={headingClasses}>
-                2. ¿QUÉ SON LOS WEB BEACONS?
+                2. ¿Qué son los web beacons?
               </h2>
               <p>
                 Los Web Beacons son archivos con una imagen que ayuda a hacer un
@@ -137,7 +137,7 @@ const PoliticaCookiesPage = () => {
                 navegan y procesan el contenido almacenado en ella.
               </p>
               <h2 id="que-son-sdk" className={headingClasses}>
-                3. ¿QUÉ SON LOS SDK?
+                3. ¿Qué son los SDK?
               </h2>
               <p>
                 Un Software Development Kit, abreviado como SDK y que en español
@@ -151,7 +151,7 @@ const PoliticaCookiesPage = () => {
                 puede limitar con ciertas reglas y licencias.
               </p>
               <h2 id="recaban-datos" className={headingClasses}>
-                4. ¿LAS COOKIES RECABAN DATOS PERSONALES?
+                4. ¿Las cookies recaban datos personales?
               </h2>
               <p>
                 Cuando las Cookies permiten la identificación del usuario
@@ -162,7 +162,7 @@ const PoliticaCookiesPage = () => {
                 finalidades antes descritas.
               </p>
               <h2 id="uso-de-tecnologias" className={headingClasses}>
-                5. USO DE COOKIES, WEB BEACONS, SDK Y SIMILARES
+                5. Uso de cookies, web beacons, SDK y similares
               </h2>
               <p>
                 Hacemos de su conocimiento que a través de nuestras plataformas,
@@ -217,7 +217,7 @@ const PoliticaCookiesPage = () => {
                 </li>
               </ul>
               <h2 id="eliminar-cookies" className={headingClasses}>
-                6. ¿SE PUEDEN ELIMINAR LAS COOKIES?
+                6. ¿Se pueden eliminar las cookies?
               </h2>
               <p>
                 Sí. Usted puede rechazar la instalación de Cookies y eliminar
@@ -258,7 +258,7 @@ const PoliticaCookiesPage = () => {
                 sitio podrán estar limitadas o no funcionar adecuadamente.
               </p>
               <h2 id="autoridad" className={headingClasses}>
-                7. AUTORIDAD EN MATERIA DE PROTECCIÓN DE DATOS PERSONALES
+                7. Autoridad en materia de protección de datos personales
               </h2>
               <p>
                 En caso de considerarlo necesario, le informamos que tiene el
@@ -268,7 +268,7 @@ const PoliticaCookiesPage = () => {
                 Derecho a la Protección de Datos Personales.
               </p>
               <h2 id="contacto" className={headingClasses}>
-                8. CONTACTO PARA DUDAS O ACLARACIONES
+                8. Contacto para dudas o aclaraciones
               </h2>
               <p>
                 Nuestro Departamento de Protección de Datos Personales queda a
@@ -278,12 +278,12 @@ const PoliticaCookiesPage = () => {
                 podrá contactarnos a través del correo electrónico:{" "}
                 <strong>legal@bridgecapital.mx</strong>.
               </p>
-              <div className="mt-12 pt-8 border-t border-gray-200 text-center text-sm">
+              <div className="mt-12 pt-8 border-t border-[var(--color-rule)] text-center text-sm">
                 <p className="font-bold">ATENTAMENTE</p>
                 <p className="mt-1 font-semibold">BRIDGE CAPITAL</p>
               </div>
             </div>
-          </main>
+          </article>
         </div>
       </div>
     </>

@@ -28,11 +28,11 @@ import {
 
 // Clases compartidas y estilos
 const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
-const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
+const SHARED_HORIZONTAL_PADDING_CLASSES = "px-5 md:px-8";
 
 // Estilos específicos para los inputs y select
-const inputBottomBorderStyle = ` block w-full appearance-none rounded-none border-x-0 border-t-0 border-b-2 border-gray-300 bg-transparent px-0.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-0 focus:border-b-[var(--color-primary)] dark:border-gray-600 dark:text-white dark:focus:border-b-[var(--color-primary)] `;
-const selectTriggerStyle = ` w-full flex items-center justify-between rounded-none border-x-0 border-t-0 border-b-2 border-gray-300 bg-transparent focus:ring-0 focus:ring-offset-0 focus:border-b-[var(--color-primary)] h-auto py-2.5 pl-0.5 pr-8 text-sm text-left [&>svg]:hidden relative `;
+const inputBottomBorderStyle = ` block w-full appearance-none rounded-none border-x-0 border-t-0 border-b border-[var(--color-ink)]/30 bg-transparent px-0 py-3 font-[family-name:var(--font-display)] text-[1.75rem] md:text-[1.75rem] h-auto leading-none text-[var(--color-ink)] shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-b-2 focus-visible:border-[var(--color-ink)] `;
+const selectTriggerStyle = ` w-full flex items-center justify-between rounded-none border-x-0 border-t-0 border-b border-[var(--color-ink)]/30 bg-transparent shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:border-b-2 focus-visible:border-[var(--color-ink)] h-auto py-3 pl-0 pr-8 font-[family-name:var(--font-display)] text-[1.75rem] leading-none text-left [&>svg]:hidden relative `;
 const annualReturnOptions = [
   "4.00",
   "8.00",
@@ -339,30 +339,23 @@ const InvestmentCalculator = () => {
   };
 
   return (
-    <section className="py-12 md:py-16 bg-white w-full">
+    <section className="editorial w-full">
       <div
-        className={`mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES}`}>
-        {/* Texto Descriptivo */}
-        <div className="text-center mb-10 md:mb-12">
-          <p className="text-lg md:text-2xl text-(--color-primary) max-w-4xl mx-auto">
-            Aquí podrás calcular los rendimientos aproximados de tus inversiones
-            a lo largo de los años, tú decides el plazo y el monto a invertir.
-          </p>
-        </div>
+        className={`mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES} border-t border-[var(--color-rule)] pt-16 pb-24 md:pt-20`}>
 
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-6 items-start">
+            className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-16 items-start">
             {/* Columna de Inputs */}
-            <div className="space-y-8 bg-slate-50 p-6 md:p-8 rounded-lg shadow">
+            <div className="space-y-10 lg:col-span-5">
               {/* FormField para initialCapital */}
               <FormField
                 control={form.control}
                 name="initialCapital"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Capital Inicial</FormLabel>
+                    <FormLabel>Capital inicial</FormLabel>
                     <FormControl>
                       <Input
                         type="text"
@@ -399,14 +392,14 @@ const InvestmentCalculator = () => {
                 name="annualReturn"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Rendimiento Anual Estimado (%)</FormLabel>
+                    <FormLabel>Rendimiento anual estimado</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger className={selectTriggerStyle}>
                           <SelectValue placeholder="Selecciona un rendimiento" />
-                          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-gray-500">
+                          <span className="absolute inset-y-0 right-1 flex items-center pointer-events-none text-sm text-[var(--color-stone)]">
                             ▼
                           </span>
                         </SelectTrigger>
@@ -433,7 +426,7 @@ const InvestmentCalculator = () => {
                 name="investmentTerm"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Plazo de Inversión (Años)</FormLabel>
+                    <FormLabel>Plazo de inversión</FormLabel>
                     <Select
                       onValueChange={(value) => {
                         field.onChange(value);
@@ -443,7 +436,7 @@ const InvestmentCalculator = () => {
                       <FormControl>
                         <SelectTrigger className={selectTriggerStyle}>
                           <SelectValue placeholder="Selecciona un plazo" />
-                          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-gray-500">
+                          <span className="absolute inset-y-0 right-1 flex items-center pointer-events-none text-sm text-[var(--color-stone)]">
                             ▼
                           </span>
                         </SelectTrigger>
@@ -471,7 +464,7 @@ const InvestmentCalculator = () => {
                 name="annualContribution"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Aportación Anual Adicional (Opcional)</FormLabel>
+                    <FormLabel>Aportación anual adicional (opcional)</FormLabel>
                     <FormControl>
                       <Input
                         type="text"
@@ -507,39 +500,42 @@ const InvestmentCalculator = () => {
               <Button
                 type="submit"
                 disabled={isCalculating}
-                className="w-full bg-[var(--color-dark-red)] hover:bg-[var(--color-dark-red-hover)] text-base py-3">
+                className="btn btn-primary w-full h-auto">
                 {isCalculating ? "Calculando..." : "Calcular"}
               </Button>
             </div>
 
             {/* Columna de Resultados */}
+            {!results && (
+              <div className="flex min-h-[22rem] items-center border-t border-[var(--color-rule)] pt-10 lg:col-span-6 lg:col-start-7 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-12">
+                <p className="t-lead">
+                  Ajusta el capital, el rendimiento y el plazo, y presiona
+                  Calcular para ver tu estimación año por año.
+                </p>
+              </div>
+            )}
             {results && (
-              <div className="space-y-6 bg-sky-50 p-6 md:p-8 rounded-lg shadow">
-                <h3 className="text-2xl font-semibold text-slate-800 mb-2">
-                  Resultados Estimados para{" "}
-                  {results.breakdown.find(
-                    (b) => b.year === parseInt(getValues("investmentTerm"))
-                  )?.year || getValues("investmentTerm")}{" "}
-                  años:
-                </h3>
-                <div className="space-y-3 text-lg mb-6">
-                  <p>
-                    <strong>Valor Estimado Total:</strong>{" "}
+              <div className="space-y-8 border-t border-[var(--color-rule)] pt-10 lg:col-span-6 lg:col-start-7 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-12" aria-live="polite">
+                <div>
+                  <p className="text-sm text-[var(--color-stone)]">
+                    Valor estimado a {getValues("investmentTerm")} años
+                  </p>
+                  <p className="mt-2 font-[family-name:var(--font-display)] text-[clamp(2.75rem,2rem+3vw,4.5rem)] leading-none">
                     {formatCurrency(results.totalValue, true)}
                   </p>
-                  <p>
-                    <strong>Total de Tus Aportaciones:</strong>{" "}
-                    {formatCurrency(results.totalContributions, true)}
-                  </p>
-                  <p className="font-semibold text-green-700">
-                    <strong>Intereses Estimados Ganados:</strong>{" "}
-                    {formatCurrency(results.totalInterest, true)}
-                  </p>
                 </div>
+                <dl className="grid grid-cols-2 gap-6 border-y border-[var(--color-rule)] py-6">
+                  <div>
+                    <dt className="text-sm text-[var(--color-stone)]">Tus aportaciones</dt>
+                    <dd className="mt-1 text-lg font-medium">{formatCurrency(results.totalContributions, true)}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-[var(--color-stone)]">Rendimiento estimado</dt>
+                    <dd className="mt-1 text-lg font-medium">{formatCurrency(results.totalInterest, true)}</dd>
+                  </div>
+                </dl>
 
-                <Link
-                  href="/contacto"
-                  className="block w-full text-center bg-[var(--color-dark-red)] hover:bg-[var(--color-dark-red-hover)] text-white font-semibold py-3 rounded-md transition-colors">
+                <Link href="/contacto" className="btn btn-primary w-full">
                   Habla con un asesor sobre este escenario
                 </Link>
 
@@ -547,24 +543,24 @@ const InvestmentCalculator = () => {
                   type="button"
                   onClick={handleGeneratePDF}
                   variant="outline"
-                  className="w-full border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10">
-                  Descargar Estimación en PDF
+                  className="btn w-full h-auto rounded-[2px] border border-[var(--color-ink)] bg-transparent text-[var(--color-ink)] shadow-none hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]">
+                  Descargar estimación en PDF
                 </Button>
 
                 {results.breakdown.length > 0 && (
-                  <div className="mt-6 pt-6 border-t">
-                    <h4 className="text-xl font-semibold text-slate-700 mb-3">
-                      Desglose del Valor Estimado:
+                  <div>
+                    <h4 className="text-sm font-medium mb-3">
+                      Desglose por año
                     </h4>
-                    <div className="grid grid-cols-1 gap-3">
+                    <div className="divide-y divide-[var(--color-rule)] border-y border-[var(--color-rule)]">
                       {results.breakdown.map((item) => (
                         <div
                           key={item.year}
-                          className="bg-white p-3 rounded shadow flex justify-between items-center">
-                          <p className="text-sm text-slate-600">
-                            Al final del Año {item.year}
+                          className="py-3 flex justify-between items-center">
+                          <p className="text-sm text-[var(--color-stone)]">
+                            Al final del año {item.year}
                           </p>
-                          <p className="font-semibold text-slate-800 text-md">
+                          <p className="font-medium">
                             {formatCurrency(item.value, true)}
                           </p>
                         </div>
@@ -573,7 +569,7 @@ const InvestmentCalculator = () => {
                   </div>
                 )}
 
-                <p className="text-xs leading-relaxed text-slate-500 border-t pt-4">
+                <p className="text-xs leading-relaxed text-[var(--color-stone)]">
                   Simulación ilustrativa con interés compuesto anual a una tasa
                   constante. No considera comisiones, impuestos ni inflación. Los
                   rendimientos pasados no garantizan rendimientos futuros y esta

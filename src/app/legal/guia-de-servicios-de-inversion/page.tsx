@@ -51,26 +51,26 @@ const GuiaServiciosInversionPage = () => {
   }, []);
 
   const headingClasses =
-    "text-2xl md:text-3xl font-bold text-gray-800 mt-12 mb-4 scroll-mt-40";
+    "t-h3 mt-14 mb-4 scroll-mt-28 border-t border-[var(--color-rule)] pt-8";
   const subHeadingClasses =
-    "text-xl md:text-2xl font-semibold text-gray-700 mt-8 mb-3";
+    "text-lg font-medium mt-8 mb-3";
 
   return (
     <>
-      <header className="bg-gray-100 py-16 md:py-24">
-        <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight">
-            GUÍA DE SERVICIOS DE INVERSIÓN
+      <header className="editorial">
+        <div className="mx-auto max-w-screen-xl px-5 pt-10 pb-12 md:px-8 md:pt-16 md:pb-16">
+          <h1 className="t-display max-w-4xl">
+            Guía de servicios de inversión
           </h1>
         </div>
       </header>
-      <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <div className="mx-auto max-w-screen-xl border-t border-[var(--color-rule)] px-5 py-12 md:px-8 md:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
           <aside className="lg:w-1/4">
-            <nav className="lg:sticky lg:top-40">
-              <h3 className="font-semibold text-gray-500 uppercase tracking-wider mb-4">
+            <nav className="lg:sticky lg:top-28">
+              <p className="mb-4 text-sm font-medium text-[var(--color-ink)]">
                 Índice del documento
-              </h3>
+              </p>
               <ul className="space-y-2">
                 {sections.map((section) => (
                   <li key={section.href}>
@@ -78,8 +78,8 @@ const GuiaServiciosInversionPage = () => {
                       href={section.href}
                       className={`transition-colors duration-200 text-sm ${
                         activeSection === section.href.substring(1)
-                          ? "font-bold text-gray-900"
-                          : "text-gray-600 hover:text-gray-900"
+                          ? "font-medium text-[var(--color-ink)] underline underline-offset-4 decoration-1"
+                          : "text-[var(--color-stone)] hover:text-[var(--color-ink)]"
                       }`}>
                       {section.title}
                     </a>
@@ -88,22 +88,22 @@ const GuiaServiciosInversionPage = () => {
               </ul>
             </nav>
           </aside>
-          <main className="lg:w-3/4">
-            <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-              <div className="mb-8 p-4 border-l-4 border-gray-200 bg-gray-50 rounded-r-lg">
-                <p className="text-sm text-gray-600 font-semibold">
+          <article className="lg:w-3/4">
+            <div className="legal-body">
+              <div className="mb-10 border-l border-[var(--color-rule)] pl-5">
+                <p className="text-sm text-[var(--color-stone)]">
                   Fecha de última actualización: 05 de agosto de 2021
                 </p>
                 <a
                   href="/documentos/BC_Guia_Servicios_Inversion.pdf"
                   download
-                  className="inline-flex items-center gap-2 mt-2 text-sm font-semibold text-sky-600 hover:text-sky-800 transition-colors">
+                  className="inline-flex items-center gap-2 mt-2 text-sm font-semibold text-[var(--color-ink)] underline underline-offset-4 decoration-[var(--color-rule)] hover:decoration-[var(--color-ink)] transition-colors">
                   <Download size={16} />
-                  Descargar Versión en PDF
+                  Descargar versión en PDF
                 </a>
               </div>
               <h2 id="introduccion" className={headingClasses}>
-                I. INTRODUCCIÓN
+                I. Introducción
               </h2>
               <p>
                 La presente Guía tiene por sustento la Ley del Mercado de
@@ -118,7 +118,7 @@ const GuiaServiciosInversionPage = () => {
                 diversificación de carteras.
               </p>
               <h2 id="servicios-inversion" className={headingClasses}>
-                II. SERVICIOS DE INVERSIÓN
+                II. Servicios de inversión
               </h2>
               <h3 className={subHeadingClasses}>Servicios Asesorados</h3>
               <p>
@@ -146,7 +146,7 @@ const GuiaServiciosInversionPage = () => {
                 ofrecida.
               </p>
               <h2 id="otros-servicios" className={headingClasses}>
-                III. OTROS SERVICIOS
+                III. Otros servicios
               </h2>
               <p>
                 BC Asesores también gestiona retiros y depósitos a cuentas de
@@ -155,7 +155,7 @@ const GuiaServiciosInversionPage = () => {
                 electrónicos.
               </p>
               <h2 id="productos-financieros" className={headingClasses}>
-                IV. PRODUCTOS FINANCIEROS
+                IV. Productos financieros
               </h2>
               <p>Asesoramos en una amplia gama de productos, incluyendo:</p>
               <ul>
@@ -185,7 +185,7 @@ const GuiaServiciosInversionPage = () => {
                 </li>
               </ul>
               <h2 id="politica-productos" className={headingClasses}>
-                V. POLÍTICA DE LOS PRODUCTOS FINANCIEROS
+                V. Política de los productos financieros
               </h2>
               <p>
                 Para determinar los productos en los que se sugerirá invertir,
@@ -197,7 +197,7 @@ const GuiaServiciosInversionPage = () => {
                 el rendimiento de referencia).
               </p>
               <h2 id="politica-diversificacion" className={headingClasses}>
-                VI. POLÍTICA DE DIVERSIFICACIÓN DE CARTERAS
+                VI. Política de diversificación de carteras
               </h2>
               <p>
                 BC Asesores cuenta con políticas para la diversificación de las
@@ -208,7 +208,7 @@ const GuiaServiciosInversionPage = () => {
                 Derivados son utilizados como réplica de activos o cobertura.
               </p>
               <h2 id="comisiones" className={headingClasses}>
-                VII. COMISIONES
+                VII. Comisiones
               </h2>
               <p>
                 BC Asesores solo cobra comisiones por los servicios de inversión
@@ -230,7 +230,7 @@ const GuiaServiciosInversionPage = () => {
                 de intermediarios del Mercado de Valores.
               </p>
               <h2 id="reclamaciones" className={headingClasses}>
-                VIII. RECLAMACIONES
+                VIII. Reclamaciones
               </h2>
               <p>
                 Las reclamaciones y quejas deberán presentarse por escrito en
@@ -241,7 +241,7 @@ const GuiaServiciosInversionPage = () => {
                 Servicios Financieros (CONDUSEF).
               </p>
               <h2 id="conflictos-interes" className={headingClasses}>
-                IX. CONFLICTOS DE INTERÉS
+                IX. Conflictos de interés
               </h2>
               <p>
                 BC Asesores se rige por políticas que vigilan el adecuado
@@ -254,7 +254,7 @@ const GuiaServiciosInversionPage = () => {
                 se obtiene un beneficio en perjuicio de los intereses del mismo.
               </p>
             </div>
-          </main>
+          </article>
         </div>
       </div>
     </>

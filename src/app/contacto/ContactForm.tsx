@@ -1,23 +1,10 @@
-"use client"; // Necesario para la interactividad del formulario y el modal
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-/**
- * Componente del Formulario con Lógica de Validación
- * Maneja su propio estado para los campos y los errores.
- */
 type FormFields = {
   name: string;
   email: string;
@@ -36,7 +23,7 @@ const emptyErrors: FormErrors = {
   privacyConsent: "",
 };
 
-const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
+export default function ContactForm() {
   const [formData, setFormData] = useState<FormFields>({
     name: "",
     email: "",
@@ -109,7 +96,6 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
       setServerMessage(
         "¡Gracias! Un asesor se pondrá en contacto contigo muy pronto."
       );
-      onSuccess();
     } catch (error) {
       setStatus("error");
       setServerMessage(
@@ -122,79 +108,84 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
   if (status === "success") {
     return (
-      <p role="status" className="text-green-700 text-base py-6 text-center">
-        {serverMessage}
-      </p>
+      <div role="status" className="border-t border-[var(--color-rule)] pt-8">
+        <p className="t-h3">Mensaje enviado.</p>
+        <p className="t-body mt-3 text-[var(--color-stone)]">{serverMessage}</p>
+      </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-8" noValidate>
       <div>
-        <label htmlFor="name" className="sr-only">
-          Nombre
+        <label htmlFor="name" className="text-sm font-medium">
+          Nombre completo
         </label>
         <Input
           id="name"
+          className="mt-2 h-12 rounded-none border-0 border-b border-[var(--color-ink)]/30 bg-transparent px-0 text-base shadow-none focus-visible:border-b-2 focus-visible:border-[var(--color-ink)] focus-visible:ring-0 aria-invalid:border-red-700"
           name="name"
           autoComplete="name"
-          placeholder="Nombre Completo"
+          placeholder=""
           value={formData.name}
           onChange={handleChange}
           aria-invalid={!!errors.name}
           required
         />
         {errors.name && (
-          <p className="text-red-600 text-sm mt-1">{errors.name}</p>
+          <p className="text-red-700 text-sm mt-2">{errors.name}</p>
         )}
       </div>
       <div>
-        <label htmlFor="email" className="sr-only">
-          Correo Electrónico
+        <label htmlFor="email" className="text-sm font-medium">
+          Correo electrónico
         </label>
         <Input
           id="email"
+          className="mt-2 h-12 rounded-none border-0 border-b border-[var(--color-ink)]/30 bg-transparent px-0 text-base shadow-none focus-visible:border-b-2 focus-visible:border-[var(--color-ink)] focus-visible:ring-0 aria-invalid:border-red-700"
           name="email"
           type="email"
           autoComplete="email"
-          placeholder="Correo Electrónico"
+          placeholder=""
           value={formData.email}
           onChange={handleChange}
           aria-invalid={!!errors.email}
           required
         />
         {errors.email && (
-          <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+          <p className="text-red-700 text-sm mt-2">{errors.email}</p>
         )}
       </div>
       <div>
-        <label htmlFor="phone" className="sr-only">
-          Teléfono
+        <label htmlFor="phone" className="text-sm font-medium">
+          Teléfono (10 dígitos)
         </label>
         <Input
           id="phone"
+          className="mt-2 h-12 rounded-none border-0 border-b border-[var(--color-ink)]/30 bg-transparent px-0 text-base shadow-none focus-visible:border-b-2 focus-visible:border-[var(--color-ink)] focus-visible:ring-0 aria-invalid:border-red-700"
           name="phone"
           type="tel"
           inputMode="tel"
           autoComplete="tel"
-          placeholder="Teléfono (10 dígitos)"
+          placeholder=""
           value={formData.phone}
           onChange={handleChange}
           aria-invalid={!!errors.phone}
           required
         />
         {errors.phone && (
-          <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
+          <p className="text-red-700 text-sm mt-2">{errors.phone}</p>
         )}
       </div>
       <div>
-        <label htmlFor="message" className="sr-only">
-          Mensaje
+        <label htmlFor="message" className="text-sm font-medium">
+          ¿En qué te podemos ayudar?
         </label>
         <Textarea
           id="message"
+          className="mt-2 min-h-32 rounded-none border-0 border-b border-[var(--color-ink)]/30 bg-transparent px-0 text-base shadow-none focus-visible:border-b-2 focus-visible:border-[var(--color-ink)] focus-visible:ring-0 aria-invalid:border-red-700"
           name="message"
-          placeholder="¿En qué te podemos ayudar?"
+          placeholder=""
           value={formData.message}
           onChange={handleChange}
           rows={4}
@@ -202,7 +193,7 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
           required
         />
         {errors.message && (
-          <p className="text-red-600 text-sm mt-1">{errors.message}</p>
+          <p className="text-red-700 text-sm mt-2">{errors.message}</p>
         )}
       </div>
       <div>
@@ -232,73 +223,17 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
           </span>
         </label>
         {errors.privacyConsent && (
-          <p className="text-red-600 text-sm mt-1">{errors.privacyConsent}</p>
+          <p className="text-red-700 text-sm mt-2">{errors.privacyConsent}</p>
         )}
       </div>
       {status === "error" && (
-        <p role="alert" className="text-red-600 text-sm">
+        <p role="alert" className="text-red-700 text-sm">
           {serverMessage}
         </p>
       )}
-      <Button
-        type="submit"
-        disabled={status === "sending"}
-        className="w-full bg-[var(--color-dark-red)] hover:bg-[var(--color-dark-red-hover)]/90 text-white font-bold">
-        {status === "sending" ? "Enviando..." : "Enviar Mensaje"}
-      </Button>
+      <button type="submit" disabled={status === "sending"} className="btn btn-primary w-full sm:w-auto disabled:opacity-60">
+        {status === "sending" ? "Enviando…" : "Enviar mensaje"}
+      </button>
     </form>
   );
-};
-
-/**
- * Componente que actúa como el disparador del Modal (el botón).
- * Se exporta para poder usarlo en PreContactCTASection.tsx
- */
-export const ContactModalTrigger = () => {
-  return (
-    <DialogTrigger asChild>
-      <Button
-        size="lg"
-        className=" bg-[var(--color-dark-red)] hover:bg-[var(--color-dark-red-hover)]/90 text-white font-bold text-lg px-8 py-6">
-        Contacta a un asesor
-      </Button>
-    </DialogTrigger>
-  );
-};
-
-/**
- * Componente principal que une el Modal y el Formulario.
- * Recibe 'children', que será el botón disparador (ContactModalTrigger)
- * envuelto en la sección visible de la página (PreContactCTASection).
- */
-export const ContactModal = ({ children }: { children: React.ReactNode }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleSuccess = () => {
-    // Cierra el modal después de un envío exitoso
-    // Deja visible el mensaje de confirmación unos segundos antes de cerrar.
-    setTimeout(() => {
-      setIsOpen(false);
-    }, 3500);
-  };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {children} {/* Aquí se renderizará el componente que contiene el botón */}
-      <DialogContent className="sm:max-w-[480px]">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-[var(--color-primary-blue)]">
-            Contacta a un Experto
-          </DialogTitle>
-          <DialogDescription className="pt-2">
-            Completa tus datos y un miembro de nuestro equipo se comunicará
-            contigo a la brevedad.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="py-4">
-          <ContactForm onSuccess={handleSuccess} />
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-};
+}
