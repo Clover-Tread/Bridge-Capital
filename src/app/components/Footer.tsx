@@ -128,7 +128,7 @@ const Footer = () => {
               <li className="flex items-start justify-center md:justify-start gap-3">
                 <MapPin size={16} className="text-sky-300 mt-1 flex-shrink-0" />
                 <a
-                  href="https://maps.google.com"
+                  href="https://www.google.com/maps/search/?api=1&query=Bridge+Capital+Insurgentes+Sur+1431+Piso+10+Insurgentes+Mixcoac+CDMX"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-white transition-colors duration-300">

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -24,8 +25,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 
 // Clases compartidas y estilos
 const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
@@ -219,8 +218,13 @@ const InvestmentCalculator = () => {
       setIsCalculating(false);
     }, 500);
   }
-  const handleGeneratePDF = () => {
+  const handleGeneratePDF = async () => {
     if (!results) return;
+    // jsPDF pesa ~150 KB: se carga solo cuando el usuario pide el PDF.
+    const [{ default: jsPDF }, { default: autoTable }] = await Promise.all([
+      import("jspdf"),
+      import("jspdf-autotable"),
+    ]);
     const doc = new jsPDF();
     const currentFormValues = getValues();
     doc.setFontSize(20);
@@ -362,6 +366,8 @@ const InvestmentCalculator = () => {
                     <FormControl>
                       <Input
                         type="text"
+                        inputMode="decimal"
+                        autoComplete="off"
                         placeholder="Ej: $3,000,000"
                         {...field}
                         className={inputBottomBorderStyle}
@@ -469,6 +475,8 @@ const InvestmentCalculator = () => {
                     <FormControl>
                       <Input
                         type="text"
+                        inputMode="decimal"
+                        autoComplete="off"
                         placeholder="Ej: $10,000"
                         {...field}
                         className={inputBottomBorderStyle}
@@ -489,8 +497,8 @@ const InvestmentCalculator = () => {
                       />
                     </FormControl>
                     <FormDescription>
-                      Suma que planeas agregar cada año. Mínimo $10,000 si es
-                      mayor a $0.
+                      Suma que planeas agregar al inicio de cada año a partir
+                      del segundo. Mínimo $10,000 si es mayor a $0.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -529,7 +537,14 @@ const InvestmentCalculator = () => {
                   </p>
                 </div>
 
+                <Link
+                  href="/contacto"
+                  className="block w-full text-center bg-[var(--color-dark-red)] hover:bg-[var(--color-dark-red-hover)] text-white font-semibold py-3 rounded-md transition-colors">
+                  Habla con un asesor sobre este escenario
+                </Link>
+
                 <Button
+                  type="button"
                   onClick={handleGeneratePDF}
                   variant="outline"
                   className="w-full border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10">
@@ -557,6 +572,14 @@ const InvestmentCalculator = () => {
                     </div>
                   </div>
                 )}
+
+                <p className="text-xs leading-relaxed text-slate-500 border-t pt-4">
+                  Simulación ilustrativa con interés compuesto anual a una tasa
+                  constante. No considera comisiones, impuestos ni inflación. Los
+                  rendimientos pasados no garantizan rendimientos futuros y esta
+                  estimación no constituye una recomendación ni una promesa de
+                  retorno.
+                </p>
               </div>
             )}
           </form>

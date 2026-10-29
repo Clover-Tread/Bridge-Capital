@@ -12,7 +12,8 @@ export default function CookieConsent({ variant = "default", demo = false, onAcc
 
     const accept = () => {
         setIsOpen(false);
-        document.cookie = "cookieConsent=true; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+        // 180 días; path=/ para que aplique en todas las rutas.
+        document.cookie = "cookieConsent=true; max-age=15552000; path=/; SameSite=Lax";
         setTimeout(() => {
             setHide(true);
         }, 700);
@@ -21,6 +22,8 @@ export default function CookieConsent({ variant = "default", demo = false, onAcc
 
     const decline = () => {
         setIsOpen(false);
+        // Recordamos también el rechazo para no volver a mostrar el banner en cada visita.
+        document.cookie = "cookieConsent=false; max-age=15552000; path=/; SameSite=Lax";
         setTimeout(() => {
             setHide(true);
         }, 700);
@@ -30,7 +33,7 @@ export default function CookieConsent({ variant = "default", demo = false, onAcc
     useEffect(() => {
         try {
             setIsOpen(true);
-            if (document.cookie.includes("cookieConsent=true")) {
+            if (document.cookie.includes("cookieConsent=")) {
                 if (!demo) {
                     setIsOpen(false);
                     setTimeout(() => {
@@ -50,7 +53,7 @@ export default function CookieConsent({ variant = "default", demo = false, onAcc
                 <div className="dark:bg-card bg-background rounded-md m-3 border border-border shadow-lg">
                     <div className="grid gap-2">
                         <div className="border-b border-border h-14 flex items-center justify-between p-4">
-                            <h1 className="text-lg font-medium">Usamos cookies</h1>
+                            <p className="text-lg font-medium">Usamos cookies</p>
                             <CookieIcon className="h-[1.2rem] w-[1.2rem]" />
                         </div>
                         <div className="p-4">
@@ -60,7 +63,7 @@ export default function CookieConsent({ variant = "default", demo = false, onAcc
                                 <br />
                                 <span className="text-xs">Al hacer clic en "<span className="font-medium opacity-80">Aceptar</span>", aceptas el uso de cookies.</span>
                                 <br />
-                                <Link href="https://www.bridgecapital.mx/pdf/politicacookies.pdf" target="_blank" className="text-xs underline ">Más información.</Link>
+                                <Link href="/legal/politica-de-cookies" className="text-xs underline ">Más información.</Link>
                             </p>
                         </div>
                         <div className="flex flex-col gap-2 p-4 py-5 border-t border-border dark:bg-background/20">
@@ -73,18 +76,18 @@ export default function CookieConsent({ variant = "default", demo = false, onAcc
         ) : variant == "small" && (
             <div className={cn("fixed z-[200] bottom-0 left-0 right-0 sm:left-4 sm:bottom-4 w-full sm:max-w-md duration-700", !isOpen ? "transition-[opacity,transform] translate-y-8 opacity-0" : "transition-[opacity,transform] translate-y-0 opacity-100", hide && "hidden")}>
                 <div className="m-3 dark:bg-card bg-background border border-border rounded-lg">
-                    <div className="flex items-center justify-between p-3">
-                        <h1 className="text-lg font-medium">Usamos cookies</h1>
+                    <div className="hidden sm:flex items-center justify-between p-3">
+                        <p className="text-lg font-medium">Usamos cookies</p>
                         <CookieIcon className="h-[1.2rem] w-[1.2rem]" />
                     </div>
-                    <div className="p-3 -mt-2">
-                        <p className="text-sm text-left text-muted-foreground ">
-                            Utilizamos cookies para asegurarnos de que obtengas la mejor experiencia en nuestro sitio web. Para más información sobre cómo usamos las cookies, consulta nuestra <Link href="https://www.bridgecapital.mx/pdf/politicacookies.pdf" target="_blank" className=" underline">política de cookies</Link>.
+                    <div className="p-3 sm:-mt-2">
+                        <p className="text-xs sm:text-sm text-left text-muted-foreground pt-2 sm:pt-0">
+                            Utilizamos cookies para asegurarnos de que obtengas la mejor experiencia en nuestro sitio web. Para más información sobre cómo usamos las cookies, consulta nuestra <Link href="/legal/politica-de-cookies" className=" underline">política de cookies</Link>.
                         </p>
                     </div>
-                    <div className="p-3 flex flex-col items-center gap-2 mt-2 border-t">
-                        <Button onClick={accept} className="w-full h-9 rounded-full ">Aceptar</Button>
-                        <Button onClick={decline} className="w-full h-9 rounded-full " variant="outline">Declinar</Button>
+                    <div className="p-3 flex flex-row items-center gap-2 mt-1 border-t">
+                        <Button onClick={accept} className="flex-1 h-9 rounded-full ">Aceptar</Button>
+                        <Button onClick={decline} className="flex-1 h-9 rounded-full " variant="outline">Declinar</Button>
                     </div>
                 </div>
             </div>

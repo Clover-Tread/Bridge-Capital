@@ -5,12 +5,12 @@ import InvestmentAdvisorySection from './InvestmentAdvisorySection';
 import CTASection from './CTASection';
 
 export const metadata = { // Metadata específica para esta página
-  title: 'Servicios - Bridge Capital',
+  title: 'Servicios de Inversión',
   description: 'Descubre cómo adaptamos cada servicio para responder precisamente a tus expectativas.',
+  alternates: { canonical: '/servicios' },
 };
 
 export default function ServiciosPage() {
-  console.log("Renderizando /servicios page"); // Para ver en la terminal del servidor
   return (
     <>
       <ServicesIntroSection />

@@ -135,7 +135,7 @@ const CalculatorIntroSection = () => {
             ref={titleLine1Ref}
             className="block text-4xl md:text-5xl lg:text-6xl font-black leading-tight md:leading-snug opacity-0">
             Simula Tu Inversión,
-          </span>
+          </span>{" "}
           <span
             ref={titleLine2Ref}
             className="block text-5xl md:text-6xl lg:text-7xl font-black leading-tight md:leading-snug mt-1 md:mt-2 opacity-0">

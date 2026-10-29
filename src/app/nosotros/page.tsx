@@ -4,8 +4,9 @@ import StatsSection from './StatsSection';
 import CoreValuesSection from './CoreValuesSection';
 
 export const metadata = {
-  title: 'Nosotros - Bridge Capital',
+  title: 'Nosotros',
   description: 'Socios estratégicos para tu patrimonio: seguro y en constante crecimiento.',
+  alternates: { canonical: '/nosotros' },
 };
 
 export default function NosotrosPage() {

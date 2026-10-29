@@ -154,16 +154,15 @@ const ServicesIntroSection = () => {
         <h1
           ref={titleRef}
           className="text-4xl md:text-6xl lg:text-7xl font-[900] text-[var(--color-primary)] mb-4 opacity-0">
+          {/* Espacio real entre palabras: sin él, lectores de pantalla y Google
+              leen "ConoceNuestrosServicios". */}
           {titleText.split(" ").map((word, index, wordsArray) => (
-            <span
-              key={index}
-              className="title-word inline-block"
-              style={{
-                marginRight: index < wordsArray.length - 1 ? "0.20em" : "0",
-                opacity: 0,
-              }}>
-              {word}
-            </span>
+            <React.Fragment key={index}>
+              <span className="title-word inline-block" style={{ opacity: 0 }}>
+                {word}
+              </span>
+              {index < wordsArray.length - 1 && " "}
+            </React.Fragment>
           ))}
         </h1>
         <p

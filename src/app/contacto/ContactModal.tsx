@@ -1,6 +1,7 @@
 "use client"; // Necesario para la interactividad del formulario y el modal
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,27 +18,38 @@ import { Textarea } from "@/components/ui/textarea";
  * Componente del Formulario con Lógica de Validación
  * Maneja su propio estado para los campos y los errores.
  */
+type FormFields = {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  privacyConsent: boolean;
+};
+
+type FormErrors = Record<keyof FormFields, string>;
+
+const emptyErrors: FormErrors = {
+  name: "",
+  email: "",
+  phone: "",
+  message: "",
+  privacyConsent: "",
+};
+
 const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
-  // Estado para los valores de los inputs
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormFields>({
     name: "",
     email: "",
+    phone: "",
     message: "",
+    privacyConsent: false,
   });
+  const [errors, setErrors] = useState<FormErrors>(emptyErrors);
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [serverMessage, setServerMessage] = useState("");
 
-  // Estado para los mensajes de error
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
-  // Estado para el proceso de envío
-  const [status, setStatus] = useState("idle"); // 'idle' | 'sending' | 'success' | 'error'
-
-  // Función para validar los campos del formulario
   const validate = () => {
-    const newErrors = { name: "", email: "", message: "" };
+    const newErrors: FormErrors = { ...emptyErrors };
     let isValid = true;
 
     if (!formData.name.trim()) {
@@ -47,14 +59,22 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
     if (!formData.email.trim()) {
       newErrors.email = "El correo electrónico es obligatorio.";
       isValid = false;
-    }
-    // Opcional: validación de formato de email
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "El formato del correo no es válido.";
+      isValid = false;
+    }
+    const phoneDigits = formData.phone.replace(/\D/g, "");
+    if (phoneDigits.length < 10 || phoneDigits.length > 13) {
+      newErrors.phone = "Introduce un teléfono de 10 dígitos.";
       isValid = false;
     }
     if (!formData.message.trim()) {
       newErrors.message = "No olvides escribir tu mensaje.";
+      isValid = false;
+    }
+    if (!formData.privacyConsent) {
+      newErrors.privacyConsent =
+        "Necesitamos tu consentimiento para contactarte.";
       isValid = false;
     }
 
@@ -62,59 +82,53 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
     return isValid;
   };
 
-  // Maneja los cambios en los inputs
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Maneja el envío del formulario de forma real
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!validate()) return;
 
-    if (validate()) {
-      setStatus("sending");
-      // console.log("Formulario válido, enviando al backend...", formData);
-
-      try {
-        // 1. Enviamos una solicitud POST a nuestra API Route
-        const response = await fetch("../../api/contact", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          // 2. Convertimos los datos del formulario a formato JSON
-          body: JSON.stringify(formData),
-        });
-
-        // 3. Si el servidor responde con un error, lo manejamos
-        if (!response.ok) {
-          // Obtenemos el mensaje de error del backend si existe
-          const errorData = await response.json();
-          throw new Error(
-            errorData.message || "Algo salió mal en el servidor."
-          );
-        }
-
-        // 4. Si todo sale bien
-        console.log("Formulario enviado y procesado con éxito por el backend.");
-        setStatus("success");
-        onSuccess(); // Cierra el modal
-      } catch (error) {
-        // 5. Si hay un error de red o del servidor, lo mostramos
-        console.error("Error al enviar el formulario:", error);
-        setStatus("error");
-        // Aquí podrías mostrar un mensaje de error al usuario en la UI
+    setStatus("sending");
+    setServerMessage("");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.message || "No pudimos enviar tu mensaje.");
       }
-    } else {
-      console.error("La validación del formulario falló.", errors);
+      setStatus("success");
+      setServerMessage(
+        "¡Gracias! Un asesor se pondrá en contacto contigo muy pronto."
+      );
+      onSuccess();
+    } catch (error) {
+      setStatus("error");
+      setServerMessage(
+        error instanceof Error
+          ? `${error.message} Intenta de nuevo o llámanos al (55) 8852 2764.`
+          : "No pudimos enviar tu mensaje. Llámanos al (55) 8852 2764."
+      );
     }
   };
 
+  if (status === "success") {
+    return (
+      <p role="status" className="text-green-700 text-base py-6 text-center">
+        {serverMessage}
+      </p>
+    );
+  }
+
   return (
-    // 'noValidate' deshabilita los popups de validación del navegador
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
       <div>
         <label htmlFor="name" className="sr-only">
@@ -122,12 +136,14 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         </label>
         <Input
           id="name"
+          name="name"
+          autoComplete="name"
           placeholder="Nombre Completo"
           value={formData.name}
           onChange={handleChange}
           aria-invalid={!!errors.name}
+          required
         />
-        {/* Muestra el mensaje de error personalizado si existe */}
         {errors.name && (
           <p className="text-red-600 text-sm mt-1">{errors.name}</p>
         )}
@@ -138,14 +154,37 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         </label>
         <Input
           id="email"
+          name="email"
           type="email"
+          autoComplete="email"
           placeholder="Correo Electrónico"
           value={formData.email}
           onChange={handleChange}
           aria-invalid={!!errors.email}
+          required
         />
         {errors.email && (
           <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+        )}
+      </div>
+      <div>
+        <label htmlFor="phone" className="sr-only">
+          Teléfono
+        </label>
+        <Input
+          id="phone"
+          name="phone"
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel"
+          placeholder="Teléfono (10 dígitos)"
+          value={formData.phone}
+          onChange={handleChange}
+          aria-invalid={!!errors.phone}
+          required
+        />
+        {errors.phone && (
+          <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
         )}
       </div>
       <div>
@@ -154,16 +193,53 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         </label>
         <Textarea
           id="message"
-          placeholder="Tu mensaje..."
+          name="message"
+          placeholder="¿En qué te podemos ayudar?"
           value={formData.message}
           onChange={handleChange}
-          rows={5}
+          rows={4}
           aria-invalid={!!errors.message}
+          required
         />
         {errors.message && (
           <p className="text-red-600 text-sm mt-1">{errors.message}</p>
         )}
       </div>
+      <div>
+        <label className="flex items-start gap-2 text-sm text-gray-600">
+          <input
+            type="checkbox"
+            name="privacyConsent"
+            checked={formData.privacyConsent}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                privacyConsent: e.target.checked,
+              }))
+            }
+            aria-invalid={!!errors.privacyConsent}
+            className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-dark-red)]"
+          />
+          <span>
+            He leído y acepto el{" "}
+            <Link
+              href="/legal/aviso-de-privacidad"
+              target="_blank"
+              className="underline underline-offset-2 text-[var(--color-dark-red)]">
+              Aviso de Privacidad
+            </Link>
+            .
+          </span>
+        </label>
+        {errors.privacyConsent && (
+          <p className="text-red-600 text-sm mt-1">{errors.privacyConsent}</p>
+        )}
+      </div>
+      {status === "error" && (
+        <p role="alert" className="text-red-600 text-sm">
+          {serverMessage}
+        </p>
+      )}
       <Button
         type="submit"
         disabled={status === "sending"}
@@ -200,9 +276,10 @@ export const ContactModal = ({ children }: { children: React.ReactNode }) => {
 
   const handleSuccess = () => {
     // Cierra el modal después de un envío exitoso
+    // Deja visible el mensaje de confirmación unos segundos antes de cerrar.
     setTimeout(() => {
       setIsOpen(false);
-    }, 500);
+    }, 3500);
   };
 
   return (

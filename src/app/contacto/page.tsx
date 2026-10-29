@@ -1,24 +1,41 @@
 // app/contacto/page.tsx
-
-import React from "react";
+import type { Metadata } from "next";
 import ContactHeaderSection from "./ContactHeaderSection";
-// Importa la sección visible que contiene el botón
 import PreContactCTASection from "./PreContactCTASection";
-// Importa el componente que provee la lógica del modal
 import { ContactModal } from "./ContactModal";
-import FAQSection from "./FAQSection";
+import FAQSection, { faqData } from "./FAQSection";
+
+export const metadata: Metadata = {
+  title: "Contacto | Habla con un Asesor en Inversiones",
+  description:
+    "Agenda una conversación con un asesor de Bridge Capital. Resolvemos tus dudas sobre monto mínimo, comisiones, documentos y dónde se resguarda tu dinero.",
+  alternates: { canonical: "/contacto" },
+};
+
+// Schema FAQPage: permite que las preguntas aparezcan como resultado enriquecido en Google.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqData.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
 
 export default function ContactoPage() {
+  // El layout raíz ya envuelve todo en <main>; aquí no se repite.
   return (
     <>
-      <main>
-        <ContactHeaderSection />
-        <ContactModal>
-          <PreContactCTASection />
-        </ContactModal>
-
-        <FAQSection />
-      </main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <ContactHeaderSection />
+      <ContactModal>
+        <PreContactCTASection />
+      </ContactModal>
+      <FAQSection />
     </>
   );
 }

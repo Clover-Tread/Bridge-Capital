@@ -6,8 +6,9 @@ import PhilosophyCTASection from './PhilosophyCTASection';
 
 
 export const metadata = {
-  title: 'Filosofía de Inversión - Bridge Capital',
+  title: 'Filosofía de Inversión',
   description: 'Conoce los pilares y principios de nuestra estrategia de inversión en Bridge Capital.',
+  alternates: { canonical: '/filosofia-inversion' },
 };
 
 export default function FilosofiaInversionPage() {

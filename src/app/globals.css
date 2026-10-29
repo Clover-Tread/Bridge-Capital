@@ -33,9 +33,24 @@ body, a, button {
   cursor: none;
 }
 
-.hero-bg-image { 
-  background-image: url('../../public/images/hero-image.jpg');
-  background-size: cover;
+/* Entrada del hero: solo transform (opacidad siempre 1) para no retrasar el LCP. */
+@keyframes hero-rise {
+  from {
+    transform: translateY(24px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.hero-rise {
+  animation: hero-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise {
+    animation: none;
+  }
 }
 
 /* Cursor customizado */

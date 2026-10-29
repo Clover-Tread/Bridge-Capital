@@ -12,7 +12,7 @@ const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
 // Datos para el FAQ
-const faqData = [
+export const faqData = [
   {
     id: "faq-1",
     question: "¿Qué es un Asesor en Inversiones Independiente?",
@@ -41,7 +41,7 @@ const faqData = [
     id: "faq-5",
     question: "¿Cuáles son los documentos para ser cliente de Bridge Capital?",
     answer:
-      "Si eres persona física, se requieren: Identificación Oficial Vigente (IFE/INE/Pasaporte), Comprobante de Domicilio no mayor a 3 meses (recibo de luz, agua, telefonía fija, predial), Cédula RFC, CURP, Carátula y hoja donde viene el sello digital de estado de cuenta bancario que se quiera registrar para los retiros de dinero. [cite: 6]\n\nSi eres persona moral, se requieren: Acta Constitutiva con sello de registro público de comercio, Poderes de las personas que firmarán dentro de la cuenta con sello de registro público de comercio, Cédula RFC de la empresa, Comprobante de domicilio de la empresa, Identificaciones Oficiales Vigentes de los apoderados (INE/Pasaporte), Cédula RFC de los apoderados.",
+      "Si eres persona física, se requieren: Identificación Oficial Vigente (IFE/INE/Pasaporte), Comprobante de Domicilio no mayor a 3 meses (recibo de luz, agua, telefonía fija, predial), Cédula RFC, CURP, Carátula y hoja donde viene el sello digital de estado de cuenta bancario que se quiera registrar para los retiros de dinero.\n\nSi eres persona moral, se requieren: Acta Constitutiva con sello de registro público de comercio, Poderes de las personas que firmarán dentro de la cuenta con sello de registro público de comercio, Cédula RFC de la empresa, Comprobante de domicilio de la empresa, Identificaciones Oficiales Vigentes de los apoderados (INE/Pasaporte), Cédula RFC de los apoderados.",
   },
   {
     id: "faq-6",
@@ -78,12 +78,14 @@ const FAQSection = () => {
           className="w-full max-w-3xl mx-auto">
           {faqData.map((item) => (
             <AccordionItem value={item.id} key={item.id}>
-              {/* --- CÓDIGO CORREGIDO AQUÍ --- */}
               <AccordionTrigger className="text-left text-lg hover:no-underline font-[600] text-[var(--color-primary-blue)] hover:text-[var(--color-secondary-dark-gray)]">
                 {item.question}
               </AccordionTrigger>
-              {/* --- Y AQUÍ --- */}
-              <AccordionContent className="text-[var(--color-secondary-dark-gray)] text-base leading-relaxed pt-2 pb-4">
+              {/* forceMount: la respuesta siempre está en el HTML (indexable por Google);
+                  el CSS la oculta cuando el acordeón está cerrado. */}
+              <AccordionContent
+                forceMount
+                className="text-[var(--color-secondary-dark-gray)] text-base leading-relaxed pt-2 pb-4">
                 {item.answer.split("\n").map((paragraph, index) => (
                   <p key={index} className={index > 0 ? "mt-3" : ""}>
                     {paragraph}

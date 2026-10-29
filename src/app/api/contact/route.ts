@@ -7,34 +7,44 @@ import * as z from "zod";
 const formSchema = z.object({
   name: z.string().min(1, "El nombre es requerido.").max(50, "El nombre es muy largo."),
   email: z.string().email("Correo electrónico inválido."),
-  phone: z.string().max(15, "El teléfono es muy largo.").optional().or(z.literal('')), // Coincide con el frontend
-  message: z.string().min(1, "El mensaje es requerido.").max(500, "El mensaje es muy largo."),
+  phone: z
+    .string()
+    .max(20, "El teléfono es muy largo.")
+    .refine((v) => v === "" || /^[0-9+()\s-]{7,20}$/.test(v), "Teléfono inválido.")
+    .optional()
+    .or(z.literal('')),
+  message: z.string().min(1, "El mensaje es requerido.").max(1000, "El mensaje es muy largo."),
+  // El formulario del modal exige aceptar el Aviso de Privacidad (LFPDPPP).
+  // Opcional aquí para no romper el formulario de ContactFormSection.
+  privacyConsent: z.boolean().optional(),
 });
 
-// 2. Inicializa Resend con tu API key desde las variables de entorno
-const resendApiKey = process.env.RESEND_API_KEY;
-if (!resendApiKey) {
-  console.error("RESEND_API_KEY no está definida en las variables de entorno.");
-  // En un caso real, podrías querer manejar esto de forma más robusta
-}
-const resend = new Resend(resendApiKey);
+// Escapa HTML para que nadie pueda inyectar enlaces o markup en el correo que recibe Bridge Capital.
+const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 
-// 3. Define el email receptor y el remitente (idealmente desde variables de entorno)
+// 2. Variables de entorno. Resend se instancia dentro del handler para que
+//    `next build` no truene cuando la API key no está disponible en build time.
+const resendApiKey = process.env.RESEND_API_KEY;
 const toEmail = process.env.TO_EMAIL;
 const fromEmail = process.env.FROM_EMAIL;
-
-if (!toEmail || !fromEmail) {
-  console.error("COMPANY_CONTACT_EMAIL o RESEND_FROM_EMAIL no están definidos.");
-}
 
 export async function POST(request: Request) {
   // Verifica si las variables de entorno clave están cargadas
   if (!resendApiKey) {
-    return NextResponse.json({ message: 'Error de configuración del servidor: RESEND_API_KEY faltante.' }, { status: 500 });
+    console.error("RESEND_API_KEY no está definida.");
+    return NextResponse.json({ message: 'Error de configuración del servidor.' }, { status: 500 });
   }
   if (!toEmail || !fromEmail) {
-    return NextResponse.json({ message: 'Error de configuración del servidor: Email de contacto o remitente faltante.' }, { status: 500 });
+    return NextResponse.json({ message: 'Error de configuración del servidor.' }, { status: 500 });
   }
+
+  const resend = new Resend(resendApiKey);
 
   try {
     const body = await request.json();
@@ -53,17 +63,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const { name, email, phone, message } = validationResult.data;
+    const { privacyConsent } = validationResult.data;
+    const name = escapeHtml(validationResult.data.name);
+    const email = escapeHtml(validationResult.data.email);
+    const phone = validationResult.data.phone ? escapeHtml(validationResult.data.phone) : "";
+    const message = escapeHtml(validationResult.data.message);
 
     // 5. Prepara el contenido del email
-    const subject = `Nuevo Mensaje de Contacto de: ${name}`;
+    const subject = `Nuevo Mensaje de Contacto de: ${validationResult.data.name.replace(/[\r\n]/g, ' ')}`;
     const emailHtmlContent = `
       <html>
         <body style="font-family: Arial, sans-serif; line-height: 1.6;">
           <h2 style="color: #003F5F;">Nuevo Mensaje de Contacto desde el Sitio Web</h2>
           <p><strong>Nombre:</strong> ${name}</p>
           <p><strong>Correo Electrónico:</strong> <a href="mailto:${email}">${email}</a></p>
-          ${phone ? `<p><strong>Teléfono:</strong> ${phone}</p>` : ''}
+          ${phone ? `<p><strong>Teléfono:</strong> <a href="tel:${phone.replace(/[^0-9+]/g, "")}">${phone}</a></p>` : ''}
+          ${privacyConsent ? `<p><strong>Aceptó Aviso de Privacidad:</strong> Sí (${new Date().toISOString()})</p>` : ''}
           <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
           <p><strong>Mensaje:</strong></p>
           <div style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
@@ -82,21 +97,19 @@ export async function POST(request: Request) {
       to: [toEmail],         // Ej: 'tuCorreoReceptor@tuempresa.com'
       subject: subject,
       html: emailHtmlContent,
-      replyTo: email,        // Para que al responder, le respondas al usuario
+      replyTo: validationResult.data.email, // Para que al responder, le respondas al usuario
     });
 
     if (sendError) {
       console.error('Error al enviar email con Resend:', sendError);
-      return NextResponse.json({ message: 'Error al enviar el mensaje.', errorDetail: sendError.message }, { status: 500 });
+      return NextResponse.json({ message: 'Error al enviar el mensaje.' }, { status: 500 });
     }
 
-    console.log('Email enviado exitosamente:', data);
     return NextResponse.json({ message: '¡Mensaje enviado con éxito!', emailId: data?.id }, { status: 200 });
 
   } catch (error: unknown) {
     console.error('Error en la API Route /api/contact:', error);
-    // Evita exponer detalles internos del error al cliente en producción
-    const errorMessage = error instanceof Error ? error.message : 'Error desconocido.';
-    return NextResponse.json({ message: 'Error interno del servidor.', errorDetail: errorMessage }, { status: 500 });
+    // No exponemos detalles internos al cliente; quedan en los logs de Vercel.
+    return NextResponse.json({ message: 'Error interno del servidor.' }, { status: 500 });
   }
 }
