@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import {
   BriefcaseBusiness,
   Handshake,
@@ -46,10 +46,11 @@ const PrinciplesSection = () => {
       {/* Fondo de la sección */}
       <div className="absolute inset-0 z-0">
         <Image
+          sizes="100vw"
+          fill
           src="/pilares.jpg"
           alt="4 columnas representando los 4 pilares"
-          layout="fill"
-          className="object-cover"
+          className="object-cover bg-[#E6E3DC]"
         />
       </div>
       <div className="absolute inset-0 z-10 opacity-85 bg-[linear-gradient(to_bottom,_#53575A_100%,_#7C7C7C_70%)]"></div>

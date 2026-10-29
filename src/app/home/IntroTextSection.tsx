@@ -1,4 +1,4 @@
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 const IntroTextSection = () => {
   return (
@@ -45,18 +45,20 @@ const IntroTextSection = () => {
           <div className="mt-12 flex justify-center items-center space-x-10 md:space-x-16">
             <div className="relative h-16 w-32">
               <Image
+                sizes="128px"
+                fill
+                className="object-contain"
                 src="/cnbv.svg"
                 alt="Logo CNBV"
-                layout="fill"
-                objectFit="contain"
               />
             </div>
             <div className="relative h-16 w-32">
               <Image
+                sizes="128px"
+                fill
+                className="object-contain"
                 src="/amib.svg"
                 alt="Logo AMIB"
-                layout="fill"
-                objectFit="contain"
               />
             </div>
           </div>

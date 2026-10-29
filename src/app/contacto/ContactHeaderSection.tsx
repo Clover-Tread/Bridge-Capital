@@ -19,8 +19,9 @@ const ContactHeaderSection = () => {
           src={imagePath}
           alt="Sala de juntas - Contacto Bridge Capital"
           fill
-          style={{ objectFit: "cover" }} // Reemplaza objectFit="cover"
-          quality={80}
+          sizes="100vw"
+          quality={60} // Va desenfocada: más calidad no se nota
+          style={{ objectFit: "cover" }}
           priority
           className="blur-sm" // Simplificado de blur-[5px]
         />

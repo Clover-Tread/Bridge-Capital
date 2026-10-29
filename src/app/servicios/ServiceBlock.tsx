@@ -1,6 +1,6 @@
 // src/components/servicios/ServiceBlock.tsx
 import React from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card"; // CardContent se mantiene si ShadCN lo recomienda para estructura interna, pero con p-0
 
 interface ServiceBlockProps {
@@ -29,11 +29,11 @@ const ServiceBlock: React.FC<ServiceBlockProps> = ({
                        transition-shadow duration-300 hover:shadow-2xl p-0">
           <CardContent className="p-0 w-full h-full relative">
             <Image
+              sizes="(min-width: 768px) 50vw, 100vw"
+              fill
               src={imageUrl}
               alt={imageAlt}
-              layout="fill"
-              objectFit="cover"
-              className="transition-transform duration-500 ease-in-out group-hover:scale-105"
+              className="transition-transform duration-500 ease-in-out group-hover:scale-105 object-cover bg-[#E6E3DC]"
               quality={75}
             />
           </CardContent>

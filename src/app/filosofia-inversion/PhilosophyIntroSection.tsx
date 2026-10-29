@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { gsap } from "gsap";
 
 // Clases compartidas
@@ -102,11 +102,12 @@ const PhilosophyIntroSection = () => {
         ref={bgImageContainerRef}
         className="absolute inset-0 -z-10 opacity-0">
         <Image
+          sizes="100vw"
+          fill
+          className="object-cover bg-[#E6E3DC]"
           src={imagePath}
           alt="Filosofía de Inversión Bridge Capital"
-          layout="fill"
-          objectFit="cover"
-          quality={80}
+          quality={75}
           priority
         />
       </div>

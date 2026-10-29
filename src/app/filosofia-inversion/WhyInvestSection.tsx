@@ -1,6 +1,6 @@
 // src/components/filosofia/WhyInvestSection.tsx
 import React from 'react';
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { Card, CardContent } from '@/components/ui/card'; // Usaremos Card y CardContent
 
 // Clases compartidas para la alineación del ancho con el Navbar
@@ -43,12 +43,12 @@ const WhyInvestSection = () => {
             >
               <CardContent className="p-0 w-full h-full relative"> 
                 <Image
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  fill
                   src={imageUrl}
                   alt={imageAlt}
-                  layout="fill"
-                  objectFit="cover"
-                  className="transition-transform duration-500 ease-in-out group-hover:scale-105 blur-[15%]"
-                  quality={100}
+                  className="transition-transform duration-500 ease-in-out group-hover:scale-105 object-cover bg-[#E6E3DC]"
+                  quality={75}
                 />
               </CardContent>
             </Card>

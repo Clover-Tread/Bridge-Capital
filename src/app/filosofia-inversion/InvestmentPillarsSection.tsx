@@ -1,6 +1,6 @@
 // src/components/filosofia/InvestmentPillarsSection.tsx
 import React from 'react';
-import Image from "next/legacy/image";
+import Image from "next/image";
 // Reemplaza estos con tus componentes de icono SVG o mantenlos si te sirven
 import { LucideIcon, Briefcase, Users, BarChart3, Target } from 'lucide-react';
 
@@ -103,11 +103,12 @@ const InvestmentPillarsSection = () => {
       {/* Capa de Imagen de Fondo */}
       <div className="absolute inset-0 -z-20">
         <Image
-          src={imagePath} 
+          sizes="100vw"
+          fill
+          className="object-cover bg-[#E6E3DC]"
+          src={imagePath}
           alt="Fondo de Pilares de Inversión Bridge Capital"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
+          quality={75}
         />
       </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { gsap } from "gsap";
 
 // Clases compartidas
@@ -100,11 +100,12 @@ const CalculatorIntroSection = () => {
         {" "}
         {/* Inicia con opacidad 0 */}
         <Image
+          sizes="100vw"
+          fill
+          className="object-cover bg-[#E6E3DC]"
           src={imagePath}
           alt="Calculadora de Inversiones - Fondo Bridge Capital"
-          layout="fill"
-          objectFit="cover"
-          quality={80}
+          quality={75}
           priority
         />
       </div>

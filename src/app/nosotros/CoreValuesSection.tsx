@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -123,11 +123,11 @@ const ValueCard: React.FC<ValueCardProps> = ({
       className={`relative w-full ${cardHeightClass} rounded-xl overflow-hidden shadow-2xl group  hover:shadow-slate-400/50 transition-shadow duration-300 ${className}`}>
       {imageUrl && (
         <Image
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          fill
           src={imageUrl}
           alt={title}
-          layout="fill"
-          objectFit="cover"
-          className="transition-transform duration-500 ease-in-out group-hover:scale-110"
+          className="transition-transform duration-500 ease-in-out group-hover:scale-110 object-cover bg-[#E6E3DC]"
           quality={75}
         />
       )}

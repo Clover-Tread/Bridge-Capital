@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -134,12 +134,11 @@ const AboutHeroSection = () => {
               className="relative w-full h-80 sm:h-96 md:h-[500px] lg:h-[600px] rounded-lg overflow-hidden shadow-lg 
                            transform perspective-[1000px]">
               <Image
+                fill
                 src="/images/handshake.jpg"
                 alt="Socios estratégicos en Bridge Capital - Apretón de manos"
-                layout="fill"
-                objectFit="cover"
-                className="transform transition-transform duration-500 hover:scale-105"
-                quality={80}
+                className="transform transition-transform duration-500 hover:scale-105 object-cover bg-[#E6E3DC]"
+                quality={75}
                 sizes="(min-width: 768px) 50vw, 100vw"
                 priority
               />

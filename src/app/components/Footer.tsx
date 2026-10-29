@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 // Importaciones de iconos
 import { Mail, MapPin, Phone } from "lucide-react";

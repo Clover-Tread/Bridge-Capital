@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 // Clases compartidas
 const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
@@ -19,11 +19,12 @@ const PreContactFormCTASection = () => {
       {/* Capa de Imagen de Fondo */}
       <div className="absolute inset-0 -z-20">
         <Image
+          sizes="100vw"
+          fill
+          className="object-cover bg-[#E6E3DC]"
           src={imagePath}
           alt="Fondo Contacto Bridge Capital"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
+          quality={75}
         />
       </div>
 
