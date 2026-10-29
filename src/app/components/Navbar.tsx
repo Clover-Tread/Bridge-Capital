@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import type React from "react";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
@@ -32,6 +33,12 @@ const Navbar = () => {
   // Cierra el menú al cambiar de página y bloquea el scroll mientras está abierto.
   useEffect(() => setIsMenuOpen(false), [pathname]);
   useEffect(() => {
+    if (!isMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setIsMenuOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isMenuOpen]);
+  useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
@@ -42,9 +49,12 @@ const Navbar = () => {
   const solid = hasScrolled || isMenuOpen;
 
   return (
+    <>
     <header
       className={`sticky top-0 z-50 w-full h-20 transition-[background-color,border-color] duration-300 border-b ${
-        solid
+        isMenuOpen
+          ? "bg-[var(--color-paper)] border-[var(--color-rule)]"
+          : solid
           ? "bg-[var(--color-paper)]/95 backdrop-blur-md border-[var(--color-rule)]"
           : "bg-transparent border-transparent"
       }`}>
@@ -93,25 +103,36 @@ const Navbar = () => {
           aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={isMenuOpen}
           aria-controls="menu-movil">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-            {isMenuOpen ? (
-              <path d="M6 6l12 12M18 6L6 18" />
-            ) : (
-              <path d="M4 8h16M4 16h16" />
-            )}
-          </svg>
+          {/* Dos líneas que se cruzan en una X: mismo elemento, solo cambia el transform */}
+          <span className="relative block h-6 w-6" aria-hidden="true">
+            <span
+              className={`menu-bar absolute left-[3px] top-[7.25px] h-[1.5px] w-[18px] bg-current ${
+                isMenuOpen ? "translate-y-[4.5px] rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`menu-bar absolute left-[3px] top-[16.25px] h-[1.5px] w-[18px] bg-current ${
+                isMenuOpen ? "-translate-y-[4.5px] -rotate-45" : ""
+              }`}
+            />
+          </span>
         </button>
       </nav>
 
-      {/* Menú móvil: panel a pantalla completa, transición solo con CSS */}
+    </header>
+    {/* Menú móvil: fuera del <header> a propósito. El backdrop-blur del header
+        crea un bloque contenedor y rompe el position: fixed del panel
+        (en iOS quedaba con altura 0 y el contenido se veía detrás). */}
       <div
         id="menu-movil"
-        className={`fixed inset-x-0 top-20 bottom-0 bg-[var(--color-paper)] px-5 pt-8 pb-10 transition-[opacity,visibility] duration-300 md:hidden flex flex-col ${
-          isMenuOpen ? "visible opacity-100" : "invisible opacity-0"
-        }`}>
+        className={`fixed inset-x-0 top-20 bottom-0 z-40 flex flex-col overflow-y-auto bg-[var(--color-paper)] px-5 pt-6 pb-[max(2.5rem,env(safe-area-inset-bottom))] menu-panel md:hidden ${isMenuOpen ? "is-open" : ""}`}
+        aria-hidden={!isMenuOpen}>
         <ul className="flex flex-col">
-          {navLinks.map((link) => (
-            <li key={link.href} className="border-b border-[var(--color-rule)]">
+          {navLinks.map((link, i) => (
+            <li
+              key={link.href}
+              className="menu-item border-b border-[var(--color-rule)]"
+              style={{ "--i": i } as React.CSSProperties}>
               <Link
                 href={link.href}
                 aria-current={isActive(link.href) ? "page" : undefined}
@@ -122,11 +143,15 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
-        <Link href="/contacto" onClick={() => setIsMenuOpen(false)} className="btn btn-primary mt-auto w-full">
+        <Link
+          href="/contacto"
+          onClick={() => setIsMenuOpen(false)}
+          className="menu-item btn btn-primary mt-auto w-full"
+          style={{ "--i": navLinks.length } as React.CSSProperties}>
           Agendar una conversación
         </Link>
       </div>
-    </header>
+    </>
   );
 };
 
