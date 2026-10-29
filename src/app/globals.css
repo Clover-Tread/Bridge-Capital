@@ -348,35 +348,40 @@
   transition: transform 450ms var(--ease-smooth);
 }
 
-/* Panel cerrado: invisible y un poco arriba; visibility se apaga al final
-   para que el desvanecido de salida se vea completo. */
+/* ── Salida (estado base) ──────────────────────────────────────────────
+   Orden inverso a la apertura: los links suben y se desvanecen del último
+   al primero (0–290 ms) y, ya sin links, se va el fondo (270–570 ms).
+   Curva ease-in-out para que la opacidad baje de forma pareja y no "corte".
+   visibility se apaga al final para que la salida se vea completa. */
 .menu-panel {
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-0.75rem);
+  transform: translateY(-0.5rem);
   transition:
-    opacity 350ms var(--ease-smooth),
-    transform 450ms var(--ease-smooth),
-    visibility 0s linear 450ms;
+    opacity 300ms cubic-bezier(0.65, 0, 0.35, 1) 270ms,
+    transform 300ms cubic-bezier(0.65, 0, 0.35, 1) 270ms,
+    visibility 0s linear 570ms;
 }
+.menu-item {
+  opacity: 0;
+  transform: translateY(-0.5rem);
+  transition:
+    opacity 190ms cubic-bezier(0.65, 0, 0.35, 1),
+    transform 240ms cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: calc(var(--r, 0) * 25ms);
+}
+
+/* ── Entrada ───────────────────────────────────────────────────────────
+   Mismo eje que la salida: todo baja desde la barra hasta su lugar.
+   El fondo se vuelve sólido rápido y después los links entran escalonados. */
 .menu-panel.is-open {
   opacity: 1;
   visibility: visible;
   transform: none;
-  /* El fondo se vuelve sólido rápido; los links entran cuando ya lo es */
   transition:
     opacity 220ms ease-out,
     transform 500ms var(--ease-smooth),
     visibility 0s;
-}
-
-/* Links: entran escalonados al abrir; al cerrar salen todos juntos y rápido */
-.menu-item {
-  opacity: 0;
-  transform: translateY(0.75rem);
-  transition:
-    opacity 150ms ease,
-    transform 300ms var(--ease-smooth);
 }
 .menu-panel.is-open .menu-item {
   opacity: 1;

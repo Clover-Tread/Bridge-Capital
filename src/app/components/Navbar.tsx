@@ -18,8 +18,13 @@ const navLinks = [
  * Sin GSAP: el menú móvil y el cambio al hacer scroll son transiciones de CSS,
  * así esta pieza (presente en todas las páginas) ya no arrastra la librería.
  */
+// Debe coincidir con la duración total de salida definida en globals.css (.menu-panel)
+const MENU_EXIT_MS = 570;
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // Mantiene la barra sólida mientras el panel termina su animación de salida.
+  const [isMenuClosing, setIsMenuClosing] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -32,6 +37,15 @@ const Navbar = () => {
 
   // Cierra el menú al cambiar de página y bloquea el scroll mientras está abierto.
   useEffect(() => setIsMenuOpen(false), [pathname]);
+  useEffect(() => {
+    if (isMenuOpen) {
+      setIsMenuClosing(false);
+      return;
+    }
+    setIsMenuClosing(true);
+    const t = window.setTimeout(() => setIsMenuClosing(false), MENU_EXIT_MS);
+    return () => window.clearTimeout(t);
+  }, [isMenuOpen]);
   useEffect(() => {
     if (!isMenuOpen) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setIsMenuOpen(false);
@@ -52,7 +66,7 @@ const Navbar = () => {
     <>
     <header
       className={`sticky top-0 z-50 w-full h-20 transition-[background-color,border-color] duration-300 border-b ${
-        isMenuOpen
+        isMenuOpen || isMenuClosing
           ? "bg-[var(--color-paper)] border-[var(--color-rule)]"
           : solid
           ? "bg-[var(--color-paper)]/95 backdrop-blur-md border-[var(--color-rule)]"
@@ -132,7 +146,7 @@ const Navbar = () => {
             <li
               key={link.href}
               className="menu-item border-b border-[var(--color-rule)]"
-              style={{ "--i": i } as React.CSSProperties}>
+              style={{ "--i": i, "--r": navLinks.length - i } as React.CSSProperties}>
               <Link
                 href={link.href}
                 aria-current={isActive(link.href) ? "page" : undefined}
@@ -147,7 +161,7 @@ const Navbar = () => {
           href="/contacto"
           onClick={() => setIsMenuOpen(false)}
           className="menu-item btn btn-primary mt-auto w-full"
-          style={{ "--i": navLinks.length } as React.CSSProperties}>
+          style={{ "--i": navLinks.length, "--r": 0 } as React.CSSProperties}>
           Agendar una conversación
         </Link>
       </div>
