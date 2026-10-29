@@ -101,12 +101,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-grow w-full">{children}</main>
         <Footer />
-        <CookieConsent
-          variant="small" // o "default"
-          // demo={true} // Ponlo en true para probarlo incluso si ya aceptaste
-          // onAcceptCallback={() => console.log("Cookies aceptadas!")}
-          // onDeclineCallback={() => console.log("Cookies declinadas!")}
-        />
+        <CookieConsent />
         <SpeedInsights />
         <Analytics />
       </body>

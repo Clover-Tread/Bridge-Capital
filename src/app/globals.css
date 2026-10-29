@@ -319,3 +319,21 @@
   text-decoration: underline;
   text-underline-offset: 0.25em;
 }
+
+/* Entrada del aviso de cookies */
+@keyframes cookie-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+.cookie-in {
+  animation: cookie-in 400ms cubic-bezier(0.22, 1, 0.36, 1) 600ms both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cookie-in {
+    animation: none;
+  }
+}
