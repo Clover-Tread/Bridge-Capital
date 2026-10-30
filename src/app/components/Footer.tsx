@@ -137,8 +137,9 @@ const Footer = () => {
                 sitio, así que el texto no debe sugerir que es su proveedor general. */}
             <a
               href="https://noctra.studio"
+              target="_blank"
               rel="noopener"
-              aria-label="Diseño y desarrollo web: Noctra Studio"
+              aria-label="Diseño y desarrollo web: Noctra Studio (se abre en una pestaña nueva)"
               className="group inline-flex min-h-11 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:border-l sm:border-white/15 sm:pl-10">
               <span className="text-xs text-[#c9d2d6]">Diseño y desarrollo web</span>
               <Image
