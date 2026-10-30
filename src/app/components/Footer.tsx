@@ -132,15 +132,15 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-            {/* Crédito acotado al desarrollo del sitio. Bridge Capital es cliente del
-                estudio de Mariel; Noctra solo colaboró en la parte web, así que el
-                texto no debe sugerir que Noctra es su proveedor de servicios. */}
+            {/* Crédito acotado al sitio web. Bridge Capital es cliente del estudio de
+                Mariel (branding y redes); Noctra hizo el UI/UX y el desarrollo del
+                sitio, así que el texto no debe sugerir que es su proveedor general. */}
             <a
               href="https://noctra.studio"
               rel="noopener"
-              aria-label="Desarrollo web: Noctra Studio"
+              aria-label="Diseño y desarrollo web: Noctra Studio"
               className="group inline-flex min-h-11 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:border-l sm:border-white/15 sm:pl-10">
-              <span className="text-xs text-[#c9d2d6]">Desarrollo web</span>
+              <span className="text-xs text-[#c9d2d6]">Diseño y desarrollo web</span>
               <Image
                 src="/images/noctra-studio.svg"
                 alt=""
