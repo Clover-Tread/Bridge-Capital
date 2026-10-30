@@ -120,17 +120,36 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-white/15 pt-8 text-sm sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-6 border-t border-white/15 pt-8 text-sm lg:flex-row lg:items-center lg:justify-between">
           <p>© {currentYear} Bridge Capital. Todos los derechos reservados.</p>
-          <ul className="flex gap-6">
-            {socialLinks.map((social) => (
-              <li key={social.label}>
-                <a href={social.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                  {social.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-10">
+            <ul className="flex gap-6">
+              {socialLinks.map((social) => (
+                <li key={social.label}>
+                  <a href={social.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                    {social.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            {/* Crédito acotado al desarrollo del sitio. Bridge Capital es cliente del
+                estudio de Mariel; Noctra solo colaboró en la parte web, así que el
+                texto no debe sugerir que Noctra es su proveedor de servicios. */}
+            <a
+              href="https://noctra.studio"
+              rel="noopener"
+              aria-label="Desarrollo web: Noctra Studio"
+              className="group inline-flex min-h-11 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:border-l sm:border-white/15 sm:pl-10">
+              <span className="text-xs text-[#c9d2d6]">Desarrollo web</span>
+              <Image
+                src="/images/noctra-studio.svg"
+                alt=""
+                width={92}
+                height={24}
+                className="h-6 w-auto opacity-70 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
+              />
+            </a>
+          </div>
         </div>
       </div>
     </footer>
