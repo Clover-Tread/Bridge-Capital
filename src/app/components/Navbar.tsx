@@ -78,7 +78,7 @@ const Navbar = () => {
 
   // Clases para el navbar y enlaces
   const navbarScrolledBgClasses =
-    "bg-[var(--color-primary)]/80 shadow-xl backdrop-blur-sm";
+    "bg-[var(--color-primary)]/95 shadow-md backdrop-blur-md";
   const navbarInitialBgClasses = "bg-transparent";
   const linkBaseTextColor = "text-[var(--color-primary)]";
   const linkScrolledTextColor = "text-white";
@@ -90,11 +90,14 @@ const Navbar = () => {
   const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4";
 
   return (
-    <header className="sticky top-0 z-50 w-full pt-4 md:pt-6 px-4">
+    <header
+      className={`sticky top-0 z-50 w-full px-4 transition-[padding] duration-300 ease-in-out ${
+        hasScrolled ? "pt-2 md:pt-3" : "pt-4 md:pt-6"
+      }`}>
       <nav
         className={`
           mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES} 
-          flex items-center justify-between py-3 md:py-4 rounded-xl 
+          flex items-center justify-between ${hasScrolled ? "py-2" : "py-3 md:py-4"} rounded-xl 
           transition-all duration-300 ease-in-out
           ${hasScrolled ? navbarScrolledBgClasses : navbarInitialBgClasses}
         `}>
