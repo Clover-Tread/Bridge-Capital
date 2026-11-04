@@ -11,7 +11,7 @@ const PreContactFormCTASection = () => {
   const backgroundImageFilename = "llamando.jpg";
   const imagePath = `/images/${backgroundImageFilename}`;
 
-  // Color #79242F con 80% opacidad
+  // Color #8B0E04 con 80% opacidad
   const overlayColor = "rgba(121,36,47,0.8)";
 
   return (

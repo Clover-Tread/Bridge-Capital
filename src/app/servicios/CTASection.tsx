@@ -7,8 +7,8 @@ const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
 const CTASection = () => {
-  const ctaButtonBaseColor = "bg-[#79242F]";
-  const ctaButtonHoverColor = "hover:bg-[#601e26]";
+  const ctaButtonBaseColor = "bg-[#8B0E04]";
+  const ctaButtonHoverColor = "hover:bg-[#6F0B03]";
 
   return (
     <section className="py-16 md:py-24 bg-(--color-light-grey) w-full">
@@ -31,7 +31,7 @@ const CTASection = () => {
             py-4 px-8 md:py-7 md:px-10 {/* Padding generoso para un CTA */}
             rounded-lg 
             transition-colors duration-300 ease-in-out
-            focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#79242F]/80 {/* Estilo de foco */}
+            focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8B0E04]/80 {/* Estilo de foco */}
           `}>
           <Link href="/contacto">Contáctanos</Link>
         </Button>

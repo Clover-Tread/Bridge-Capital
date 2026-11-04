@@ -207,7 +207,7 @@ const CoreValuesSection = () => {
       title: "Intereses Comunes",
       hoverRevealText:
         "Evitamos o gestionamos con transparencia los conflictos de interés, priorizando y tratando igual a todos los clientes.",
-      gradientColors: { from: "#002A3A", to: "#18647C" },
+      gradientColors: { from: "#003F5F", to: "#003F5F" },
       cardType: "small",
       interactionType: "hoverReveal",
       textColor: "text-white",
@@ -216,7 +216,7 @@ const CoreValuesSection = () => {
       title: "Integridad",
       hoverRevealText:
         "Nos regimos por la ética y la integridad en todo momento, forjando así confianza con clientes y colaboradores.",
-      gradientColors: { from: "#002A3A", to: "#18647C" },
+      gradientColors: { from: "#003F5F", to: "#003F5F" },
       cardType: "small",
       interactionType: "hoverReveal",
       textColor: "text-white",
@@ -225,7 +225,7 @@ const CoreValuesSection = () => {
       title: "Comunicación Abierta",
       hoverRevealText:
         "Fomentamos una comunicación abierta y constructiva para mejorar relaciones y responder ágilmente a retos y oportunidades.",
-      gradientColors: { from: "#002A3A", to: "#18647C" },
+      gradientColors: { from: "#003F5F", to: "#003F5F" },
       cardType: "small",
       interactionType: "hoverReveal",
       textColor: "text-white",
@@ -234,7 +234,7 @@ const CoreValuesSection = () => {
       title: "Honestidad Radical",
       hoverRevealText:
         "Comprender la verdad, con sus errores y debilidades, es clave para el éxito y permite impulsar mejoras continuas.",
-      gradientColors: { from: "#79242F", to: "#B03853" },
+      gradientColors: { from: "#8B0E04", to: "#8B0E04" },
       cardType: "small",
       interactionType: "hoverReveal",
       textColor: "text-white",
@@ -243,7 +243,7 @@ const CoreValuesSection = () => {
       title: "Investigación Profunda",
       hoverRevealText:
         "Generamos valor extra mediante ventaja de conocimiento, obtenida con investigación a profundidad y una metodología aplicada de forma consistente.",
-      gradientColors: { from: "#79242F", to: "#B03853" },
+      gradientColors: { from: "#8B0E04", to: "#8B0E04" },
       cardType: "small",
       interactionType: "hoverReveal",
       textColor: "text-white",
@@ -252,7 +252,7 @@ const CoreValuesSection = () => {
       title: "Trabajo en equipo",
       hoverRevealText:
         "Formamos un equipo multidisciplinario que impulsa la creatividad y el sentido de pertenencia en Bridge Capital.",
-      gradientColors: { from: "#79242F", to: "#B03853" },
+      gradientColors: { from: "#8B0E04", to: "#8B0E04" },
       cardType: "small",
       interactionType: "hoverReveal",
       textColor: "text-white",
@@ -261,7 +261,7 @@ const CoreValuesSection = () => {
       title: "Excelencia",
       hoverRevealText:
         "Apuntamos a la excelencia con curiosidad e honestidad intelectual, buscando rendimientos atractivos con riesgos controlados y decisiones que aseguren la preservación y crecimiento del capital, incluso en mercados ineficientes y tiempos difíciles.",
-      gradientColors: { from: "#53575A", to: "#333537" },
+      gradientColors: { from: "#6E7073", to: "#231F20" },
       cardType: "full-width-small",
       interactionType: "hoverReveal",
       className: "lg:col-span-3",
@@ -282,7 +282,7 @@ const CoreValuesSection = () => {
 
         {/* Sección Principios y Valores */}
         <div className="text-center mb-10 md:mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-800">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#231F20]">
             Principios y Valores
           </h2>
         </div>

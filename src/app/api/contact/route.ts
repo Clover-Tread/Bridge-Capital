@@ -9,6 +9,10 @@ const formSchema = z.object({
   email: z.string().email("Correo electrónico inválido."),
   phone: z.string().max(15, "El teléfono es muy largo.").optional().or(z.literal('')), // Coincide con el frontend
   message: z.string().min(1, "El mensaje es requerido.").max(500, "El mensaje es muy largo."),
+  // El Aviso de Privacidad debe aceptarse; se valida aquí además del frontend.
+  privacyAccepted: z.literal(true, {
+    errorMap: () => ({ message: "Debes aceptar el Aviso de Privacidad." }),
+  }),
 });
 
 // 2. Inicializa Resend con tu API key desde las variables de entorno
@@ -64,9 +68,10 @@ export async function POST(request: Request) {
           <p><strong>Nombre:</strong> ${name}</p>
           <p><strong>Correo Electrónico:</strong> <a href="mailto:${email}">${email}</a></p>
           ${phone ? `<p><strong>Teléfono:</strong> ${phone}</p>` : ''}
+          <p><strong>Aviso de Privacidad:</strong> aceptado por el usuario al enviar el formulario.</p>
           <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
           <p><strong>Mensaje:</strong></p>
-          <div style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+          <div style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: #FFFFFF;">
             ${message.replace(/\n/g, '<br>')}
           </div>
           <p style="margin-top: 30px; font-size: 0.9em; color: #777;">

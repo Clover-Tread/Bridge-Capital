@@ -32,8 +32,8 @@ const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
 // Estilos específicos para los inputs y select
-const inputBottomBorderStyle = ` block w-full appearance-none rounded-none border-x-0 border-t-0 border-b-2 border-gray-300 bg-transparent px-0.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-0 focus:border-b-[var(--color-primary)] dark:border-gray-600 dark:text-white dark:focus:border-b-[var(--color-primary)] `;
-const selectTriggerStyle = ` w-full flex items-center justify-between rounded-none border-x-0 border-t-0 border-b-2 border-gray-300 bg-transparent focus:ring-0 focus:ring-offset-0 focus:border-b-[var(--color-primary)] h-auto py-2.5 pl-0.5 pr-8 text-sm text-left [&>svg]:hidden relative `;
+const inputBottomBorderStyle = ` block w-full appearance-none rounded-none border-x-0 border-t-0 border-b-2 border-[#E6E7E8] bg-transparent px-0.5 py-2.5 text-sm text-[#231F20] focus:outline-none focus:ring-0 focus:border-b-[var(--color-primary)] dark:border-gray-600 dark:text-white dark:focus:border-b-[var(--color-primary)] `;
+const selectTriggerStyle = ` w-full flex items-center justify-between rounded-none border-x-0 border-t-0 border-b-2 border-[#E6E7E8] bg-transparent focus:ring-0 focus:ring-offset-0 focus:border-b-[var(--color-primary)] h-auto py-2.5 pl-0.5 pr-8 text-sm text-left [&>svg]:hidden relative `;
 const annualReturnOptions = [
   "4.00",
   "8.00",
@@ -113,15 +113,23 @@ const InvestmentCalculator = () => {
       value === null ||
       (typeof value === "string" && value.trim() === "")
     )
-      return showSymbol ? "$0" : "0";
+      return showSymbol ? "$0.00 MXN" : "0";
     const numValue =
       typeof value === "string"
         ? parseFloat(value.replace(/[^0-9.]/g, ""))
         : value;
-    if (isNaN(numValue)) return showSymbol ? "$0" : "0";
+    if (isNaN(numValue)) return showSymbol ? "$0.00 MXN" : "0";
+    if (showSymbol) {
+      // Montos con centavos y moneda, p. ej. $3,000,000.00 MXN
+      return `${new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: "MXN",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(numValue)} MXN`;
+    }
     return new Intl.NumberFormat("es-MX", {
-      style: showSymbol ? "currency" : "decimal",
-      currency: "MXN",
+      style: "decimal",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(numValue);
@@ -351,7 +359,7 @@ const InvestmentCalculator = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-6 items-start">
             {/* Columna de Inputs */}
-            <div className="space-y-8 bg-slate-50 p-6 md:p-8 rounded-lg shadow">
+            <div className="space-y-8 bg-[#EBEBE6] p-6 md:p-8 rounded-lg shadow">
               {/* FormField para initialCapital */}
               <FormField
                 control={form.control}
@@ -400,7 +408,7 @@ const InvestmentCalculator = () => {
                       <FormControl>
                         <SelectTrigger className={selectTriggerStyle}>
                           <SelectValue placeholder="Selecciona un rendimiento" />
-                          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-gray-500">
+                          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-[#6E7073]">
                             ▼
                           </span>
                         </SelectTrigger>
@@ -437,7 +445,7 @@ const InvestmentCalculator = () => {
                       <FormControl>
                         <SelectTrigger className={selectTriggerStyle}>
                           <SelectValue placeholder="Selecciona un plazo" />
-                          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-gray-500">
+                          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-[#6E7073]">
                             ▼
                           </span>
                         </SelectTrigger>
@@ -506,8 +514,8 @@ const InvestmentCalculator = () => {
 
             {/* Columna de Resultados */}
             {results && (
-              <div className="space-y-6 bg-sky-50 p-6 md:p-8 rounded-lg shadow">
-                <h3 className="text-2xl font-semibold text-slate-800 mb-2">
+              <div className="space-y-6 bg-[#EBEBE6] p-6 md:p-8 rounded-lg shadow">
+                <h3 className="text-2xl font-semibold text-[#231F20] mb-2">
                   Resultados Estimados para{" "}
                   {results.breakdown.find(
                     (b) => b.year === parseInt(getValues("investmentTerm"))
@@ -538,7 +546,7 @@ const InvestmentCalculator = () => {
 
                 {results.breakdown.length > 0 && (
                   <div className="mt-6 pt-6 border-t">
-                    <h4 className="text-xl font-semibold text-slate-700 mb-3">
+                    <h4 className="text-xl font-semibold text-[#231F20] mb-3">
                       Desglose del Valor Estimado:
                     </h4>
                     <div className="grid grid-cols-1 gap-3">
@@ -546,10 +554,10 @@ const InvestmentCalculator = () => {
                         <div
                           key={item.year}
                           className="bg-white p-3 rounded shadow flex justify-between items-center">
-                          <p className="text-sm text-slate-600">
+                          <p className="text-sm text-[#6E7073]">
                             Al final del Año {item.year}
                           </p>
-                          <p className="font-semibold text-slate-800 text-md">
+                          <p className="font-semibold text-[#231F20] text-md">
                             {formatCurrency(item.value, true)}
                           </p>
                         </div>

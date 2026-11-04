@@ -12,7 +12,7 @@ const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
 const statsData = [
-  { value: "+12", label: "Años de Experiencia", numericValue: 12 },
+  { value: "+13", label: "Años de experiencia de nuestro equipo directivo", numericValue: 13 },
   { value: "+60", label: "Clientes Satisfechos", numericValue: 60 },
 ];
 
@@ -86,7 +86,7 @@ const StatsSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-12 md:py-16 bg-slate-100 w-full">
+    <section ref={sectionRef} className="py-12 md:py-16 bg-[#EBEBE6] w-full">
       <div
         className={`mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES}`}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-12 text-center">
@@ -106,7 +106,7 @@ const StatsSection = () => {
                 className="text-5xl md:text-6xl lg:text-7xl font-black text-[var(--color-primary)] mb-3 md:mb-4">
                 0{stat.value.includes("+") ? "+" : ""}
               </div>
-              <div className="text-base md:text-lg text-slate-700">
+              <div className="text-base md:text-lg text-[#231F20]">
                 {stat.label}
               </div>
             </div>

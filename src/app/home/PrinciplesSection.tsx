@@ -52,7 +52,7 @@ const PrinciplesSection = () => {
           className="object-cover"
         />
       </div>
-      <div className="absolute inset-0 z-10 opacity-85 bg-[linear-gradient(to_bottom,_#53575A_100%,_#7C7C7C_70%)]"></div>
+      <div className="absolute inset-0 z-10 opacity-85 bg-[linear-gradient(to_bottom,_#6E7073_100%,_#7C7C7C_70%)]"></div>
 
       {/* Contenido de la sección */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 py-20 md:py-28">
@@ -75,13 +75,13 @@ const PrinciplesSection = () => {
                 {/* === 3. CONTENIDO === */}
                 <div className="relative z-10 flex items-center gap-6">
                   <div className="flex-shrink-0 w-20 flex justify-center">
-                    <IconComponent className="w-12 h-12 text-[#ebebeb]" />
+                    <IconComponent className="w-12 h-12 text-[#EBEBE6]" />
                   </div>
                   <div className="text-center md:text-left">
                     <h3 className="text-xl font-semibold mb-5">
                       {pillar.title}
                     </h3>
-                    <p className="text-[#ebebeb] leading-relaxed">
+                    <p className="text-[#EBEBE6] leading-relaxed">
                       {pillar.description}
                     </p>
                   </div>
@@ -95,7 +95,7 @@ const PrinciplesSection = () => {
         <div className="text-center mt-20">
           <Link
             href="/filosofia-inversion"
-            className="bg-[#ebebeb] text-(--color-dark-red) font-semibold px-10 py-4 rounded-lg hover:bg-(--color-dark-red) hover:text-[#ebebeb] transition-colors duration-300">
+            className="bg-[#EBEBE6] text-(--color-dark-red) font-semibold px-10 py-4 rounded-lg hover:bg-(--color-dark-red) hover:text-[#EBEBE6] transition-colors duration-300">
             Conoce los 4 Pilares
           </Link>
         </div>

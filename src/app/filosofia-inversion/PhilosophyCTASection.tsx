@@ -28,7 +28,7 @@ const PhilosophyCTASection = () => {
   );
 
   return (
-    <section className="py-16 md:py-24 bg-[#efefef] w-full">
+    <section className="py-16 md:py-24 bg-[#EBEBE6] w-full">
       <div
         className={`mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES} text-center`}>
         <h2 className="text-4xl md:text-6xl font-black text-(--color-primary) mb-4 md:mb-6 leading-tight">
