@@ -47,11 +47,6 @@ export const metadata: Metadata = {
         sizes: "16x16",
         media: "(prefers-color-scheme: light)",
       },
-      // Sin preferencia o sin soporte de la consulta: oscuro, que se ve sobre pestañas claras.
-      {
-        url: "/favicon/dark/favicon-32x32.png",
-        type: "image/png",
-      },
     ],
     apple: [
       // El Apple Touch Icon suele ser estático, pero si deseas invertido también lo puedes hacer:
