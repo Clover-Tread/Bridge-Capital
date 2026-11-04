@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 
@@ -104,10 +104,13 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex-shrink-0">
           <Link href="/" className="flex items-center">
+            {/* Mismo logo; al hacer scroll se reduce suavemente de 60 a 40 px de alto */}
             <Image
               src="/images/logo-bridge-capital.svg"
               alt="Bridge Capital Logo"
-              className={hasScrolled ? "brightness-0 invert" : ""}
+              className={`w-auto transition-all duration-300 ease-in-out ${
+                hasScrolled ? "h-10 brightness-0 invert" : "h-[60px]"
+              }`}
               width={23}
               height={60}
               priority
