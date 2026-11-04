@@ -119,8 +119,7 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
         // 4. Si todo sale bien
         console.log("Formulario enviado y procesado con éxito por el backend.");
-        setStatus("success");
-        onSuccess(); // Cierra el modal
+        setStatus("success"); // Se muestra la confirmación; el usuario cierra el modal
       } catch (error) {
         // 5. Si hay un error de red o del servidor, lo mostramos
         console.error("Error al enviar el formulario:", error);
@@ -131,6 +130,25 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
       console.error("La validación del formulario falló.", errors);
     }
   };
+
+  // Confirmación visible tras el envío exitoso
+  if (status === "success") {
+    return (
+      <div role="status" className="py-6 text-center space-y-4">
+        <p className="text-2xl font-bold text-[#003F5F]">¡Mensaje enviado!</p>
+        <p className="text-[#6E7073]">
+          Gracias por escribirnos. Un asesor se comunicará contigo a la
+          brevedad.
+        </p>
+        <Button
+          type="button"
+          onClick={onSuccess}
+          className="bg-[#8B0E04] hover:bg-[#6F0B03] text-white font-bold">
+          Cerrar
+        </Button>
+      </div>
+    );
+  }
 
   return (
     // 'noValidate' deshabilita los popups de validación del navegador
@@ -232,6 +250,12 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
           <p className="text-red-600 text-sm mt-1">{errors.privacyAccepted}</p>
         )}
       </div>
+      {status === "error" && (
+        <p role="alert" className="text-sm text-[#8B0E04]">
+          No pudimos enviar tu mensaje. Por favor, inténtalo de nuevo en unos
+          minutos.
+        </p>
+      )}
       <Button
         type="submit"
         disabled={status === "sending" || !formData.privacyAccepted}
