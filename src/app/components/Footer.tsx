@@ -72,7 +72,7 @@ const Footer = () => {
   `;
 
   return (
-    <footer className="bg-[#003F5F] text-gray-400">
+    <footer className="bg-[#003F5F] text-[#E6E7E8]">
       <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {/* --- Columna 1: Logo y Redes Sociales (Centrado y Modificado) --- */}
@@ -110,7 +110,7 @@ const Footer = () => {
             <h3 className="font-bold text-white text-lg mb-4">Contacto</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center justify-center md:justify-start gap-3">
-                <Phone size={16} className="text-sky-300" />
+                <Phone size={16} className="text-[#EBEBE6]" />
                 <a
                   href={`tel:${contactInfo.phone.replace(/\D/g, "")}`}
                   className={animatedUnderlineClasses}>
@@ -118,7 +118,7 @@ const Footer = () => {
                 </a>
               </li>
               <li className="flex items-center justify-center md:justify-start gap-3">
-                <Mail size={16} className="text-sky-300" />
+                <Mail size={16} className="text-[#EBEBE6]" />
                 <a
                   href={`mailto:${contactInfo.email}`}
                   className={animatedUnderlineClasses}>
@@ -126,7 +126,7 @@ const Footer = () => {
                 </a>
               </li>
               <li className="flex items-start justify-center md:justify-start gap-3">
-                <MapPin size={16} className="text-sky-300 mt-1 flex-shrink-0" />
+                <MapPin size={16} className="text-[#EBEBE6] mt-1 flex-shrink-0" />
                 <a
                   href="https://maps.google.com"
                   target="_blank"
@@ -164,7 +164,7 @@ const Footer = () => {
         </div>
 
         {/* --- Barra de Copyright Inferior --- */}
-        <div className="border-t border-gray-700 mt-10 pt-6 text-center text-sm">
+        <div className="border-t border-[#E6E7E8]/20 mt-10 pt-6 text-center text-sm">
           <p>© {currentYear} Bridge Capital. Todos los derechos reservados.</p>
         </div>
       </div>

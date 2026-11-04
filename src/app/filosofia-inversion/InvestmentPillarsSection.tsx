@@ -34,7 +34,7 @@ const PillarCard: React.FC<PillarProps> = ({ icon: Icon, title, points, titleAli
       <div className={`mb-4 ${titleAlignmentClass}`}> {/* Aplicamos la clase de alineación */}
         <h3 className="text-xl font-semibold text-white inline-block">{title}</h3> {/* inline-block para que text-left/center funcione */}
       </div>
-      <ul className="list-disc list-inside space-y-2 text-gray-200 text-sm md:text-base flex-grow">
+      <ul className="list-disc list-inside space-y-2 text-[#EBEBE6] text-sm md:text-base flex-grow">
         {points.map((point, index) => (
           <li key={index}>
             <span className="font-semibold">{point.boldText}</span>

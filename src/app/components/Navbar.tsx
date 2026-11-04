@@ -217,7 +217,7 @@ const Navbar = () => {
           <Link
             href="/contacto"
             className={`block text-center mt-2 px-3 py-2.5 rounded-md text-base font-medium 
-                        ${pathname === "/contacto" ? (hasScrolled ? "bg-slate-600 text-white" : "bg-[var(--color-dark-red)] text-white") : hasScrolled ? `bg-[var(--color-dark-red)]/90 hover:bg-[var(--color-dark-red-hover)]/90 text-white` : `bg-[var(--color-primary)] hover:bg-opacity-80 text-white`}`}
+                        ${pathname === "/contacto" ? (hasScrolled ? "bg-[#6E7073] text-white" : "bg-[var(--color-dark-red)] text-white") : hasScrolled ? `bg-[var(--color-dark-red)]/90 hover:bg-[var(--color-dark-red-hover)]/90 text-white` : `bg-[var(--color-primary)] hover:bg-opacity-80 text-white`}`}
             onClick={() => setIsMobileMenuOpen(false)}>
             Contacto
           </Link>
