@@ -22,14 +22,18 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     message: "",
+    privacyAccepted: false,
   });
 
   // Estado para los mensajes de error
   const [errors, setErrors] = useState({
     name: "",
     email: "",
+    phone: "",
     message: "",
+    privacyAccepted: "",
   });
 
   // Estado para el proceso de envío
@@ -37,7 +41,13 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
   // Función para validar los campos del formulario
   const validate = () => {
-    const newErrors = { name: "", email: "", message: "" };
+    const newErrors = {
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+      privacyAccepted: "",
+    };
     let isValid = true;
 
     if (!formData.name.trim()) {
@@ -53,8 +63,17 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
       newErrors.email = "El formato del correo no es válido.";
       isValid = false;
     }
+    if (formData.phone.trim() && !/^[0-9+()\-\s]{7,15}$/.test(formData.phone.trim())) {
+      newErrors.phone = "Ingresa un teléfono válido (7 a 15 dígitos).";
+      isValid = false;
+    }
     if (!formData.message.trim()) {
       newErrors.message = "No olvides escribir tu mensaje.";
+      isValid = false;
+    }
+    if (!formData.privacyAccepted) {
+      newErrors.privacyAccepted =
+        "Debes aceptar el Aviso de Privacidad para enviar tu mensaje.";
       isValid = false;
     }
 
@@ -149,6 +168,22 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         )}
       </div>
       <div>
+        <label htmlFor="phone" className="sr-only">
+          Teléfono
+        </label>
+        <Input
+          id="phone"
+          type="tel"
+          placeholder="Teléfono (opcional)"
+          value={formData.phone}
+          onChange={handleChange}
+          aria-invalid={!!errors.phone}
+        />
+        {errors.phone && (
+          <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
+        )}
+      </div>
+      <div>
         <label htmlFor="message" className="sr-only">
           Mensaje
         </label>
@@ -164,9 +199,42 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
           <p className="text-red-600 text-sm mt-1">{errors.message}</p>
         )}
       </div>
+      <div>
+        <label
+          htmlFor="privacyAccepted"
+          className="flex items-start gap-2 text-sm text-[#6E7073]">
+          <input
+            id="privacyAccepted"
+            type="checkbox"
+            checked={formData.privacyAccepted}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                privacyAccepted: e.target.checked,
+              }))
+            }
+            aria-invalid={!!errors.privacyAccepted}
+            className="mt-1 h-4 w-4 accent-[#8B0E04]"
+          />
+          <span>
+            He leído y acepto el{" "}
+            <a
+              href="/legal/aviso-de-privacidad"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-[#003F5F]">
+              Aviso de Privacidad
+            </a>
+            .
+          </span>
+        </label>
+        {errors.privacyAccepted && (
+          <p className="text-red-600 text-sm mt-1">{errors.privacyAccepted}</p>
+        )}
+      </div>
       <Button
         type="submit"
-        disabled={status === "sending"}
+        disabled={status === "sending" || !formData.privacyAccepted}
         className="w-full bg-[var(--color-dark-red)] hover:bg-[var(--color-dark-red-hover)]/90 text-white font-bold">
         {status === "sending" ? "Enviando..." : "Enviar Mensaje"}
       </Button>

@@ -114,7 +114,7 @@ const AboutHeroSection = () => {
                 Socios estratégicos para tu patrimonio: seguro y en constante
                 crecimiento.
               </h1>
-              <div className="space-y-4 text-slate-600 text-base md:text-lg leading-relaxed">
+              <div className="space-y-4 text-[#6E7073] text-base md:text-lg leading-relaxed">
                 <p ref={paragraph1Ref} className="opacity-0">
                   Nuestro equipo combina pasión con tres cualidades esenciales:
                   Inteligencia, Iniciativa e Integridad.

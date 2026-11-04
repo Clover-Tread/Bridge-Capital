@@ -51,15 +51,15 @@ const GuiaServiciosInversionPage = () => {
   }, []);
 
   const headingClasses =
-    "text-2xl md:text-3xl font-bold text-gray-800 mt-12 mb-4 scroll-mt-40";
+    "text-2xl md:text-3xl font-bold text-[#231F20] mt-12 mb-4 scroll-mt-40";
   const subHeadingClasses =
-    "text-xl md:text-2xl font-semibold text-gray-700 mt-8 mb-3";
+    "text-xl md:text-2xl font-semibold text-[#231F20] mt-8 mb-3";
 
   return (
     <>
-      <header className="bg-gray-100 py-16 md:py-24">
+      <header className="bg-[#EBEBE6] py-16 md:py-24">
         <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#231F20] tracking-tight">
             GUÍA DE SERVICIOS DE INVERSIÓN
           </h1>
         </div>
@@ -68,7 +68,7 @@ const GuiaServiciosInversionPage = () => {
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
           <aside className="lg:w-1/4">
             <nav className="lg:sticky lg:top-40">
-              <h3 className="font-semibold text-gray-500 uppercase tracking-wider mb-4">
+              <h3 className="font-semibold text-[#6E7073] uppercase tracking-wider mb-4">
                 Índice del documento
               </h3>
               <ul className="space-y-2">
@@ -78,8 +78,8 @@ const GuiaServiciosInversionPage = () => {
                       href={section.href}
                       className={`transition-colors duration-200 text-sm ${
                         activeSection === section.href.substring(1)
-                          ? "font-bold text-gray-900"
-                          : "text-gray-600 hover:text-gray-900"
+                          ? "font-bold text-[#231F20]"
+                          : "text-[#6E7073] hover:text-[#231F20]"
                       }`}>
                       {section.title}
                     </a>
@@ -89,15 +89,15 @@ const GuiaServiciosInversionPage = () => {
             </nav>
           </aside>
           <main className="lg:w-3/4">
-            <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-              <div className="mb-8 p-4 border-l-4 border-gray-200 bg-gray-50 rounded-r-lg">
-                <p className="text-sm text-gray-600 font-semibold">
+            <div className="prose prose-lg max-w-none text-[#231F20] leading-relaxed">
+              <div className="mb-8 p-4 border-l-4 border-[#E6E7E8] bg-[#EBEBE6] rounded-r-lg">
+                <p className="text-sm text-[#6E7073] font-semibold">
                   Fecha de última actualización: 05 de agosto de 2021
                 </p>
                 <a
                   href="/documentos/BC_Guia_Servicios_Inversion.pdf"
                   download
-                  className="inline-flex items-center gap-2 mt-2 text-sm font-semibold text-sky-600 hover:text-sky-800 transition-colors">
+                  className="inline-flex items-center gap-2 mt-2 text-sm font-semibold text-[#003F5F] hover:text-[#003F5F] transition-colors">
                   <Download size={16} />
                   Descargar Versión en PDF
                 </a>

@@ -100,15 +100,30 @@ const Navbar = () => {
         `}>
         {/* Logo */}
         <div className="flex-shrink-0">
-          <Link href="/" className="flex items-center">
+          <Link
+            href="/"
+            className="flex items-center gap-3"
+            aria-label="Bridge Capital, asesores en inversiones">
             <Image
               src="/images/logo-bridge-capital.svg"
-              alt="Bridge Capital Logo"
+              alt=""
               className={hasScrolled ? "brightness-0 invert" : ""}
               width={23}
               height={60}
               priority
             />
+            <span
+              className={`flex flex-col leading-tight ${
+                hasScrolled ? linkScrolledTextColor : linkBaseTextColor
+              }`}>
+              <span className="text-base md:text-xl font-bold tracking-wide">
+                Bridge Capital
+              </span>
+              {/* Leyenda obligatoria por regulación, junto al nombre */}
+              <span className="text-[8px] md:text-[10px] font-medium uppercase tracking-[0.2em] md:tracking-[0.28em]">
+                Asesores en inversiones
+              </span>
+            </span>
           </Link>
         </div>
 
@@ -189,7 +204,7 @@ const Navbar = () => {
         className={`
           md:hidden absolute top-full left-0 right-0 mx-auto w-[calc(100%-2rem)] max-w-screen-xl 
           rounded-lg shadow-xl 
-          ${hasScrolled ? "bg-[#1d1d1b]/90 backdrop-blur-md" : "bg-white"}
+          ${hasScrolled ? "bg-[#231F20]/90 backdrop-blur-md" : "bg-white"}
           pointer-events-none /* Inicia sin pointer-events, GSAP los activará */
         `}>
         <div
@@ -208,7 +223,7 @@ const Navbar = () => {
                 key={link.label}
                 href={link.href}
                 className={`block px-3 py-2.5 rounded-md text-base font-[600] 
-                            ${hasScrolled ? (isActive ? "text-white font-semibold underline underline-offset-8" : `text-white hover:bg-[var(--color-dark-red)]/80`) : isActive ? "text-[var(--color-primary)] font-semibold" : `text-gray-700 hover:bg-gray-100`}`}
+                            ${hasScrolled ? (isActive ? "text-white font-semibold underline underline-offset-8" : `text-white hover:bg-[var(--color-dark-red)]/80`) : isActive ? "text-[var(--color-primary)] font-semibold" : `text-[#231F20] hover:bg-[#EBEBE6]`}`}
                 onClick={() => setIsMobileMenuOpen(false)}>
                 {link.label}
               </Link>
