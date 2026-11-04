@@ -100,30 +100,15 @@ const Navbar = () => {
         `}>
         {/* Logo */}
         <div className="flex-shrink-0">
-          <Link
-            href="/"
-            className="flex items-center gap-3"
-            aria-label="Bridge Capital, asesores en inversiones">
+          <Link href="/" className="flex items-center">
             <Image
               src="/images/logo-bridge-capital.svg"
-              alt=""
+              alt="Bridge Capital Logo"
               className={hasScrolled ? "brightness-0 invert" : ""}
               width={23}
               height={60}
               priority
             />
-            <span
-              className={`flex flex-col leading-tight ${
-                hasScrolled ? linkScrolledTextColor : linkBaseTextColor
-              }`}>
-              <span className="text-base md:text-xl font-bold tracking-wide">
-                Bridge Capital
-              </span>
-              {/* Leyenda obligatoria por regulación, junto al nombre */}
-              <span className="text-[8px] md:text-[10px] font-medium uppercase tracking-[0.2em] md:tracking-[0.28em]">
-                Asesores en inversiones
-              </span>
-            </span>
           </Link>
         </div>
 
