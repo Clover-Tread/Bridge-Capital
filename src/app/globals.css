@@ -54,6 +54,8 @@ body, a, button {
   z-index: 9998;
   transform: translate(-50%, -50%);
   transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  will-change: transform;
+  contain: strict;
 }
 
 /* Inner solid layer: always visible dot */
@@ -68,6 +70,14 @@ body, a, button {
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
+}
+
+html.is-scrolling body {
+  pointer-events: none;
+}
+
+.custom-cursor-blend.is-scrolling {
+  display: none;
 }
 
 .custom-cursor-blend.interactive-hover {
@@ -188,5 +198,11 @@ body, a, button {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+/* Desplazamiento suave y ligero para anclas internas */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }

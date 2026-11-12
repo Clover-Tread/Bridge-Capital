@@ -19,44 +19,7 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "Bridge Capital",
   description: "Tu socio independiente para alcanzar metas financieras.",
-  icons: {
-    icon: [
-      // Navegador en tema oscuro: ícono blanco (carpeta "light" = glifo claro).
-      {
-        url: "/favicon/light/favicon-32x32.png",
-        type: "image/png",
-        sizes: "32x32",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/favicon/light/favicon-16x16.png",
-        type: "image/png",
-        sizes: "16x16",
-        media: "(prefers-color-scheme: dark)",
-      },
-      // Navegador en tema claro: ícono oscuro (carpeta "dark" = glifo oscuro).
-      {
-        url: "/favicon/dark/favicon-32x32.png",
-        type: "image/png",
-        sizes: "32x32",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/favicon/dark/favicon-16x16.png",
-        type: "image/png",
-        sizes: "16x16",
-        media: "(prefers-color-scheme: light)",
-      },
-    ],
-    apple: [
-      // El Apple Touch Icon suele ser estático, pero si deseas invertido también lo puedes hacer:
-      {
-        url: "/favicon/light/apple-touch-icon-152x152.png",
-        type: "image/png",
-        sizes: "180x180",
-      },
-    ],
-  },
+  // Íconos: Next.js los toma de src/app/favicon.ico, icon.png y apple-icon.png.
   // manifest: '/site.webmanifest', // Si tienes un manifest
 };
 

@@ -70,7 +70,8 @@ const PrinciplesSection = () => {
                 key={pillar.title}
                 className="relative rounded-2xl p-8 overflow-hidden">
                 {/* === 2. FONDO === */}
-                <div className="absolute inset-0 bg-(--color-bg-card) backdrop-blur-sm z-0"></div>
+                <div className="absolute inset-0 bg-(--color-bg-card) z-0"></div>
+                <div className="absolute inset-0 bg-black/30 z-0"></div>
 
                 {/* === 3. CONTENIDO === */}
                 <div className="relative z-10 flex items-center gap-6">
