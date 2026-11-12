@@ -164,8 +164,27 @@ const Footer = () => {
         </div>
 
         {/* --- Barra de Copyright Inferior --- */}
-        <div className="border-t border-[#E6E7E8]/20 mt-10 pt-6 text-center text-sm">
+        <div className="border-t border-[#E6E7E8]/20 mt-10 pt-6 text-sm flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
           <p>© {currentYear} Bridge Capital. Todos los derechos reservados.</p>
+          {/* Crédito acotado al sitio web. Bridge Capital es cliente del estudio de
+              Mariel (branding y redes); Noctra hizo el UI/UX y el desarrollo del
+              sitio, así que el texto no debe sugerir que es su proveedor general. */}
+          <a
+            href="https://noctra.studio"
+            target="_blank"
+            rel="noopener"
+            aria-label="Diseño y desarrollo web: Noctra Studio (se abre en una pestaña nueva)"
+            className="group inline-flex min-h-11 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+            <span className="text-xs text-[#c9d2d6]">Diseño y desarrollo web</span>
+            <span className="inline-flex opacity-70 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none">
+              <Image
+                src="/images/noctra-studio.svg"
+                alt=""
+                width={92}
+                height={24}
+              />
+            </span>
+          </a>
         </div>
       </div>
     </footer>
