@@ -24,8 +24,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
+// jsPDF y jspdf-autotable se cargan solo al pulsar «Descargar» (ver
+// handleGeneratePDF), para que la página abra más rápido.
 
 // Clases compartidas y estilos
 const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
@@ -81,6 +81,9 @@ interface CalculationResults {
 const InvestmentCalculator = () => {
   const [results, setResults] = useState<CalculationResults | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
+  // true mientras se muestra el resultado de ejemplo calculado al entrar
+  const [isExample, setIsExample] = useState(true);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [selectedTermForDescription, setSelectedTermForDescription] =
     useState<string>("10");
 
@@ -164,9 +167,7 @@ const InvestmentCalculator = () => {
       });
     }
   };
-  function onSubmit(data: CalculatorFormValues) {
-    setIsCalculating(true);
-    setResults(null);
+  function computeResults(data: CalculatorFormValues): CalculationResults {
     const P = parseCurrency(data.initialCapital);
     const r = parseFloat(data.annualReturn) / 100;
     const n = parseInt(data.investmentTerm);
@@ -217,17 +218,50 @@ const InvestmentCalculator = () => {
       finalBreakdownResult.push({ year: n, value: finalValue });
       finalBreakdownResult.sort((a, b) => a.year - b.year);
     }
+    return {
+      totalValue: finalValue,
+      totalContributions: totalContributionsMade,
+      totalInterest: totalInterest,
+      breakdown: finalBreakdownResult,
+    };
+  }
+
+  // Resultado de ejemplo al entrar, con los valores sugeridos del formulario
+  useEffect(() => {
+    setResults(computeResults(getValues()));
+    // Solo al montar
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function onSubmit(data: CalculatorFormValues) {
+    setIsCalculating(true);
+    setResults(null);
+    const computed = computeResults(data);
     setTimeout(() => {
-      setResults({
-        totalValue: finalValue,
-        totalContributions: totalContributionsMade,
-        totalInterest: totalInterest,
-        breakdown: finalBreakdownResult,
-      });
+      setResults(computed);
+      setIsExample(false);
       setIsCalculating(false);
     }, 500);
   }
-  const handleGeneratePDF = () => {
+
+  const handleGeneratePDF = async () => {
+    if (!results || isGeneratingPDF) return;
+    setIsGeneratingPDF(true);
+    try {
+      const [{ default: jsPDF }, { default: autoTable }] = await Promise.all([
+        import("jspdf"),
+        import("jspdf-autotable"),
+      ]);
+      buildPDF(jsPDF, autoTable);
+    } finally {
+      setIsGeneratingPDF(false);
+    }
+  };
+
+  const buildPDF = (
+    jsPDF: typeof import("jspdf").default,
+    autoTable: typeof import("jspdf-autotable").default
+  ) => {
     if (!results) return;
     const doc = new jsPDF();
     const currentFormValues = getValues();
@@ -515,6 +549,11 @@ const InvestmentCalculator = () => {
             {/* Columna de Resultados */}
             {results && (
               <div className="space-y-6 bg-[#EBEBE6] p-6 md:p-8 rounded-lg shadow">
+                {isExample && (
+                  <p className="inline-block text-xs font-semibold uppercase tracking-wide text-[var(--color-primary-blue)] bg-white px-3 py-1 rounded-full">
+                    Ejemplo con los valores sugeridos
+                  </p>
+                )}
                 <h3 className="text-2xl font-semibold text-[#231F20] mb-2">
                   Resultados Estimados para{" "}
                   {results.breakdown.find(
@@ -537,11 +576,20 @@ const InvestmentCalculator = () => {
                   </p>
                 </div>
 
+                <p className="text-xs text-[#6E7073] leading-relaxed border-l-2 border-[var(--color-light-grey)] pl-3">
+                  Esta es una simulación y los rendimientos reales pueden
+                  variar. No constituye una garantía de retorno.
+                </p>
+
                 <Button
+                  type="button"
                   onClick={handleGeneratePDF}
+                  disabled={isGeneratingPDF}
                   variant="outline"
                   className="w-full border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10">
-                  Descargar Estimación en PDF
+                  {isGeneratingPDF
+                    ? "Generando PDF..."
+                    : "Descargar Estimación en PDF"}
                 </Button>
 
                 {results.breakdown.length > 0 && (

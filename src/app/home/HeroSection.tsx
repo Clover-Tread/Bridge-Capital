@@ -117,13 +117,19 @@ const HeroSection = () => {
             className="text-xl sm:text-xl md:text-xl text-[var(--color-primary)] mb-8 max-w-2xl mx-auto opacity-0">
             Tu asesor independiente para alcanzar metas financieras
           </p>
-          <div ref={buttonContainerRef} className="opacity-0">
-            {" "}
-            {/* Envuelve el Link y aplica ref y opacidad inicial */}
+          <div
+            ref={buttonContainerRef}
+            className="opacity-0 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 my-4">
+            {/* Botón principal y secundario; el contenedor lleva la ref y la opacidad inicial */}
             <Link
               href="/calculadora"
-              className="bg-[var(--color-dark-red)] inline-block my-4 text-white px-8 py-5 rounded-lg text-base sm:text-lg font-semibold hover:bg-[var(--color-dark-red-hover)] transition duration-300 ease-in-out transform hover:scale-105">
-              Calculadora de rendimientos
+              className="bg-[var(--color-dark-red)] inline-block text-white px-8 py-5 rounded-lg text-base sm:text-lg font-semibold hover:bg-[var(--color-dark-red-hover)] transition duration-300 ease-in-out transform hover:scale-105">
+              Simula tu inversión
+            </Link>
+            <Link
+              href="/contacto"
+              className="inline-block border-2 border-[var(--color-primary)] text-[var(--color-primary)] bg-white/60 backdrop-blur-sm px-8 py-[1.125rem] rounded-lg text-base sm:text-lg font-semibold hover:bg-[var(--color-primary)] hover:text-white transition duration-300 ease-in-out">
+              Contacta a un asesor
             </Link>
           </div>
         </div>

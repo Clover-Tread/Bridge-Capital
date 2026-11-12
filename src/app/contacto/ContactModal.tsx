@@ -13,6 +13,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+// Etiqueta visible de forma permanente arriba de cada campo
+const visibleLabelClass =
+  "block text-sm font-medium text-[var(--color-primary)] mb-1";
+
 /**
  * Componente del Formulario con Lógica de Validación
  * Maneja su propio estado para los campos y los errores.
@@ -154,12 +158,12 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
     // 'noValidate' deshabilita los popups de validación del navegador
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
       <div>
-        <label htmlFor="name" className="sr-only">
-          Nombre
+        <label htmlFor="name" className={visibleLabelClass}>
+          Nombre completo
         </label>
         <Input
           id="name"
-          placeholder="Nombre Completo"
+          placeholder="Ej. Ana López"
           value={formData.name}
           onChange={handleChange}
           aria-invalid={!!errors.name}
@@ -170,13 +174,13 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         )}
       </div>
       <div>
-        <label htmlFor="email" className="sr-only">
-          Correo Electrónico
+        <label htmlFor="email" className={visibleLabelClass}>
+          Correo electrónico
         </label>
         <Input
           id="email"
           type="email"
-          placeholder="Correo Electrónico"
+          placeholder="tucorreo@ejemplo.com"
           value={formData.email}
           onChange={handleChange}
           aria-invalid={!!errors.email}
@@ -186,13 +190,13 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         )}
       </div>
       <div>
-        <label htmlFor="phone" className="sr-only">
-          Teléfono
+        <label htmlFor="phone" className={visibleLabelClass}>
+          Teléfono (opcional)
         </label>
         <Input
           id="phone"
           type="tel"
-          placeholder="Teléfono (opcional)"
+          placeholder="10 dígitos"
           value={formData.phone}
           onChange={handleChange}
           aria-invalid={!!errors.phone}
@@ -202,12 +206,12 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         )}
       </div>
       <div>
-        <label htmlFor="message" className="sr-only">
+        <label htmlFor="message" className={visibleLabelClass}>
           Mensaje
         </label>
         <Textarea
           id="message"
-          placeholder="Tu mensaje..."
+          placeholder="¿En qué podemos ayudarte?"
           value={formData.message}
           onChange={handleChange}
           rows={5}

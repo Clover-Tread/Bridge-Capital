@@ -9,7 +9,7 @@ const IntroTextSection = () => {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-[800] text-[#231F20] mb-8 text-center">
             Navegando el Presente, Asegurando tu Mañana.
           </h2>
-          <div className="text-base md:text-lg text-[var(--color-primary)] leading-relaxed space-y-6 text-justify">
+          <div className="text-base md:text-lg text-[var(--color-primary)] leading-relaxed space-y-6 text-left">
             <p>
               En Bridge Capital, entendemos que la clave de un futuro financiero
               próspero reside en una{" "}

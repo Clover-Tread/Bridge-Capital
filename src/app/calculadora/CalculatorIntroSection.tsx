@@ -119,6 +119,26 @@ const CalculatorIntroSection = () => {
         }}
       />
 
+      {/* Degradado suave detrás del título para que no se mezcle con la imagen:
+          en celular cubre de abajo hacia arriba (texto centrado), en escritorio
+          de izquierda a derecha (texto alineado a la izquierda). */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-[5] md:hidden"
+        style={{
+          backgroundImage:
+            "linear-gradient(to top, rgba(217,217,217,0.92) 0%, rgba(217,217,217,0.75) 45%, rgba(217,217,217,0.2) 100%)",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-[5] hidden md:block"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(217,217,217,0.95) 0%, rgba(217,217,217,0.8) 35%, rgba(217,217,217,0.35) 60%, rgba(217,217,217,0) 80%)",
+        }}
+      />
+
       {/* Contenedor para el contenido de texto */}
       <div
         className={`
