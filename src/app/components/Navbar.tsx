@@ -22,11 +22,19 @@ const Navbar = () => {
   ];
 
   useEffect(() => {
+    // Pasivo y con requestAnimationFrame: el navegador no espera a JS para
+    // desplazar la página, y el estado solo cambia al cruzar el umbral.
+    let ticking = false;
     const handleScroll = () => {
-      const offset = window.scrollY;
-      setHasScrolled(offset > 50);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setHasScrolled(window.scrollY > 50);
+        ticking = false;
+      });
     };
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -78,7 +86,7 @@ const Navbar = () => {
 
   // Clases para el navbar y enlaces
   const navbarScrolledBgClasses =
-    "bg-[var(--color-primary)]/95 shadow-md backdrop-blur-md";
+    "bg-[var(--color-primary)]/[0.97] shadow-md";
   const navbarInitialBgClasses = "bg-transparent";
   const linkBaseTextColor = "text-[var(--color-primary)]";
   const linkScrolledTextColor = "text-white";
@@ -98,7 +106,7 @@ const Navbar = () => {
         className={`
           mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES} 
           flex items-center justify-between ${hasScrolled ? "py-2" : "py-3 md:py-4"} rounded-xl 
-          transition-all duration-300 ease-in-out
+          transition-[background-color,box-shadow,padding] duration-300 ease-in-out
           ${hasScrolled ? navbarScrolledBgClasses : navbarInitialBgClasses}
         `}>
         {/* Logo */}
@@ -195,7 +203,7 @@ const Navbar = () => {
         className={`
           md:hidden absolute top-full left-0 right-0 mx-auto w-[calc(100%-2rem)] max-w-screen-xl 
           rounded-lg shadow-xl 
-          ${hasScrolled ? "bg-[#231F20]/90 backdrop-blur-md" : "bg-white"}
+          ${hasScrolled ? "bg-[#231F20]/[0.97]" : "bg-white"}
           pointer-events-none /* Inicia sin pointer-events, GSAP los activará */
         `}>
         <div

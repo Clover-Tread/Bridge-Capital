@@ -25,7 +25,7 @@ const PillarCard: React.FC<PillarProps> = ({ icon: Icon, title, points, titleAli
     // Si quieres que el icono también se alinee a la izquierda con el título:
     const iconContainerAlignmentClass = titleAlign === 'left' ? 'justify-start' : 'justify-center';
   return (
-    <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-xl h-full flex flex-col ring-1 ring-white/20">
+    <div className="bg-black/30 ring-inset p-6 rounded-lg shadow-xl h-full flex flex-col ring-1 ring-white/20">
       {/* Contenedor del icono, para poder alinearlo si es necesario */}
       <div className={`flex ${iconContainerAlignmentClass} mb-5`}>
         <Icon className="h-10 w-10 text-white inline-block" /> {/* Quitamos m-auto, text-center */}
@@ -131,7 +131,7 @@ const InvestmentPillarsSection = () => {
 
         <div className="text-center mb-12 md:mb-16">
           {/* Estilo para que destaque sobre el fondo oscuro/gradiente */}
-          <p className="inline-block px-6 py-3  backdrop-blur-sm text-white font-[700] text-xl md:text-xl">
+          <p className="inline-block px-6 py-3 bg-black/25 rounded-md text-white font-[700] text-xl md:text-xl">
             Los pilares y principios nunca cambian, nuestras estrategias sí.
           </p>
         </div>

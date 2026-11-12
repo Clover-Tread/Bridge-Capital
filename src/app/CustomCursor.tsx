@@ -43,11 +43,32 @@ const CustomCursor = () => {
       }
     };
 
+    // El efecto de inversión (mix-blend-mode) obliga a recomponer toda la
+    // página en cada cuadro de scroll; se oculta mientras se desplaza y
+    // reaparece al detenerse.
+    let scrollTimer: ReturnType<typeof setTimeout> | undefined;
+    // También se pausan los efectos hover mientras la página se desplaza:
+    // las tarjetas pasan bajo el puntero y disparan zoom y sombras en cadena.
+    const root = document.documentElement;
+    const handleScroll = () => {
+      blendRef.current?.classList.add("is-scrolling");
+      root.classList.add("is-scrolling");
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        blendRef.current?.classList.remove("is-scrolling");
+        root.classList.remove("is-scrolling");
+      }, 150);
+    };
+
     window.addEventListener("mousemove", moveCursor);
     window.addEventListener("mouseover", handleMouseOver);
     window.addEventListener("mouseout", handleMouseOut);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
+      clearTimeout(scrollTimer);
+      root.classList.remove("is-scrolling");
+      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("mousemove", moveCursor);
       window.removeEventListener("mouseover", handleMouseOver);
       window.removeEventListener("mouseout", handleMouseOut);

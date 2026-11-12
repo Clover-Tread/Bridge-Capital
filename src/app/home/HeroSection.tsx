@@ -128,7 +128,7 @@ const HeroSection = () => {
             </Link>
             <Link
               href="/contacto"
-              className="inline-block border-2 border-[var(--color-primary)] text-[var(--color-primary)] bg-white/60 backdrop-blur-sm px-8 py-[1.125rem] rounded-lg text-base sm:text-lg font-semibold hover:bg-[var(--color-primary)] hover:text-white transition duration-300 ease-in-out">
+              className="inline-block border-2 border-[var(--color-primary)] text-[var(--color-primary)] bg-white/80 px-8 py-[1.125rem] rounded-lg text-base sm:text-lg font-semibold hover:bg-[var(--color-primary)] hover:text-white transition duration-300 ease-in-out">
               Contacta a un asesor
             </Link>
           </div>
