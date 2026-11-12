@@ -207,7 +207,7 @@ const CoreValuesSection = () => {
       title: "Intereses Comunes",
       hoverRevealText:
         "Evitamos o gestionamos con transparencia los conflictos de interés, priorizando y tratando igual a todos los clientes.",
-      gradientColors: { from: "#003F5F", to: "#003F5F" },
+      gradientColors: { from: "#002C42", to: "#2E627C" },
       cardType: "small",
       interactionType: "hoverReveal",
       textColor: "text-white",
@@ -216,7 +216,7 @@ const CoreValuesSection = () => {
       title: "Integridad",
       hoverRevealText:
         "Nos regimos por la ética y la integridad en todo momento, forjando así confianza con clientes y colaboradores.",
-      gradientColors: { from: "#003F5F", to: "#003F5F" },
+      gradientColors: { from: "#002C42", to: "#2E627C" },
       cardType: "small",
       interactionType: "hoverReveal",
       textColor: "text-white",
@@ -225,7 +225,7 @@ const CoreValuesSection = () => {
       title: "Comunicación Abierta",
       hoverRevealText:
         "Fomentamos una comunicación abierta y constructiva para mejorar relaciones y responder ágilmente a retos y oportunidades.",
-      gradientColors: { from: "#003F5F", to: "#003F5F" },
+      gradientColors: { from: "#002C42", to: "#2E627C" },
       cardType: "small",
       interactionType: "hoverReveal",
       textColor: "text-white",
@@ -234,7 +234,7 @@ const CoreValuesSection = () => {
       title: "Honestidad Radical",
       hoverRevealText:
         "Comprender la verdad, con sus errores y debilidades, es clave para el éxito y permite impulsar mejoras continuas.",
-      gradientColors: { from: "#8B0E04", to: "#8B0E04" },
+      gradientColors: { from: "#610A03", to: "#A03931" },
       cardType: "small",
       interactionType: "hoverReveal",
       textColor: "text-white",
@@ -243,7 +243,7 @@ const CoreValuesSection = () => {
       title: "Investigación Profunda",
       hoverRevealText:
         "Generamos valor extra mediante ventaja de conocimiento, obtenida con investigación a profundidad y una metodología aplicada de forma consistente.",
-      gradientColors: { from: "#8B0E04", to: "#8B0E04" },
+      gradientColors: { from: "#610A03", to: "#A03931" },
       cardType: "small",
       interactionType: "hoverReveal",
       textColor: "text-white",
@@ -252,7 +252,7 @@ const CoreValuesSection = () => {
       title: "Trabajo en equipo",
       hoverRevealText:
         "Formamos un equipo multidisciplinario que impulsa la creatividad y el sentido de pertenencia en Bridge Capital.",
-      gradientColors: { from: "#8B0E04", to: "#8B0E04" },
+      gradientColors: { from: "#610A03", to: "#A03931" },
       cardType: "small",
       interactionType: "hoverReveal",
       textColor: "text-white",
