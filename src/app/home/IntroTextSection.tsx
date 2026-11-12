@@ -1,5 +1,3 @@
-import Image from "next/legacy/image";
-
 const IntroTextSection = () => {
   return (
     <section id="intro" className="bg-[#EBEBE6] pt-12 md:pt-16 pb-20 md:pb-28">
@@ -23,13 +21,10 @@ const IntroTextSection = () => {
               otros dudan.
             </p>
             <p>
-              Operamos en estricto apego al marco legal, lo que nos ha llevado a
-              obtener la certificación{" "}
-              <strong>CNBV (30152-001 (15445) 03/07/2021)</strong>, así mismo,
-              todos nuestros Asesores se encuentran certificados por la AMIB, lo
-              que nos permite gestionar tus inversiones con la máxima seguridad
-              y transparencia. No solo invertimos tu dinero, protegemos tu
-              patrimonio.
+              Operamos en estricto apego al marco legal, con registro ante la
+              CNBV y Asesores certificados por la AMIB, lo que nos permite
+              gestionar tus inversiones con la máxima seguridad y transparencia.
+              No solo invertimos tu dinero, protegemos tu patrimonio.
             </p>
             <p>
               <strong>A nuestros valiosos clientes:</strong> Siéntanse
@@ -41,25 +36,6 @@ const IntroTextSection = () => {
               a crecer.{" "}
               <strong>Invierte con nosotros, invierte en tu futuro</strong>.
             </p>
-          </div>
-          {/* Logos */}
-          <div className="mt-12 flex justify-center items-center space-x-10 md:space-x-16">
-            <div className="relative h-16 w-32">
-              <Image
-                src="/cnbv.svg"
-                alt="Logo CNBV"
-                layout="fill"
-                objectFit="contain"
-              />
-            </div>
-            <div className="relative h-16 w-32">
-              <Image
-                src="/amib.svg"
-                alt="Logo AMIB"
-                layout="fill"
-                objectFit="contain"
-              />
-            </div>
           </div>
         </div>
       </div>
