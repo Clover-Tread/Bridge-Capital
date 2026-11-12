@@ -38,7 +38,7 @@ const ContactHeaderSection = () => {
           ${CONTENT_PADDING_TOP_CLASS} 
           pb-12 md:pb-16 lg:pb-20 
         `}>
-        <h1 className="text-3xl sm:text-4xl md:text-7xl font-[900] text-[#1d1d1b] leading-tight drop-shadow-md">
+        <h1 className="text-3xl sm:text-4xl md:text-7xl font-[900] text-[#231F20] leading-tight drop-shadow-md">
           {/* Añadido drop-shadow para mejorar legibilidad */}
           Suma Nuestra Experiencia a Tu Estrategia Financiera.
         </h1>

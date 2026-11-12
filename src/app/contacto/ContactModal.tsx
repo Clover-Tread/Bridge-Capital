@@ -13,6 +13,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+// Etiqueta visible de forma permanente arriba de cada campo
+const visibleLabelClass =
+  "block text-sm font-medium text-[var(--color-primary)] mb-1";
+
 /**
  * Componente del Formulario con Lógica de Validación
  * Maneja su propio estado para los campos y los errores.
@@ -22,14 +26,18 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     message: "",
+    privacyAccepted: false,
   });
 
   // Estado para los mensajes de error
   const [errors, setErrors] = useState({
     name: "",
     email: "",
+    phone: "",
     message: "",
+    privacyAccepted: "",
   });
 
   // Estado para el proceso de envío
@@ -37,7 +45,13 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
   // Función para validar los campos del formulario
   const validate = () => {
-    const newErrors = { name: "", email: "", message: "" };
+    const newErrors = {
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+      privacyAccepted: "",
+    };
     let isValid = true;
 
     if (!formData.name.trim()) {
@@ -53,8 +67,17 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
       newErrors.email = "El formato del correo no es válido.";
       isValid = false;
     }
+    if (formData.phone.trim() && !/^[0-9+()\-\s]{7,15}$/.test(formData.phone.trim())) {
+      newErrors.phone = "Ingresa un teléfono válido (7 a 15 dígitos).";
+      isValid = false;
+    }
     if (!formData.message.trim()) {
       newErrors.message = "No olvides escribir tu mensaje.";
+      isValid = false;
+    }
+    if (!formData.privacyAccepted) {
+      newErrors.privacyAccepted =
+        "Debes aceptar el Aviso de Privacidad para enviar tu mensaje.";
       isValid = false;
     }
 
@@ -100,8 +123,7 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
         // 4. Si todo sale bien
         console.log("Formulario enviado y procesado con éxito por el backend.");
-        setStatus("success");
-        onSuccess(); // Cierra el modal
+        setStatus("success"); // Se muestra la confirmación; el usuario cierra el modal
       } catch (error) {
         // 5. Si hay un error de red o del servidor, lo mostramos
         console.error("Error al enviar el formulario:", error);
@@ -113,16 +135,35 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
     }
   };
 
+  // Confirmación visible tras el envío exitoso
+  if (status === "success") {
+    return (
+      <div role="status" className="py-6 text-center space-y-4">
+        <p className="text-2xl font-bold text-[#003F5F]">¡Mensaje enviado!</p>
+        <p className="text-[#6E7073]">
+          Gracias por escribirnos. Un asesor se comunicará contigo a la
+          brevedad.
+        </p>
+        <Button
+          type="button"
+          onClick={onSuccess}
+          className="bg-[#8B0E04] hover:bg-[#6F0B03] text-white font-bold">
+          Cerrar
+        </Button>
+      </div>
+    );
+  }
+
   return (
     // 'noValidate' deshabilita los popups de validación del navegador
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
       <div>
-        <label htmlFor="name" className="sr-only">
-          Nombre
+        <label htmlFor="name" className={visibleLabelClass}>
+          Nombre completo
         </label>
         <Input
           id="name"
-          placeholder="Nombre Completo"
+          placeholder="Ej. Ana López"
           value={formData.name}
           onChange={handleChange}
           aria-invalid={!!errors.name}
@@ -133,13 +174,13 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         )}
       </div>
       <div>
-        <label htmlFor="email" className="sr-only">
-          Correo Electrónico
+        <label htmlFor="email" className={visibleLabelClass}>
+          Correo electrónico
         </label>
         <Input
           id="email"
           type="email"
-          placeholder="Correo Electrónico"
+          placeholder="tucorreo@ejemplo.com"
           value={formData.email}
           onChange={handleChange}
           aria-invalid={!!errors.email}
@@ -149,12 +190,28 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         )}
       </div>
       <div>
-        <label htmlFor="message" className="sr-only">
+        <label htmlFor="phone" className={visibleLabelClass}>
+          Teléfono (opcional)
+        </label>
+        <Input
+          id="phone"
+          type="tel"
+          placeholder="10 dígitos"
+          value={formData.phone}
+          onChange={handleChange}
+          aria-invalid={!!errors.phone}
+        />
+        {errors.phone && (
+          <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
+        )}
+      </div>
+      <div>
+        <label htmlFor="message" className={visibleLabelClass}>
           Mensaje
         </label>
         <Textarea
           id="message"
-          placeholder="Tu mensaje..."
+          placeholder="¿En qué podemos ayudarte?"
           value={formData.message}
           onChange={handleChange}
           rows={5}
@@ -164,9 +221,48 @@ const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
           <p className="text-red-600 text-sm mt-1">{errors.message}</p>
         )}
       </div>
+      <div>
+        <label
+          htmlFor="privacyAccepted"
+          className="flex items-start gap-2 text-sm text-[#6E7073]">
+          <input
+            id="privacyAccepted"
+            type="checkbox"
+            checked={formData.privacyAccepted}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                privacyAccepted: e.target.checked,
+              }))
+            }
+            aria-invalid={!!errors.privacyAccepted}
+            className="mt-1 h-4 w-4 accent-[#8B0E04]"
+          />
+          <span>
+            He leído y acepto el{" "}
+            <a
+              href="/legal/aviso-de-privacidad"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-[#003F5F]">
+              Aviso de Privacidad
+            </a>
+            .
+          </span>
+        </label>
+        {errors.privacyAccepted && (
+          <p className="text-red-600 text-sm mt-1">{errors.privacyAccepted}</p>
+        )}
+      </div>
+      {status === "error" && (
+        <p role="alert" className="text-sm text-[#8B0E04]">
+          No pudimos enviar tu mensaje. Por favor, inténtalo de nuevo en unos
+          minutos.
+        </p>
+      )}
       <Button
         type="submit"
-        disabled={status === "sending"}
+        disabled={status === "sending" || !formData.privacyAccepted}
         className="w-full bg-[var(--color-dark-red)] hover:bg-[var(--color-dark-red-hover)]/90 text-white font-bold">
         {status === "sending" ? "Enviando..." : "Enviar Mensaje"}
       </Button>

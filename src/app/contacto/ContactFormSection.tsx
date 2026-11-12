@@ -34,6 +34,9 @@ const formSchema = z.object({
     .optional()
     .or(z.literal("")),
   message: z.string().min(1, { message: "El mensaje es requerido." }).max(500),
+  privacyAccepted: z.boolean().refine((value) => value === true, {
+    message: "Debes aceptar el Aviso de Privacidad para enviar tu mensaje.",
+  }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -51,7 +54,13 @@ const ContactFormSection = () => {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { name: "", email: "", phone: "", message: "" },
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+      privacyAccepted: false,
+    },
   });
 
   async function onSubmit(values: FormValues) {
@@ -232,6 +241,36 @@ const ContactFormSection = () => {
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="privacyAccepted"
+              render={({ field }) => (
+                <FormItem>
+                  <label className="flex items-start gap-2 text-sm text-[#6E7073]">
+                    <input
+                      type="checkbox"
+                      checked={field.value}
+                      onChange={(e) => field.onChange(e.target.checked)}
+                      onBlur={field.onBlur}
+                      className="mt-1 h-4 w-4 accent-[#8B0E04]"
+                    />
+                    <span>
+                      He leído y acepto el{" "}
+                      <a
+                        href="/legal/aviso-de-privacidad"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline text-[#003F5F]">
+                        Aviso de Privacidad
+                      </a>
+                      .
+                    </span>
+                  </label>
+                  <FormMessage className="pt-1" />
+                </FormItem>
+              )}
+            />
+
             {submitStatus && (
               <p
                 className={`text-sm ${
@@ -245,8 +284,8 @@ const ContactFormSection = () => {
             <div className="flex justify-center">
               <Button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full md:w-auto bg-[#79242F] hover:bg-[#601e26] text-white font-semibold text-base md:text-lg py-4 px-8 md:py-7 md:px-10 rounded-lg transition-colors duration-300 ease-in-out">
+                disabled={isSubmitting || !form.watch("privacyAccepted")}
+                className="w-full md:w-auto bg-[#8B0E04] hover:bg-[#6F0B03] text-white font-semibold text-base md:text-lg py-4 px-8 md:py-7 md:px-10 rounded-lg transition-colors duration-300 ease-in-out">
                 {isSubmitting ? "Enviando..." : "Enviar"}
               </Button>
             </div>

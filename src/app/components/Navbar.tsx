@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 
@@ -78,7 +78,7 @@ const Navbar = () => {
 
   // Clases para el navbar y enlaces
   const navbarScrolledBgClasses =
-    "bg-[var(--color-primary)]/80 shadow-xl backdrop-blur-sm";
+    "bg-[var(--color-primary)]/95 shadow-md backdrop-blur-md";
   const navbarInitialBgClasses = "bg-transparent";
   const linkBaseTextColor = "text-[var(--color-primary)]";
   const linkScrolledTextColor = "text-white";
@@ -90,21 +90,27 @@ const Navbar = () => {
   const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4";
 
   return (
-    <header className="sticky top-0 z-50 w-full pt-4 md:pt-6 px-4">
+    <header
+      className={`sticky top-0 z-50 w-full px-4 transition-[padding] duration-300 ease-in-out ${
+        hasScrolled ? "pt-2 md:pt-3" : "pt-4 md:pt-6"
+      }`}>
       <nav
         className={`
           mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES} 
-          flex items-center justify-between py-3 md:py-4 rounded-xl 
+          flex items-center justify-between ${hasScrolled ? "py-2" : "py-3 md:py-4"} rounded-xl 
           transition-all duration-300 ease-in-out
           ${hasScrolled ? navbarScrolledBgClasses : navbarInitialBgClasses}
         `}>
         {/* Logo */}
         <div className="flex-shrink-0">
           <Link href="/" className="flex items-center">
+            {/* Mismo logo; al hacer scroll se reduce suavemente de 60 a 40 px de alto */}
             <Image
               src="/images/logo-bridge-capital.svg"
               alt="Bridge Capital Logo"
-              className={hasScrolled ? "brightness-0 invert" : ""}
+              className={`w-auto transition-all duration-300 ease-in-out ${
+                hasScrolled ? "h-10 brightness-0 invert" : "h-[60px]"
+              }`}
               width={23}
               height={60}
               priority
@@ -189,7 +195,7 @@ const Navbar = () => {
         className={`
           md:hidden absolute top-full left-0 right-0 mx-auto w-[calc(100%-2rem)] max-w-screen-xl 
           rounded-lg shadow-xl 
-          ${hasScrolled ? "bg-[#1d1d1b]/90 backdrop-blur-md" : "bg-white"}
+          ${hasScrolled ? "bg-[#231F20]/90 backdrop-blur-md" : "bg-white"}
           pointer-events-none /* Inicia sin pointer-events, GSAP los activará */
         `}>
         <div
@@ -208,7 +214,7 @@ const Navbar = () => {
                 key={link.label}
                 href={link.href}
                 className={`block px-3 py-2.5 rounded-md text-base font-[600] 
-                            ${hasScrolled ? (isActive ? "text-white font-semibold underline underline-offset-8" : `text-white hover:bg-[var(--color-dark-red)]/80`) : isActive ? "text-[var(--color-primary)] font-semibold" : `text-gray-700 hover:bg-gray-100`}`}
+                            ${hasScrolled ? (isActive ? "text-white font-semibold underline underline-offset-8" : `text-white hover:bg-[var(--color-dark-red)]/80`) : isActive ? "text-[var(--color-primary)] font-semibold" : `text-[#231F20] hover:bg-[#EBEBE6]`}`}
                 onClick={() => setIsMobileMenuOpen(false)}>
                 {link.label}
               </Link>
@@ -217,7 +223,7 @@ const Navbar = () => {
           <Link
             href="/contacto"
             className={`block text-center mt-2 px-3 py-2.5 rounded-md text-base font-medium 
-                        ${pathname === "/contacto" ? (hasScrolled ? "bg-slate-600 text-white" : "bg-[var(--color-dark-red)] text-white") : hasScrolled ? `bg-[var(--color-dark-red)]/90 hover:bg-[var(--color-dark-red-hover)]/90 text-white` : `bg-[var(--color-primary)] hover:bg-opacity-80 text-white`}`}
+                        ${pathname === "/contacto" ? (hasScrolled ? "bg-[#6E7073] text-white" : "bg-[var(--color-dark-red)] text-white") : hasScrolled ? `bg-[var(--color-dark-red)]/90 hover:bg-[var(--color-dark-red-hover)]/90 text-white` : `bg-[var(--color-primary)] hover:bg-opacity-80 text-white`}`}
             onClick={() => setIsMobileMenuOpen(false)}>
             Contacto
           </Link>

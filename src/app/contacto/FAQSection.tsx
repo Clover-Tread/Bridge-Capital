@@ -63,10 +63,10 @@ const FAQSection = () => {
       <div
         className={`mx-auto ${SHARED_MAX_WIDTH_CLASS} ${SHARED_HORIZONTAL_PADDING_CLASSES}`}>
         <div className="text-center mb-10 md:mb-12">
-          <h2 className="text-3xl md:text-5xl font-[800] text-gray-800 leading-tight">
+          <h2 className="text-3xl md:text-5xl font-[800] text-[#231F20] leading-tight">
             O Resuelve tus Dudas de Inmediato
           </h2>
-          <p className="text-lg text-gray-600 mt-4">
+          <p className="text-lg text-[#6E7073] mt-4">
             Consulta nuestras preguntas frecuentes para obtener más información
             sobre nuestros servicios.
           </p>

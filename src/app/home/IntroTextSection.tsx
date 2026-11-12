@@ -2,14 +2,14 @@ import Image from "next/legacy/image";
 
 const IntroTextSection = () => {
   return (
-    <section id="intro" className="bg-[#ebebeb] pt-12 md:pt-16 pb-20 md:pb-28">
+    <section id="intro" className="bg-[#EBEBE6] pt-12 md:pt-16 pb-20 md:pb-28">
       <div className="container mx-auto px-4">
         {/* Contenedor principal */}
         <div className="max-w-4xl mx-auto md:max-w-[50rem]">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-[800] text-gray-900 mb-8 text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-[800] text-[#231F20] mb-8 text-center">
             Navegando el Presente, Asegurando tu Mañana.
           </h2>
-          <div className="text-base md:text-lg text-[var(--color-primary)] leading-relaxed space-y-6 text-justify">
+          <div className="text-base md:text-lg text-[var(--color-primary)] leading-relaxed space-y-6 text-left">
             <p>
               En Bridge Capital, entendemos que la clave de un futuro financiero
               próspero reside en una{" "}
@@ -18,8 +18,9 @@ const IntroTextSection = () => {
               </strong>
               . Mientras los mercados fluctúan y nuestras vidas cambian, nuestro
               enfoque permanece constante: identificar oportunidades de
-              inversión con retornos superiores para ti, actuando con
-              inteligencia donde otros dudan.
+              inversión en empresas sólidas, con análisis riguroso y
+              disciplina de largo plazo, actuando con inteligencia donde
+              otros dudan.
             </p>
             <p>
               Operamos en estricto apego al marco legal, lo que nos ha llevado a

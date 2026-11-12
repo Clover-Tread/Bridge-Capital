@@ -60,13 +60,13 @@ const AvisoDePrivacidadPage = () => {
 
   // Clases unificadas para todos los títulos de sección
   const headingClasses =
-    "text-2xl md:text-3xl font-bold text-gray-800 mt-12 mb-4 scroll-mt-40";
+    "text-2xl md:text-3xl font-bold text-[#231F20] mt-12 mb-4 scroll-mt-40";
 
   return (
     <>
-      <header className="bg-gray-100 py-16 md:py-24">
+      <header className="bg-[#EBEBE6] py-16 md:py-24">
         <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#231F20] tracking-tight">
             AVISO DE PRIVACIDAD
           </h1>
         </div>
@@ -76,7 +76,7 @@ const AvisoDePrivacidadPage = () => {
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
           <aside className="lg:w-1/4">
             <nav className="lg:sticky lg:top-40">
-              <h3 className="font-semibold text-gray-500 uppercase tracking-wider mb-4">
+              <h3 className="font-semibold text-[#6E7073] uppercase tracking-wider mb-4">
                 Índice del documento
               </h3>
               <ul className="space-y-2">
@@ -86,8 +86,8 @@ const AvisoDePrivacidadPage = () => {
                       href={section.href}
                       className={`transition-colors duration-200 text-sm ${
                         activeSection === section.href.substring(1)
-                          ? "font-bold text-gray-900"
-                          : "text-gray-600 hover:text-gray-900"
+                          ? "font-bold text-[#231F20]"
+                          : "text-[#6E7073] hover:text-[#231F20]"
                       }`}>
                       {section.title}
                     </a>
@@ -98,15 +98,15 @@ const AvisoDePrivacidadPage = () => {
           </aside>
 
           <main className="lg:w-3/4">
-            <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-              <div className="mb-8 p-4 border-l-4 border-gray-200 bg-gray-50 rounded-r-lg">
-                <p className="text-sm text-gray-600 font-semibold">
+            <div className="prose prose-lg max-w-none text-[#231F20] leading-relaxed">
+              <div className="mb-8 p-4 border-l-4 border-[#E6E7E8] bg-[#EBEBE6] rounded-r-lg">
+                <p className="text-sm text-[#6E7073] font-semibold">
                   Fecha de última actualización: 05 de agosto de 2021
                 </p>
                 <a
                   href="/documentos/BC_Aviso_Privacidad.pdf"
                   download
-                  className="inline-flex items-center gap-2 mt-2 text-sm font-semibold text-sky-600 hover:text-sky-800 transition-colors">
+                  className="inline-flex items-center gap-2 mt-2 text-sm font-semibold text-[#003F5F] hover:text-[#003F5F] transition-colors">
                   <Download size={16} />
                   Descargar Versión en PDF
                 </a>
@@ -517,13 +517,13 @@ const AvisoDePrivacidadPage = () => {
                 http://www.bridgecapital.mx/
               </p>
 
-              <div className="mt-12 pt-8 border-t border-gray-200 text-center text-sm">
+              <div className="mt-12 pt-8 border-t border-[#E6E7E8] text-center text-sm">
                 <p className="font-bold">ATENTAMENTE</p>
                 <p className="mt-1 font-semibold">-BRIDGE CAPITAL-</p>
                 <p className="mt-1 font-semibold">
                   BC ASESORES INDEPENDIENTES, S.A.P.I. DE C.V.
                 </p>
-                <p className="mt-2 text-gray-500">
+                <p className="mt-2 text-[#6E7073]">
                   Calle Ernesto Elorduy número 91, interior 2, Colonia Guadalupe
                   Inn, Alcaldía Álvaro Obregón, C.P. 01020 en la Ciudad de
                   México

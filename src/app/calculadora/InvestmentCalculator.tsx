@@ -24,16 +24,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
+// jsPDF y jspdf-autotable se cargan solo al pulsar «Descargar» (ver
+// handleGeneratePDF), para que la página abra más rápido.
 
 // Clases compartidas y estilos
 const SHARED_MAX_WIDTH_CLASS = "max-w-screen-xl";
 const SHARED_HORIZONTAL_PADDING_CLASSES = "px-4 sm:px-6 lg:px-8";
 
 // Estilos específicos para los inputs y select
-const inputBottomBorderStyle = ` block w-full appearance-none rounded-none border-x-0 border-t-0 border-b-2 border-gray-300 bg-transparent px-0.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-0 focus:border-b-[var(--color-primary)] dark:border-gray-600 dark:text-white dark:focus:border-b-[var(--color-primary)] `;
-const selectTriggerStyle = ` w-full flex items-center justify-between rounded-none border-x-0 border-t-0 border-b-2 border-gray-300 bg-transparent focus:ring-0 focus:ring-offset-0 focus:border-b-[var(--color-primary)] h-auto py-2.5 pl-0.5 pr-8 text-sm text-left [&>svg]:hidden relative `;
+const inputBottomBorderStyle = ` block w-full appearance-none rounded-none border-x-0 border-t-0 border-b-2 border-[#E6E7E8] bg-transparent px-0.5 py-2.5 text-sm text-[#231F20] focus:outline-none focus:ring-0 focus:border-b-[var(--color-primary)] dark:border-gray-600 dark:text-white dark:focus:border-b-[var(--color-primary)] `;
+const selectTriggerStyle = ` w-full flex items-center justify-between rounded-none border-x-0 border-t-0 border-b-2 border-[#E6E7E8] bg-transparent focus:ring-0 focus:ring-offset-0 focus:border-b-[var(--color-primary)] h-auto py-2.5 pl-0.5 pr-8 text-sm text-left [&>svg]:hidden relative `;
 const annualReturnOptions = [
   "4.00",
   "8.00",
@@ -81,6 +81,9 @@ interface CalculationResults {
 const InvestmentCalculator = () => {
   const [results, setResults] = useState<CalculationResults | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
+  // true mientras se muestra el resultado de ejemplo calculado al entrar
+  const [isExample, setIsExample] = useState(true);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [selectedTermForDescription, setSelectedTermForDescription] =
     useState<string>("10");
 
@@ -113,15 +116,23 @@ const InvestmentCalculator = () => {
       value === null ||
       (typeof value === "string" && value.trim() === "")
     )
-      return showSymbol ? "$0" : "0";
+      return showSymbol ? "$0.00 MXN" : "0";
     const numValue =
       typeof value === "string"
         ? parseFloat(value.replace(/[^0-9.]/g, ""))
         : value;
-    if (isNaN(numValue)) return showSymbol ? "$0" : "0";
+    if (isNaN(numValue)) return showSymbol ? "$0.00 MXN" : "0";
+    if (showSymbol) {
+      // Montos con centavos y moneda, p. ej. $3,000,000.00 MXN
+      return `${new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: "MXN",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(numValue)} MXN`;
+    }
     return new Intl.NumberFormat("es-MX", {
-      style: showSymbol ? "currency" : "decimal",
-      currency: "MXN",
+      style: "decimal",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(numValue);
@@ -156,9 +167,7 @@ const InvestmentCalculator = () => {
       });
     }
   };
-  function onSubmit(data: CalculatorFormValues) {
-    setIsCalculating(true);
-    setResults(null);
+  function computeResults(data: CalculatorFormValues): CalculationResults {
     const P = parseCurrency(data.initialCapital);
     const r = parseFloat(data.annualReturn) / 100;
     const n = parseInt(data.investmentTerm);
@@ -209,17 +218,50 @@ const InvestmentCalculator = () => {
       finalBreakdownResult.push({ year: n, value: finalValue });
       finalBreakdownResult.sort((a, b) => a.year - b.year);
     }
+    return {
+      totalValue: finalValue,
+      totalContributions: totalContributionsMade,
+      totalInterest: totalInterest,
+      breakdown: finalBreakdownResult,
+    };
+  }
+
+  // Resultado de ejemplo al entrar, con los valores sugeridos del formulario
+  useEffect(() => {
+    setResults(computeResults(getValues()));
+    // Solo al montar
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function onSubmit(data: CalculatorFormValues) {
+    setIsCalculating(true);
+    setResults(null);
+    const computed = computeResults(data);
     setTimeout(() => {
-      setResults({
-        totalValue: finalValue,
-        totalContributions: totalContributionsMade,
-        totalInterest: totalInterest,
-        breakdown: finalBreakdownResult,
-      });
+      setResults(computed);
+      setIsExample(false);
       setIsCalculating(false);
     }, 500);
   }
-  const handleGeneratePDF = () => {
+
+  const handleGeneratePDF = async () => {
+    if (!results || isGeneratingPDF) return;
+    setIsGeneratingPDF(true);
+    try {
+      const [{ default: jsPDF }, { default: autoTable }] = await Promise.all([
+        import("jspdf"),
+        import("jspdf-autotable"),
+      ]);
+      buildPDF(jsPDF, autoTable);
+    } finally {
+      setIsGeneratingPDF(false);
+    }
+  };
+
+  const buildPDF = (
+    jsPDF: typeof import("jspdf").default,
+    autoTable: typeof import("jspdf-autotable").default
+  ) => {
     if (!results) return;
     const doc = new jsPDF();
     const currentFormValues = getValues();
@@ -351,7 +393,7 @@ const InvestmentCalculator = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-6 items-start">
             {/* Columna de Inputs */}
-            <div className="space-y-8 bg-slate-50 p-6 md:p-8 rounded-lg shadow">
+            <div className="space-y-8 bg-[#EBEBE6] p-6 md:p-8 rounded-lg shadow">
               {/* FormField para initialCapital */}
               <FormField
                 control={form.control}
@@ -400,7 +442,7 @@ const InvestmentCalculator = () => {
                       <FormControl>
                         <SelectTrigger className={selectTriggerStyle}>
                           <SelectValue placeholder="Selecciona un rendimiento" />
-                          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-gray-500">
+                          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-[#6E7073]">
                             ▼
                           </span>
                         </SelectTrigger>
@@ -437,7 +479,7 @@ const InvestmentCalculator = () => {
                       <FormControl>
                         <SelectTrigger className={selectTriggerStyle}>
                           <SelectValue placeholder="Selecciona un plazo" />
-                          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-gray-500">
+                          <span className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-[#6E7073]">
                             ▼
                           </span>
                         </SelectTrigger>
@@ -506,8 +548,13 @@ const InvestmentCalculator = () => {
 
             {/* Columna de Resultados */}
             {results && (
-              <div className="space-y-6 bg-sky-50 p-6 md:p-8 rounded-lg shadow">
-                <h3 className="text-2xl font-semibold text-slate-800 mb-2">
+              <div className="space-y-6 bg-[#EBEBE6] p-6 md:p-8 rounded-lg shadow">
+                {isExample && (
+                  <p className="inline-block text-xs font-semibold uppercase tracking-wide text-[var(--color-primary-blue)] bg-white px-3 py-1 rounded-full">
+                    Ejemplo con los valores sugeridos
+                  </p>
+                )}
+                <h3 className="text-2xl font-semibold text-[#231F20] mb-2">
                   Resultados Estimados para{" "}
                   {results.breakdown.find(
                     (b) => b.year === parseInt(getValues("investmentTerm"))
@@ -529,16 +576,25 @@ const InvestmentCalculator = () => {
                   </p>
                 </div>
 
+                <p className="text-xs text-[#6E7073] leading-relaxed border-l-2 border-[var(--color-light-grey)] pl-3">
+                  Esta es una simulación y los rendimientos reales pueden
+                  variar. No constituye una garantía de retorno.
+                </p>
+
                 <Button
+                  type="button"
                   onClick={handleGeneratePDF}
+                  disabled={isGeneratingPDF}
                   variant="outline"
                   className="w-full border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10">
-                  Descargar Estimación en PDF
+                  {isGeneratingPDF
+                    ? "Generando PDF..."
+                    : "Descargar Estimación en PDF"}
                 </Button>
 
                 {results.breakdown.length > 0 && (
                   <div className="mt-6 pt-6 border-t">
-                    <h4 className="text-xl font-semibold text-slate-700 mb-3">
+                    <h4 className="text-xl font-semibold text-[#231F20] mb-3">
                       Desglose del Valor Estimado:
                     </h4>
                     <div className="grid grid-cols-1 gap-3">
@@ -546,10 +602,10 @@ const InvestmentCalculator = () => {
                         <div
                           key={item.year}
                           className="bg-white p-3 rounded shadow flex justify-between items-center">
-                          <p className="text-sm text-slate-600">
+                          <p className="text-sm text-[#6E7073]">
                             Al final del Año {item.year}
                           </p>
-                          <p className="font-semibold text-slate-800 text-md">
+                          <p className="font-semibold text-[#231F20] text-md">
                             {formatCurrency(item.value, true)}
                           </p>
                         </div>
